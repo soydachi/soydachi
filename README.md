@@ -1,13 +1,9 @@
 Hi there 👋
 
 🔭 I’m Dachi Gogotchuri
-
 🏢 I work at Nationale Nederlanden where I enjoy creating and managing projects
-
 🌱 I blog about coding & life: https://soydachi.com
-
 🦜 I’m on Twitter https://twitter.com/soydachi
-
 📫 How to reach me: https://www.soydachi.com/about/
 
 ![Dachi's GitHub stats](https://github-readme-stats.vercel.app/api?username=soydachi&show_icons=true&theme=vue-dark)
