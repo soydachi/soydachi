@@ -1,0 +1,28 @@
+{
+  "brief": "/Users/soydachi/repos/soydachi/.ai/image-brief-dark.json",
+  "created_at": "2026-09-28T12:15:02.162376+00:00",
+  "model": "flux-2-klein",
+  "operation": "generate",
+  "outputs": [
+    {
+      "bytes": 564132,
+      "file": "image-01.jpg",
+      "sha256": "5b1d4a607bf29d0546c3fdec7668c7d44a6409cad3b2e9695099639b6e7ecdbb"
+    },
+    {
+      "bytes": 562345,
+      "file": "image-02.jpg",
+      "sha256": "8c1e3df27e6bc00b7719ccefd8d469baa8f7ede3925b57b5e28ddf4de9f8fd14"
+    }
+  ],
+  "parameters": {
+    "guidance": 3.5,
+    "n": 2,
+    "seed": 20260929,
+    "size": "1536x512"
+  },
+  "prompt": "Goal: Dark-mode variant of the GitHub profile README banner for soydachi, same composition as the light pair, soydachi.com governed-paper guideline (one dark material).\nAsset kind: github profile README header banner.\nSubject: Dark charcoal paper stock (#272727, the single dark material) with visible fiber texture, one solid amber rectangular block pressed into the surface like letterpress, two warm off-white hairline rules near the edges, subtle paper emboss. No text of any kind..\nComposition: Wide horizontal 3:1 band, flat top-down view, amber block off-center left third, quiet paper space right two-thirds, even soft daylight, clean straight edges.\nArt direction: editorial, minimal, letterpress print, analog paper photography.\nBrand tokens: dark material #272727, amber #f9be4a, dark-fg #f5f1e8.\nMust include: paper fiber texture, one solid amber block as the only chroma, charcoal hairline rules, no text, no letters, no numbers.\nAvoid: text, letters, logos, watermarks, dark background, gradient decoration, screenshots, devices, people.\nAdditional constraints: Dark ground for GitHub dark mode via <picture> prefers-color-scheme pair; amber is a block, never a line or glow; composition mirrors the light variant: amber block off-center left third, quiet space right..",
+  "provider": "nan-builders",
+  "references": [],
+  "schema_version": 1
+}

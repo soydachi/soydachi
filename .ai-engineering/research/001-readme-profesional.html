@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>README profesional — estándares, auditoría y propuesta (001)</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23001E2B%22/%3E%3Crect x=%220.5%22 y=%220.5%22 width=%2231%22 height=%2231%22 rx=%226.5%22 fill=%22none%22 stroke=%22%2300ED64%22 stroke-opacity=%220.35%22/%3E%3Ctext x=%2216%22 y=%2217%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-family=%22ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace%22 font-size=%2214%22 font-weight=%22700%22 letter-spacing=%22-1%22%3E%3Ctspan fill=%22%2300ED64%22%3E%7B%3C/tspan%3E%3Ctspan fill=%22%23E8EEF7%22%3Eai%3C/tspan%3E%3Ctspan fill=%22%2300ED64%22%3E%7D%3C/tspan%3E%3C/text%3E%3C/svg%3E">
+<style>
+/* ── {ai} Engineering — the artifact design system ─────────────────────────
+   Tokens are the brand's, at system stacks so an artifact renders offline:
+   one signal green, neutral borders, the reading tint for small green,
+   dark-only. Anything ai-engineering renders as an artifact — spec.html,
+   plan.html, a recap, a research page — inherits this block verbatim.                                                                */
+:root{
+  --bg:#001E2B; --surface:#112733; --surface-2:#1C2D38;
+  --line:rgba(61,79,88,.3); --line-strong:rgba(61,79,88,.6);
+  --accent:#00ED64; --accent-dim:#71F6BA;
+  --text:#FFFFFF; --dim:#C1C7C6; --comment:#889397;
+  --ok:#00ED64; --bad:#FF6960; --warn:#FFC010; --purple:#B45AF2; --orange:#FFC010;
+  --mono:'SF Mono','JetBrains Mono','Fira Code',ui-monospace,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Inter',system-ui,sans-serif;
+
+  /* type: one scale, tracking and leading set per size, never one value for all */
+  --fs-display:44px; --lh-display:1.06; --ls-display:-.028em;
+  --fs-h2:26px;      --lh-h2:1.16;      --ls-h2:-.018em;
+  --fs-h3:17px;      --lh-h3:1.32;      --ls-h3:-.006em;
+  --fs-h4:14px;      --lh-h4:1.35;
+  --fs-body:15px;    --lh-body:1.62;
+  --fs-small:13.5px; --lh-small:1.55;
+  --fs-mono:12.5px;  --lh-mono:1.7;
+  --fs-label:10.5px;
+
+  /* space: a 4px rhythm, so nothing lands on an arbitrary number */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+  --radius:12px; --radius-sm:8px; --container:1040px; --measure:68ch;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:var(--fs-body);line-height:var(--lh-body);
+  font-synthesis-weight:none;-webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(0,237,100,.28)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.skip{position:absolute;top:var(--s2);left:var(--s2);z-index:99;background:var(--surface);
+      border:1px solid var(--line-strong);border-radius:var(--radius-sm);
+      padding:14px 18px;
+      clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+.skip:focus{clip-path:none;width:auto;height:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ── hero ─────────────────────────────────────────────────────────────── */
+.hero{
+  position:relative;overflow:hidden;text-align:center;
+  padding:88px var(--s6) 56px;border-bottom:1px solid var(--line);
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px),
+    radial-gradient(ellipse 80% 60% at 50% 0%,#11273366,transparent);
+  background-size:32px 32px,32px 32px,100% 100%;
+}
+.hero .stamp{
+  display:inline-block;font-family:var(--mono);font-size:var(--fs-label);
+  letter-spacing:.26em;text-transform:uppercase;color:var(--accent);
+  border:1px solid var(--line-strong);border-radius:3px;padding:6px 14px;
+  margin-bottom:var(--s5);
+}
+.hero h1{font-size:var(--fs-display);line-height:var(--lh-display);
+         letter-spacing:var(--ls-display);font-weight:740}
+.hero h1 .x{color:var(--accent)}
+.hero .sub{font-size:17px;line-height:1.6;color:var(--dim);max-width:62ch;
+           margin:var(--s4) auto 0}
+.hero .sub strong{color:var(--text);font-weight:620}
+.hero .meta{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--dim);
+            margin:var(--s5) auto 0;max-width:66ch;letter-spacing:.02em}
+.hero .meta b{color:var(--accent-dim);font-weight:500}
+.hero .corner{position:absolute;width:22px;height:22px;border:0 solid var(--accent);opacity:.85}
+.hero .tl{top:18px;left:18px;border-width:2px 0 0 2px}
+.hero .tr{top:18px;right:18px;border-width:2px 2px 0 0}
+.hero .bl{bottom:18px;left:18px;border-width:0 0 2px 2px}
+.hero .br{bottom:18px;right:18px;border-width:0 2px 2px 0}
+
+/* ── nav: translucent chrome, content scrolls under it ────────────────── */
+nav{
+  position:sticky;top:0;z-index:50;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:2px 4px;
+  padding:var(--s2) var(--s4);
+  background:rgba(0,30,43,.78);backdrop-filter:blur(14px) saturate(150%);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;
+}
+nav a{color:var(--dim);letter-spacing:.03em;padding:6px 9px;border-radius:999px;
+      white-space:nowrap;transition:color .15s,background .15s}
+nav a:hover{color:var(--accent);text-decoration:none;background:rgba(0,237,100,.06)}
+nav a.active{color:var(--accent);background:rgba(0,237,100,.1);font-weight:600}
+nav a b{color:var(--accent);font-weight:500;margin-right:5px;opacity:.75}
+nav a.active b{opacity:1}
+
+/* ── page ─────────────────────────────────────────────────────────────── */
+.container{max-width:var(--container);margin:0 auto;padding:0 var(--s5)}
+section{padding:64px 0 52px;border-bottom:1px solid var(--line);scroll-margin-top:88px}
+section:last-of-type{border-bottom:none}
+h2{font-size:var(--fs-h2);line-height:var(--lh-h2);letter-spacing:var(--ls-h2);font-weight:700}
+h2 .num{display:block;font-family:var(--mono);font-size:11px;font-weight:400;
+        letter-spacing:.22em;color:var(--accent);margin-bottom:var(--s2)}
+h3{font-size:var(--fs-h3);line-height:var(--lh-h3);letter-spacing:var(--ls-h3);
+   font-weight:640;margin:var(--s6) 0 var(--s3)}
+h4{font-size:var(--fs-h4);line-height:var(--lh-h4);font-weight:640}
+h2+p,h3+p,h3+div,h2+div{margin-top:var(--s3)}
+p{color:var(--dim);max-width:var(--measure);margin:0 auto var(--s3);text-align:center}
+p:last-child{margin-bottom:0}
+p strong,li strong{color:var(--text);font-weight:620}
+ul,ol{margin:var(--s3) 0 var(--s5) var(--s5)}
+li{color:var(--dim);font-size:14px;line-height:1.6;margin-bottom:var(--s2);max-width:var(--measure)}
+li strong{color:var(--text)}
+.dim{color:var(--comment)}
+
+/* ── code ─────────────────────────────────────────────────────────────── */
+code{font-family:var(--mono);font-size:var(--fs-mono);background:var(--surface-2);
+     border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--accent-dim);
+     overflow-wrap:anywhere}
+pre{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+    padding:var(--s4) var(--s5);overflow-x:auto;font-family:var(--mono);
+    font-size:var(--fs-mono);line-height:var(--lh-mono);color:var(--dim);margin:var(--s4) 0;
+    -webkit-overflow-scrolling:touch}
+pre code{background:none;border:none;padding:0;color:inherit;overflow-wrap:normal}
+pre,.flow,.tbl-wrap{scrollbar-color:var(--line-strong) transparent;scrollbar-width:thin}
+pre::-webkit-scrollbar,.flow::-webkit-scrollbar,.tbl-wrap::-webkit-scrollbar{height:8px;width:8px}
+pre::-webkit-scrollbar-thumb,.flow::-webkit-scrollbar-thumb,.tbl-wrap::-webkit-scrollbar-thumb{
+  background:var(--line-strong);border-radius:99px}
+pre::-webkit-scrollbar-track,.flow::-webkit-scrollbar-track,.tbl-wrap::-webkit-scrollbar-track{background:transparent}
+pre .c{color:var(--comment)} pre .k{color:var(--accent)} pre .s{color:var(--ok)}
+pre .t{color:var(--purple)} pre .n{color:var(--orange)} pre .b{color:var(--text);font-weight:600}
+.flow{white-space:pre;font-size:12px;line-height:1.75;overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* ── panels ───────────────────────────────────────────────────────────── */
+.bracket{position:relative;border:1px solid var(--line);background:var(--surface-2);
+         border-radius:8px;padding:var(--s5) var(--s5) var(--s4);margin:var(--s5) 0}
+.bracket::before,.bracket::after{content:'';position:absolute;width:14px;height:14px;
+         border:0 solid var(--accent)}
+.bracket::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.bracket::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.bracket>.tag{position:absolute;top:-9px;left:18px;background:var(--bg);padding:0 10px;
+         font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.22em;
+         text-transform:uppercase;color:var(--accent)}
+.bracket pre{margin:0;border:none;background:none;padding:0}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+      padding:var(--s5);display:flex;flex-direction:column;gap:var(--s2)}
+.card h3,.card h4{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap}
+.card h3,.card h4{min-height:1.6em}
+.card h3{font-size:var(--fs-h4);line-height:var(--lh-h4);font-weight:640;margin:0}
+.card p{font-size:var(--fs-small);line-height:var(--lh-small);margin:0}
+.card .src{font-family:var(--mono);font-size:11px;color:var(--comment)}
+.card pre{font-size:12px;line-height:1.6;margin:var(--s2) 0 0}
+
+.note{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+      padding:var(--s5);margin:var(--s5) 0}
+.note h3,.note h4{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.18em;
+         text-transform:uppercase;color:var(--accent-dim);margin:0 0 var(--s3)}
+.note p{font-size:var(--fs-small);line-height:var(--lh-small);margin:0}
+.note.ok{border-color:rgba(0,237,100,.3)} .note.ok h4{color:var(--ok)}
+.note.warn{border-color:rgba(255,192,16,.3)} .note.warn h4{color:var(--warn)}
+.note.danger{border-color:rgba(255,105,96,.3)} .note.danger h4{color:var(--bad)}
+
+.grid{display:grid;gap:var(--s3);margin:var(--s5) 0;align-items:stretch}
+.grid>*{min-width:0}
+pre{max-width:100%}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.stats{display:flex;gap:var(--s3);flex-wrap:wrap;justify-content:center;margin:var(--s5) 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+      padding:var(--s4) var(--s5);min-width:132px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--text)}
+.stat .v em{font-style:normal;color:var(--accent)}
+.stat .l{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.14em;
+      text-transform:uppercase;color:var(--dim);margin-top:var(--s1)}
+
+/* ── tables: a component, not a spill ─────────────────────────────────── */
+.tbl-wrap{border:1px solid var(--line);border-radius:8px;background:var(--surface-2);
+          overflow-x:auto;-webkit-overflow-scrolling:touch;margin:var(--s4) 0}
+table{width:100%;border-collapse:collapse;font-size:var(--fs-small)}
+th{text-align:left;padding:12px var(--s4) 10px;white-space:nowrap;
+   font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.12em;
+   text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--line-strong)}
+td{padding:13px var(--s4);border-bottom:1px solid var(--line);color:var(--dim);
+   vertical-align:top;line-height:var(--lh-small)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--text);font-weight:520}
+@media (hover:hover) and (pointer:fine){tbody tr:hover td{background:rgba(17,39,51,.35)}}
+td code{overflow-wrap:normal;word-break:keep-all}
+table{min-width:640px}
+
+/* ── pills, marks ─────────────────────────────────────────────────────── */
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;line-height:1.5;font-weight:600;
+      padding:2px 8px;border-radius:999px;letter-spacing:.05em;white-space:nowrap;color:var(--text)}
+.p-ok{background:rgba(0,237,100,.13);border:1px solid rgba(0,237,100,.32)}
+.p-bad{background:rgba(255,105,96,.13);border:1px solid rgba(255,105,96,.34)}
+.p-warn{background:rgba(255,192,16,.12);border:1px solid rgba(255,192,16,.32)}
+.p-fix{background:rgba(0,237,100,.1);border:1px solid rgba(0,237,100,.35)}
+.p-dim{background:rgba(17,39,51,.6);color:var(--dim);border:1px solid var(--line)}
+.check{color:var(--ok);font-weight:600} .cross{color:var(--bad);font-weight:600}
+.half{color:var(--warn);font-weight:600} .center{text-align:center}
+
+footer{text-align:center;padding:var(--s7) var(--s5) var(--s6);
+       border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;
+       color:var(--comment);letter-spacing:.08em;line-height:2.1}
+footer .x{color:var(--accent)}
+footer a{color:var(--dim);display:inline-block;padding:12px 4px}
+
+@media (max-width:900px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .hero{padding:64px var(--s5) 44px}
+  .hero h1{font-size:34px;letter-spacing:-.022em}
+  .hero .sub{font-size:16px}
+  section{padding:var(--s7) 0 var(--s6)}
+  .tier .tlat{text-align:left}
+}
+@media (max-width:560px){
+  .container{padding:0 var(--s4)}
+  nav{font-size:10.5px;gap:0 2px;flex-wrap:nowrap;justify-content:flex-start;
+      overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav::after{content:'';position:sticky;right:0;flex:0 0 28px;margin-left:-28px;
+      background:linear-gradient(90deg,transparent,rgba(0,30,43,.95));pointer-events:none}
+  nav a{padding:14px 8px}
+  table{font-size:13px} th,td{padding:10px var(--s3)}
+  pre{font-size:11.5px;padding:var(--s3) var(--s4)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+@media (prefers-reduced-transparency:reduce){
+  nav{background:var(--bg);backdrop-filter:none}
+}
+@media (prefers-contrast:more){
+  :root{--dim:#E8EDEB;--comment:#C1C7C6}
+  .card,.note,p,li,td{color:var(--dim)}
+  nav a{color:#E8EDEB}
+}
+@media print{
+  nav,.skip{display:none}
+  body{background:#fff;color:#111}
+  section{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="hero">
+  <span class="corner tl"></span><span class="corner tr"></span>
+  <span class="corner bl"></span><span class="corner br"></span>
+  <span class="stamp">Research · 001 · 2026-09-28</span>
+  <h1>README profesional<span class="x">.</span> Qué manda el estándar, qué tienen tus repos, y la propuesta</h1>
+  <p class="sub">Auditoría de los <strong>21 repos públicos</strong> de <strong>soydachi</strong> y <strong>arcasilesgroup</strong> contra la documentación oficial de GitHub y las especificaciones del ecosistema, con plantillas y un banner claro/oscuro ya generado.</p>
+  <p class="meta"><b>Herramientas:</b> local floor (git, gh CLI, curl) · web_search · lectura directa de docs.github.com y github.blog · NotebookLM deep research (65 fuentes) · nan-image (4 imágenes → 2 elegidas)<br>
+  <b>Ausentes:</b> degraded-tool: exa · <b>Fuentes:</b> 20, cada claim cita [N] o [unsourced]</p>
+</header>
+
+<nav aria-label="Secciones">
+  <a href="#s1"><b>01</b>Decisión</a>
+  <a href="#s2"><b>02</b>Herramientas</a>
+  <a href="#s3"><b>03</b>Fuente oficial</a>
+  <a href="#s4"><b>04</b>Estándar ecosistema</a>
+  <a href="#s5"><b>05</b>Auditoría</a>
+  <a href="#s6"><b>06</b>Defectos de perfil</a>
+  <a href="#s7"><b>07</b>Plantilla proyecto</a>
+  <a href="#s8"><b>08</b>Plantilla perfil</a>
+  <a href="#s9"><b>09</b>Imágenes</a>
+  <a href="#s10"><b>10</b>Desacuerdos</a>
+  <a href="#s11"><b>11</b>Fuentes</a>
+  <a href="#s12"><b>12</b>Direcciones</a>
+</nav>
+
+<main id="main">
+
+<section id="s1" class="container">
+  <h2><span class="num">01</span>Qué cambia según la respuesta</h2>
+  <p>Esto es investigación con decisión detrás, no lectura: cada resultado mueve una apuesta concreta.</p>
+  <ul>
+    <li><strong>Si el estándar oficial basta</strong> → no se toca nada: GitHub ya genera el TOC, la checklist de comunidad y los health files. Solo se rellenan huecos <a href="#src-3">[3]</a>.</li>
+    <li><strong>Si el ecosistema exige más</strong> (standard-readme, READMEs curados) → se adopta una plantilla única y se reescriben los READMEs propios, empezando por los peores <a href="#src-8">[8]</a><a href="#src-9">[9]</a>.</li>
+    <li><strong>Si el perfil es la pieza crítica</strong> → el repo donde estamos (<code>soydachi/soydachi</code>, 1.325 bytes, health 28 %) es la portada: estructura, banner claro/oscuro y fixes de accesibilidad <a href="#src-5">[5]</a><a href="#src-12">[12]</a>.</li>
+    <li><strong>Si las imágenes importan</strong> → el par de banners ya existe, generado con la guideline de <code>soydachi.com</code> (papel cálido + bloque ámbar, un solo material oscuro) <a href="#src-14">[14]</a><a href="#src-15">[15]</a>.</li>
+  </ul>
+  <p>Resultado de esta corrida: <strong>ambas</strong>. La fuente oficial cubre el piso (§03), el ecosistema marca el techo (§04), y la auditoría (§05–06) dice exactamente dónde está el hueco. La propuesta cierra en §07–09 y las tres direcciones en §12.</p>
+</section>
+
+<section id="s2" class="container">
+  <h2><span class="num">02</span>Herramientas usadas y ausentes</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th scope="col">Rung</th><th scope="col">Herramienta</th><th scope="col">Estado</th><th scope="col">Qué aportó</th></tr></thead>
+      <tbody>
+        <tr><td>Local (siempre)</td><td>git · gh CLI (autenticado) · curl</td><td><span class="pill p-ok">usado</span></td><td>Inventario de 21 READMEs, health %, forks, refs, HTTP de badges/URLs <a href="#src-12">[12]</a></td></tr>
+        <tr><td>Local (siempre)</td><td>Reportes previos en <code>.ai-engineering/research/</code></td><td><span class="pill p-dim">ninguno</span></td><td>Este es el 001; no había nada que reusar</td></tr>
+        <tr><td>Web</td><td>web_search + lectura directa de URLs</td><td><span class="pill p-ok">usado</span></td><td>Docs de GitHub, GitHub Blog, standard-readme, awesome-readme, plantillas <a href="#src-1">[1]</a>–<a href="#src-10">[10]</a></td></tr>
+        <tr><td>NotebookLM</td><td><code>notebooklm doctor</code> → exit 0</td><td><span class="pill p-ok">deep research</span></td><td>Lanzado primero, cosechado al final: 65 fuentes, notebook <code>0e5da800…</code> <a href="#src-11">[11]</a></td></tr>
+        <tr><td>Imágenes</td><td><code>nan-image</code> (keychain, flux-2-klein)</td><td><span class="pill p-ok">2 llamadas --yes</span></td><td>4 banners → 2 elegidos (claro/oscuro), briefs y manifests en <code>.ai/</code> <a href="#src-15">[15]</a></td></tr>
+        <tr><td>Ausente</td><td>exa</td><td><span class="pill p-bad">degraded-tool: exa</span></td><td><code>command -v exa</code> falló; no bloqueó: web_search cubrió el rung</td></tr>
+        <tr><td>Presente, sin usar</td><td>tvly · ctx7</td><td><span class="pill p-dim">no necesario</span></td><td>No hizo falta: las fuentes primarias se leyeron directas</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note warn">
+    <h3>Límite del rung NotebookLM</h3>
+    <p>La exportación del reporte completo falló una vez (<code>RPCResponseTooLargeError</code>, 268 MB) <a href="#src-11">[11]</a>. Se degradó a <code>summary</code> + <code>ask</code> dirigido, que es lo que este informe cita. Las 65 fuentes quedan importadas en el notebook para una corrida futura.</p>
+  </div>
+</section>
+
+<section id="s3" class="container">
+  <h2><span class="num">03</span>Qué dice la fuente primaria (GitHub)</h2>
+  <p>La documentación propia de GitHub es la única voz normativa; el resto es estilo <a href="#src-1">[1]</a>.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>README mínimo</h3>
+      <p>Cinco preguntas: qué hace el proyecto, por qué es útil, cómo empezar dónde pedir ayuda, quién lo mantiene. Junto al README: licencia, CONTRIBUTING y code of conduct comunican expectativas <a href="#src-1">[1]</a><a href="#src-2">[2]</a>.</p>
+      <span class="src">docs.github.com · about-readmes · best-practices-for-repositories</span>
+    </div>
+    <div class="card">
+      <h3>Ubicación y TOC</h3>
+      <p><code>.github/</code>, raíz o <code>docs/</code> (en ese orden de precedencia); trunca a partir de 500 KiB. El TOC se genera solo con el menú Outline; no hay que escribirlo a mano en GitHub <a href="#src-1">[1]</a>.</p>
+      <span class="src">docs.github.com · about-readmes</span>
+    </div>
+    <div class="card">
+      <h3>Community profile</h3>
+      <p>La checklist mide README, LICENSE, CODE_OF_CONDUCT, CONTRIBUTING, SECURITY, issue/PR templates. Es lo que devuelve el <code>health_percentage</code> de la API <a href="#src-3">[3]</a>.</p>
+      <span class="src">docs.github.com · community-profiles</span>
+    </div>
+    <div class="card">
+      <h3>Health files por defecto</h3>
+      <p>Un repo <code>.github</code> <strong>público</strong> por cuenta u organización provee CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT y templates a todos los repos que no tengan los suyos. Una sola carpeta, todo el alcance <a href="#src-4">[4]</a>.</p>
+      <span class="src">docs.github.com · creating-a-default-community-health-file</span>
+    </div>
+    <div class="card">
+      <h3>README de perfil</h3>
+      <p>Repositorio público con el nombre del usuario + <code>README.md</code> en la raíz. Nada más. Se muestra sobre los pinned repos <a href="#src-5">[5]</a>.</p>
+      <span class="src">docs.github.com · managing-your-profile-readme</span>
+    </div>
+    <div class="card">
+      <h3>Enlaces relativos</h3>
+      <p>Los enlaces e imágenes relativos sobreviven a cambios de rama y clonados; GitHub los reescribe siempre. Absolutos a <code>blob/&lt;rama&gt;/</code> se rompen cuando la rama muere <a href="#src-1">[1]</a>.</p>
+      <span class="src">docs.github.com · about-readmes</span>
+    </div>
+  </div>
+  <div class="note ok">
+    <h4>Accesibilidad del perfil — el post propio de GitHub</h4>
+    <p>Cinco reglas: enlaces descriptivos (nada de "aquí"), alt de imagen como tweet (sucinto y con contexto), estructura de encabezados sin saltos de nivel, lenguaje plano, y emoji con mesura (el lector de pantalla los deletrea) <a href="#src-6">[6]</a>. El README de perfil actual no tiene ni un <code>#</code> <a href="#src-12">[12]</a>.</p>
+  </div>
+</section>
+
+<section id="s4" class="container">
+  <h2><span class="num">04</span>El estándar del ecosistema</h2>
+  <p>Fuente secundaria pero consolidada: lo que los maintainers ya acordaron por convención.</p>
+  <div class="grid g3">
+    <div class="card">
+      <h3>standard-readme</h3>
+      <p>Especificación con orden de secciones obligatorio: Título → Banner → Badges → descripción corta (&lt;120 caracteres, que coincide con la descripción del paquete y del repo) → TOC → Install → Usage → Contributing → <strong>License al final</strong>, SPDX. Sin enlaces rotos <a href="#src-8">[8]</a>.</p>
+      <span class="src">6.369★ · push 2026-06-17 (medido 2026-09-28)</span>
+    </div>
+    <div class="card">
+      <h3>awesome-readme</h3>
+      <p>21.503★. El patrón repetido en los curados: banner, 3–6 badges, TOC, GIF/demo arriba, quickstart copy-pasteable, tabla de features, contribuidores <a href="#src-9">[9]</a>.</p>
+      <span class="src">push 2026-09-17 (medido 2026-09-28)</span>
+    </div>
+    <div class="card">
+      <h3>Plantilla copy-paste</h3>
+      <p>Plantilla base de siete secciones: Installing, Developing, Features, Configuration, Contributing, Links, Licensing — un <code>curl</code> y se instala <a href="#src-10">[10]</a>.</p>
+      <span class="src">jehna/readme-best-practices</span>
+    </div>
+  </div>
+  <h3>Lo que la investigación profunda añade</h3>
+  <p>NotebookLM sintetizó 65 fuentes el 2026-09-28 <a href="#src-11">[11]</a>:</p>
+  <ul>
+    <li><strong>Anatomía de 9 secciones</strong> para README de proyecto: identidad + badges dinámicos (CI, cobertura, versión, licencia), demo visual, TOC, quickstart, uso/API, contributing, seguridad/soporte, licencia.</li>
+    <li><strong>Perfil en 3 niveles</strong>: identidad → telemetría viva (stats/actividad) → proof-of-work (proyectos reales enlazados, no contadores de vanidad).</li>
+    <li><strong>5 pitfalls medidos en las fuentes</strong>: saturación de badges y caída de proveedores nicho; alt genérico; <code>#gh-dark-mode-only</code> descontinuado (rompe en visores externos — usar <code>&lt;picture&gt;</code>); link-rot por rutas absolutas a ramas; ejemplos de código desactualizados.</li>
+  </ul>
+  <p class="dim">Ejemplo mínimo de libro: <code>vuejs/core</code> — título con 3 badges, "Getting Started" que apunta a la doc,Issues/Contribution/License. Un README corto también es profesional <a href="#src-13">[13]</a>.</p>
+</section>
+
+<section id="s5" class="container">
+  <h2><span class="num">05</span>Auditoría de tus repos públicos</h2>
+  <p>Todo medido el 2026-09-28 con <code>gh api</code> y <code>curl</code> desde esta máquina <a href="#src-12">[12]</a>.</p>
+  <div class="stats">
+    <div class="stat"><div class="v">21</div><div class="l">públicos auditados</div></div>
+    <div class="stat"><div class="v">15</div><div class="l">propios (no fork)</div></div>
+    <div class="stat"><div class="v">0</div><div class="l">repos .github</div></div>
+    <div class="stat"><div class="v">65</div><div class="l">fuentes NBLM</div></div>
+  </div>
+
+  <h3>soydachi — 12 públicos (7 propios, 5 forks)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th scope="col">Repo</th><th scope="col">Tipo</th><th scope="col">README B</th><th scope="col">Health</th><th scope="col">Nota</th></tr></thead>
+      <tbody>
+        <tr><td><code>soydachi</code> (perfil)</td><td><span class="pill p-fix">propio</span></td><td>1.325</td><td><span class="pill p-bad">28 %</span></td><td>Portada; defectos en §06. El % cuenta LICENSE/CoC/CONTRIBUTING que un repo de perfil no necesita — no accionable tal cual <a href="#src-12">[12]</a></td></tr>
+        <tr><td><code>.ai</code></td><td><span class="pill p-fix">propio</span></td><td>8.944</td><td><span class="pill p-warn">57 %</span></td><td>Falta CoC, issue/PR templates</td></tr>
+        <tr><td><code>pipeline-assistant-mcp</code></td><td><span class="pill p-fix">propio</span></td><td>10.809</td><td><span class="pill p-warn">57 %</span></td><td>Falta CoC, issue/PR templates</td></tr>
+        <tr><td><code>MeetupApi</code></td><td><span class="pill p-fix">propio</span></td><td>3.693</td><td><span class="pill p-warn">71 %</span></td><td>Buen README; badge "build passing" es estático y el repo tiene <strong>0 workflows</strong> <a href="#src-12">[12]</a>; header sirve desde <code>master</code> que ya no es ref del repo</td></tr>
+        <tr><td><code>GeekyTool</code></td><td><span class="pill p-fix">propio</span></td><td>2.917</td><td><span class="pill p-bad">42 %</span></td><td>Links a <code>dachibox/*</code> → 301 a <code>soydachi/*</code>; wiki "under construction" de 2016; AppVeyor badge aún 200</td></tr>
+        <tr><td><code>GeekyLog</code></td><td><span class="pill p-fix">propio</span></td><td>2.340</td><td><span class="pill p-bad">42 %</span></td><td>Mismo patrón legacy que GeekyTool</td></tr>
+        <tr><td><code>Demos</code></td><td><span class="pill p-fix">propio</span></td><td><strong>91</strong></td><td><span class="pill p-bad">42 %</span></td><td>Una línea con typos ("presetations, tutarials") <a href="#src-12">[12]</a></td></tr>
+        <tr><td><code>Graft</code> · <code>oh-my-pi</code> · <code>postiz-app</code> · <code>Pearcleaner</code> · <code>Html2Xaml</code></td><td><span class="pill p-dim">forks</span></td><td>7k–44k</td><td>n/d</td><td><strong>No tocar:</strong> el README lo gobierna el upstream (trailhq, can1357, gitroomhq, alienator88, VincentH-Net) <a href="#src-12">[12]</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>arcasilesgroup — 9 públicos (8 propios, 1 fork)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th scope="col">Repo</th><th scope="col">Tipo</th><th scope="col">README B</th><th scope="col">Health</th><th scope="col">Nota</th></tr></thead>
+      <tbody>
+        <tr><td><code>ai-engineering</code></td><td><span class="pill p-fix">propio</span></td><td>16.744</td><td><span class="pill p-warn">87 %</span></td><td><strong>El referente interno</strong>: hero, badges <code>&lt;picture&gt;</code> claros/oscuros, tabla de cifras, tour de CLI <a href="#src-16">[16]</a></td></tr>
+        <tr><td><code>claudeline</code> · <code>copilotline</code></td><td><span class="pill p-fix">propio</span></td><td>17,5k / 16,7k</td><td><span class="pill p-ok">100 %</span></td><td>Solo les falta issue template</td></tr>
+        <tr><td><code>mac-sweep</code></td><td><span class="pill p-fix">propio</span></td><td>20.543</td><td><span class="pill p-warn">75 %</span></td><td>—</td></tr>
+        <tr><td><code>agent-watch</code> · <code>ai-shell</code> · <code>ai-engineering-workshop</code></td><td><span class="pill p-fix">propio</span></td><td>17k / 3,7k / 2,9k</td><td><span class="pill p-bad">50 %</span></td><td>Falta CoC + templates en los tres</td></tr>
+        <tr><td><code>homebrew-claudeline</code></td><td><span class="pill p-fix">propio</span></td><td><strong>345</strong></td><td><span class="pill p-bad">37 %</span></td><td>Sin LICENSE; tap sin licencia es el hueco más barato de cerrar</td></tr>
+        <tr><td><code>paperclip-upstream</code></td><td><span class="pill p-dim">fork</span></td><td>22.763</td><td>n/d</td><td>Upstream: paperclipai/paperclip — no tocar <a href="#src-12">[12]</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>URLs vivas verificadas (2026-09-28)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th scope="col">Recurso</th><th scope="col">Estado</th><th scope="col">Lectura</th></tr></thead>
+      <tbody>
+        <tr><td><code>github-readme-stats.vercel.app/api?…theme=vue-dark</code></td><td><span class="pill p-bad">503 ×2</span></td><td>Widget del perfil caído en ambas mediciones; caídas de proveedores nicho es justamente el pitfall documentado <a href="#src-11">[11]</a></td></tr>
+        <tr><td><code>raw.github.com/…/MeetupApi/master/…Header.png</code></td><td><span class="pill p-warn">301 → 200</span></td><td>Hoy sirve (x-cache HIT) aunque <code>git/matching-refs</code> solo lista <code>main</code>; el código de GitHub recomienda rutas relativas para no depender de la rama <a href="#src-1">[1]</a></td></tr>
+        <tr><td><code>github.com/dachibox/GeekyTool</code></td><td><span class="pill p-warn">301</span></td><td>Redirige al repo nuevo; funciona hoy, es deuda</td></tr>
+        <tr><td>AppVeyor badges (GeekyTool, GeekyLog)</td><td><span class="pill p-ok">200</span></td><td>Vivos — proyectos de 2016 sin CI real en GitHub</td></tr>
+        <tr><td>shields.io · shieldcn.dev · trendshift</td><td><span class="pill p-ok">200</span></td><td>Los tres proveedores de badges del ecosistema responden</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note danger">
+    <h4>Hueco estructural</h4>
+    <p>Ninguna de las dos cuentas tiene repo <code>.github</code> (<code>gh repo view</code> → 404 para ambos) <a href="#src-12">[12]</a>. Significa que CONTRIBUTING, CODE_OF_CONDUCT, SECURITY y templates hay que duplicarlos repo por repo — o crearlos una vez a nivel de cuenta y que GitHub los aplique como default <a href="#src-4">[4]</a>.</p>
+  </div>
+</section>
+
+<section id="s6" class="container">
+  <h2><span class="num">06</span>Defectos verificados en el README de perfil</h2>
+  <p>Archivo: <code>README.md</code> de este repo, 28 líneas, último commit 2025-11-18. Cada defecto con su línea y su fuente.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th scope="col">#</th><th scope="col">Defecto</th><th scope="col">Evidencia</th><th scope="col">Regla</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>El icono y el alt dicen "Instagram", el <code>href</code> lleva a <code>twitter.com</code></td><td><code>README.md:14-15</code> <a href="#src-12">[12]</a></td><td>Enlace con contexto descriptivo <a href="#src-6">[6]</a></td></tr>
+        <tr><td>2</td><td>Alt con typo: <code>"Dachis's LinkdeIn"</code></td><td><code>README.md:18</code> <a href="#src-12">[12]</a></td><td>Alt = tweet: revisado <a href="#src-6">[6]</a></td></tr>
+        <tr><td>3</td><td><code>simple-icons@v3</code> (pin de 2020) sin atributo <code>fill</code> → el SVG pinta negro por defecto; en el tema oscuro de GitHub choca con el fondo</td><td>SVG bajado y revisado: sin <code>fill</code> <a href="#src-12">[12]</a></td><td>Imágenes que se adaptan al tema <a href="#src-7">[7]</a></td></tr>
+        <tr><td>4</td><td>Stats card con <code>theme=vue-dark</code> fijo (un solo tema) <strong>y</strong> el proveedor devuelve 503</td><td>503 ×2, 2026-09-28 <a href="#src-12">[12]</a></td><td><code>&lt;picture&gt;</code> para par claro/oscuro <a href="#src-7">[7]</a>; fragilidad de widgets <a href="#src-11">[11]</a></td></tr>
+        <tr><td>5</td><td>Cero encabezados: no hay <code>#</code> en todo el archivo → sin estructura de navegación</td><td>Archivo completo <a href="#src-12">[12]</a></td><td>Jerarquía de encabezados sin saltos <a href="#src-6">[6]</a></td></tr>
+        <tr><td>6</td><td>Cero pinned repos en el perfil (medido vía GraphQL)</td><td>0 nodos <a href="#src-12">[12]</a></td><td>Proof-of-work antes que vanity <a href="#src-11">[11]</a></td></tr>
+        <tr><td>7</td><td>"I work at Nationale Nederlanden" — no verificable desde aquí</td><td>—</td><td><span class="pill p-warn">[unsourced]</span> confirmar antes de reescribir</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Nada de esto es catastrófico: el contenido existe y el tono es personal. Lo que falta es la <strong>estructura</strong> (encabezados, secciones) y la <strong>adaptación al tema</strong> — exactamente lo que el propio GitHub documenta <a href="#src-6">[6]</a><a href="#src-7">[7]</a>.</p>
+</section>
+
+<section id="s7" class="container">
+  <h2><span class="num">07</span>Plantilla propuesta — README de proyecto</h2>
+  <p>Orden combinado de la especificación y la fuente oficial. Para los 15 repos propios; los 6 forks quedan fuera <a href="#src-8">[8]</a><a href="#src-1">[1]</a>.</p>
+  <div class="bracket">
+    <span class="tag">plantilla-proyecto.md</span>
+<pre><code><span class="c">&lt;h1 align="center"&gt;Nombre&lt;/h1&gt;</span>
+<span class="c">&lt;p align="center"&gt;una frase &lt;120 caracteres, igual a la descripción del repo&lt;/p&gt;</span>
+<span class="c">&lt;!-- badges: 3–6, alt descriptivo, vía &lt;picture&gt; si el logo cambia de tema --&gt;</span>
+
+<span class="k">## Instalación</span>      <span class="c">// comandos exactos, con prerequisitos y versiones</span>
+<span class="k">## Uso</span>             <span class="c">// quickstart copy-pasteable + 1 ejemplo real</span>
+<span class="k">## Configuración</span>   <span class="c">// solo si existe</span>
+<span class="k">## Contribuir</span>      <span class="c">// enlaza CONTRIBUTING.md / issues (o el default de .github)</span>
+<span class="k">## Seguridad</span>       <span class="c">// enlaza SECURITY.md</span>
+<span class="k">## Licencia</span>        <span class="c">// SPDX, última sección, siempre</span></code></pre>
+  </div>
+  <ul>
+    <li><strong>TOC manual:</strong> solo si el README supera ~150 líneas o se lee fuera de GitHub — en GitHub el Outline ya lo trae <a href="#src-1">[1]</a>. Ver §10.</li>
+    <li><strong>Badges:</strong> 3–6 de alta señal (CI, versión, licencia, descargas). Los curados abusan; la guía práctica recomienda contenerse <a href="#src-9">[9]</a><a href="#src-17">[17]</a>.</li>
+    <li><strong>El referente ya está en casa:</strong> <code>arcasilesgroup/ai-engineering</code> (hero + badges adaptativos + tabla de cifras + tour) es el nivel a copiar <a href="#src-16">[16]</a>.</li>
+    <li><strong>Health files:</strong> no los dupliques — crea el <code>.github</code> de cuenta y que GitHub los aplique donde falten <a href="#src-4">[4]</a>.</li>
+  </ul>
+</section>
+
+<section id="s8" class="container">
+  <h2><span class="num">08</span>Plantilla propuesta — README de perfil</h2>
+  <p>Los 3 niveles de la investigación profunda, con las 5 reglas de accesibilidad de GitHub aplicadas <a href="#src-11">[11]</a><a href="#src-6">[6]</a>.</p>
+  <div class="bracket">
+    <span class="tag">plantilla-perfil.md</span>
+<pre><code><span class="c">&lt;!-- 1. Identidad --&gt;</span>
+<span class="k"># Hola, soy Dachi</span>                    <span class="c">// un H1 de verdad, jerarquía sin saltos</span>
+<span class="c">&lt;picture&gt; banner claro/oscuro (§09) con alt descriptivo&lt;/picture&gt;</span>
+Una frase: quién soy y qué construyo.
+
+<span class="c">&lt;!-- 2. Telemetría viva (elegir, no apilar) --&gt;</span>
+<span class="k">## Ahora mismo</span>                         <span class="c">// qué estoy haciendo, con enlace</span>
+
+<span class="c">&lt;!-- 3. Proof-of-work --&gt;</span>
+<span class="k">## Trabajo destacado</span>                   <span class="c">// 3–6 repos propios, uno por línea, sin forks</span>
+
+<span class="c">&lt;!-- 4. Contacto --&gt;</span>
+<span class="k">## Contacto</span>                            <span class="c">// enlaces con texto que se entiende solo</span></code></pre>
+  </div>
+  <ul>
+    <li><strong>Arreglar ya</strong> los 6 defectos de §06: href/alt del icono, typo, versión de simple-icons, tema del widget, encabezados, pinned repos <a href="#src-12">[12]</a>.</li>
+    <li><strong>Widgets:</strong> como máximo uno, y sabiendo que <code>github-readme-stats</code> devolvió 503 hoy — si se queda, el alt debe mantener el sentido aunque la imagen no cargue <a href="#src-12">[12]</a><a href="#src-6">[6]</a>.</li>
+    <li><strong>Emoji:</strong> bien como acento en el saludo, no como viñeta de cada línea (el lector los deletrea) <a href="#src-6">[6]</a>.</li>
+  </ul>
+</section>
+
+<section id="s9" class="container">
+  <h2><span class="num">09</span>Imágenes: banner claro/oscuro ya generado</h2>
+  <p>Guideline: <code>soydachi.com/DESIGN.md</code> — papel cálido, tinta #272727, ámbar #f9be4a <strong>como bloque, nunca como línea</strong>, un solo material oscuro <a href="#src-14">[14]</a>. Brief + seeds en <code>.ai/</code>, manifests con hashes en <code>.ai/images/*/manifest.json</code> <a href="#src-15">[15]</a>.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Par generado (flux-2-klein, 1536×512)</h3>
+      <p><strong>Claro:</strong> <code>.ai/images/profile-banner/image-01.jpg</code> (seed 20260928) — papel crema, bloque ámbar a la izquierda, filetes carbón.<br>
+      <strong>Oscuro:</strong> <code>.ai/images/profile-banner-dark/image-01.jpg</code> (seed 20260929) — el mismo material en #272727 con filetes claros.<br>
+      Dos variantes por llamada; se conservó la elegida de cada par <a href="#src-15">[15]</a>.</p>
+      <span class="src">4 generados → 2 guardados · preflight: keychain OK</span>
+    </div>
+    <div class="card">
+      <h3>Cómo se embeben</h3>
+      <p>El snippet oficial de GitHub: <code>&lt;picture&gt;</code> con <code>prefers-color-scheme</code> y fallback <code>&lt;img&gt;</code> con alt real. El patrón <code>#gh-dark-mode-only</code> está descontinuado <a href="#src-7">[7]</a><a href="#src-11">[11]</a>.</p>
+      <span class="src">github.blog · Cassidy Williams · 2025-04-18</span>
+    </div>
+  </div>
+  <div class="bracket">
+    <span class="tag">snippet de inserción</span>
+<pre><code>&lt;picture&gt;
+  &lt;source media="(prefers-color-scheme: dark)"  srcset="assets/banner-dark.jpg"&gt;
+  &lt;source media="(prefers-color-scheme: light)" srcset="assets/banner-light.jpg"&gt;
+  &lt;img alt="Fondo de papel con un bloque ámbar — portada de Dachi Gogotchuri"
+       src="assets/banner-light.jpg" width="1536" height="512"&gt;
+&lt;/picture&gt;</code></pre>
+  </div>
+  <p class="dim">Los assets aún viven en <code>.ai/</code>; al aceptar la reescritura se mueven a <code>assets/</code> del repo de perfil (la ruta de arriba asume eso). El README de <code>ai-engineering</code> usa ya el mismo patrón con su hero <a href="#src-16">[16]</a>.</p>
+</section>
+
+<section id="s10" class="container">
+  <h2><span class="num">10</span>Desacuerdos entre fuentes</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th scope="col">Tema</th><th scope="col">Fuente A</th><th scope="col">Fuente B</th><th scope="col">Sobre qué actúo</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>TOC manual</td>
+          <td>standard-readme: obligatorio &gt;100 líneas <a href="#src-8">[8]</a></td>
+          <td>GitHub: Outline automático <a href="#src-1">[1]</a></td>
+          <td><strong>B.</strong> En READMEs que solo viven en GitHub, no se escribe TOC a mano; sí si el README se publica fuera (npm). Criterio propio sobre A y B <a href="#src-1">[1]</a><a href="#src-8">[8]</a></td>
+        </tr>
+        <tr>
+          <td>Cantidad de badges</td>
+          <td>Curados con 10+ badges <a href="#src-9">[9]</a></td>
+          <td>3–6 high-signal <a href="#src-11">[11]</a><a href="#src-17">[17]</a></td>
+          <td><strong>B.</strong> Saturación y caída de proveedores nicho está documentada; la guía local de shieldcn ya fija 3–6 <a href="#src-17">[17]</a></td>
+        </tr>
+        <tr>
+          <td>Widgets de stats</td>
+          <td>Práctica popular en las fuentes <a href="#src-11">[11]</a></td>
+          <td>503 medido hoy <a href="#src-12">[12]</a></td>
+          <td><strong>Medida.</strong> Un widget caído deja el hueco en la portada; si se queda, con alt auto-suficiente</td>
+        </tr>
+        <tr>
+          <td>"Docs estructuradas → menos issues y PRs más rápidos"</td>
+          <td>Afirmación dentro de la síntesis del notebook <a href="#src-11">[11]</a></td>
+          <td>Ningún estudio primario rastreado desde aquí</td>
+          <td><span class="pill p-warn">[unsourced]</span> — no se usa como argumento; la causalidad no está probada</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="dim">Otro punto sin fuente: por qué <code>raw.githubusercontent</code> sigue sirviendo la ref <code>master</code> inexistente (comportamiento medido, razón <span class="pill p-warn">[unsourced]</span>) <a href="#src-12">[12]</a>; y el impacto real de un README bonito en adopción/estrellas: no medido aquí <span class="pill p-warn">[unsourced]</span>.</p>
+</section>
+
+<section id="s11" class="container">
+  <h2><span class="num">11</span>Fuentes</h2>
+  <ol>
+    <li id="src-1"><a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes">GitHub Docs — About the repository README file</a> · leído 2026-09-28</li>
+    <li id="src-2"><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories">GitHub Docs — Best practices for repositories</a> · leído 2026-09-28</li>
+    <li id="src-3"><a href="https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories">GitHub Docs — About community profiles for public repositories</a> · leído 2026-09-28</li>
+    <li id="src-4"><a href="https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file">GitHub Docs — Creating a default community health file</a> · leído 2026-09-28</li>
+    <li id="src-5"><a href="https://docs.github.com/en/account-and-profile/how-tos/profile-customization/managing-your-profile-readme">GitHub Docs — Managing your profile README</a> · leído 2026-09-28</li>
+    <li id="src-6"><a href="https://github.blog/2023-10-26-5-tips-for-making-your-github-profile-page-accessible/">GitHub Blog — 5 tips for making your GitHub profile page accessible</a> · 2023-10-26 · Annie Streater</li>
+    <li id="src-7"><a href="https://github.blog/developer-skills/github/how-to-make-your-images-in-markdown-on-github-adjust-for-dark-mode-and-light-mode/">GitHub Blog — How to make your images in Markdown adjust for dark mode and light mode</a> · 2025-04-18 · Cassidy Williams</li>
+    <li id="src-8"><a href="https://github.com/RichardLitt/standard-readme/blob/main/spec.md">standard-readme — Specification</a> · 6.369★, push 2026-06-17 (medido 2026-09-28)</li>
+    <li id="src-9"><a href="https://github.com/matiassingers/awesome-readme">awesome-readme</a> · 21.503★, push 2026-09-17 (medido 2026-09-28)</li>
+    <li id="src-10"><a href="https://github.com/jehna/readme-best-practices">jehna/readme-best-practices — plantilla copy-paste</a> · leído 2026-09-28</li>
+    <li id="src-11">NotebookLM <em>deep research</em> «README best practices research», notebook <code>0e5da800-5bc9-4b76-9d8b-62c9d65d6eb8</code> · 65 fuentes importadas · cosechado 2026-09-28 (export completo falló con <code>RPCResponseTooLargeError</code>; citas vía summary + ask)</li>
+    <li id="src-12">Auditoría local · 2026-09-28 · <code>gh api repos/*/readme</code>, <code>community/profile</code>, <code>git/matching-refs</code>, GraphQL pinned items, <code>curl -I</code> de badges y URLs, <code>git log</code>, lectura de <code>README.md</code> línea a línea — esta máquina</li>
+    <li id="src-13"><a href="https://github.com/vuejs/core/blob/main/README.md">vuejs/core README</a> · leído 2026-09-28</li>
+    <li id="src-14"><code>/Users/soydachi/repos/soydachi.com/DESIGN.md</code> + <code>design/soydachi.tokens.json</code> · guideline de marca local</li>
+    <li id="src-15">Manifests <code>nan-image</code>: <code>.ai/images/profile-banner/manifest.json</code> y <code>.ai/images/profile-banner-dark/manifest.json</code> · flux-2-klein · 2026-09-28</li>
+    <li id="src-16"><a href="https://github.com/arcasilesgroup/ai-engineering">arcasilesgroup/ai-engineering README</a> · vía <code>gh api</code> 2026-09-28</li>
+    <li id="src-17">Skill local <code>shieldcn-badges</code> (<code>~/.agents/skills/shieldcn-badges</code>) + <a href="https://shieldcn.dev">shieldcn.dev</a> · badges 3–6, patrón <code>&lt;picture&gt;</code>, retiro de star-history (API restringida jun-2026)</li>
+    <li id="src-18"><a href="https://www.freecodecamp.org/news/how-to-structure-your-readme-file/">freeCodeCamp — How to Structure Your README File</a> · vía web_search 2026-09-28</li>
+    <li id="src-19"><a href="https://gitblend.com/kb/create-awesome-github-profile-readme">GitBlend — How to Create an Awesome GitHub Profile README</a> · vía web_search 2026-09-28</li>
+    <li id="src-20"><a href="https://www.kunalganglani.com/blog/write-good-readme-guide">Kunal Ganglani — How to Write a Good README [2026 Guide]</a> · vía NotebookLM <a href="#src-11">[11]</a></li>
+  </ol>
+</section>
+
+<section id="s12" class="container">
+  <h2><span class="num">12</span>Tres direcciones para mañana</h2>
+  <div class="grid g3">
+    <div class="card">
+      <h3>1 · Reescribir este README de perfil</h3>
+      <p>Plantilla §08 + par de banners §09 + los 6 fixes de §06. Es el repo donde estamos, es la portada pública, y todo el material ya existe (briefs, seeds, imágenes). Coste: un commit <a href="#src-5">[5]</a><a href="#src-6">[6]</a><a href="#src-15">[15]</a>.</p>
+      <span class="src">06 defectos → 0 · health 28 % no es el objetivo</span>
+    </div>
+    <div class="card">
+      <h3>2 · Crear los dos <code>.github</code> de cuenta</h3>
+      <p><code>soydachi/.github</code> y <code>arcasilesgroup/.github</code> públicos con CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT e issue/PR templates. Una carpeta, los 15 repos propios suben de health sin tocar cada repo <a href="#src-4">[4]</a><a href="#src-3">[3]</a><a href="#src-12">[12]</a>.</p>
+      <span class="src">mejor ratio esfuerzo/alcance de las tres</span>
+    </div>
+    <div class="card">
+      <h3>3 · Plantilla única en los repos propios</h3>
+      <p>§07 sobre los 15 no-fork, empezando por los delgados (<code>Demos</code> 91 B, <code>homebrew-claudeline</code> 345 B sin LICENSE) y el legacy (<code>GeekyTool</code>/<code>GeekyLog</code> con links <code>dachibox</code>, <code>MeetupApi</code> con badge de CI sin workflows). Forks: intocables <a href="#src-8">[8]</a><a href="#src-12">[12]</a><a href="#src-16">[16]</a>.</p>
+      <span class="src">el referente interno ya existe: ai-engineering</span>
+    </div>
+  </div>
+  <div class="note ok">
+    <h4>Orden recomendado</h4>
+    <p><strong>2 → 1 → 3.</strong> Los health files por defecto son un solo commit con alcance de toda la cuenta <a href="#src-4">[4]</a>; el perfil es visible al día siguiente <a href="#src-5">[5]</a>; la plantilla por repo es el barrido largo, guiado por el audit de §05.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div><span class="x">{ai}</span> engineering · research 001 · README profesional · 2026-09-28</div>
+  <div>Herramientas ausentes: <span class="x">degraded-tool: exa</span> · NotebookLM notebook 0e5da800…</div>
+  <div><a href="file:///Users/soydachi/repos/soydachi/.ai-engineering/research/001-readme-profesional.html">001-readme-profesional.html</a></div>
+</footer>
+
+<script>
+/* scroll-spy: mark the nav link for the section in view.
+   Lead matches scroll-margin-top (88px): the highlight flips when the
+   heading clears the sticky nav. */
+(function () {
+  const lead = 88;
+  const links = document.querySelectorAll('nav a[href^="#"]');
+  function updateNav() {
+    let current = "";
+    for (const link of links) {
+      const href = link.getAttribute("href");
+      if (!href) continue;
+      const section = document.getElementById(href.slice(1));
+      if (!section) continue;
+      if (section.getBoundingClientRect().top <= lead) current = href.slice(1);
+    }
+    for (const link of links) {
+      const on = link.getAttribute("href") === "#" + current;
+      link.classList.toggle("active", on);
+      if (on) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    }
+  }
+  window.addEventListener("scroll", updateNav, { passive: true });
+  updateNav();
+})();
+</script>
+</body>
+</html>

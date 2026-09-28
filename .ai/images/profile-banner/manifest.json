@@ -1,0 +1,28 @@
+{
+  "brief": "/Users/soydachi/repos/soydachi/.ai/image-brief.json",
+  "created_at": "2026-09-28T12:09:38.726729+00:00",
+  "model": "flux-2-klein",
+  "operation": "generate",
+  "outputs": [
+    {
+      "bytes": 534352,
+      "file": "image-01.jpg",
+      "sha256": "2bdc256bffd0843e7be3e3051269623c4dc629c575bcf64fcf54e51a57c60f99"
+    },
+    {
+      "bytes": 528594,
+      "file": "image-02.jpg",
+      "sha256": "0e3110007f29c9d417eb7f91eb2ff0f8634e706d53c95c6466f8a33243d13a8e"
+    }
+  ],
+  "parameters": {
+    "guidance": 3.5,
+    "n": 2,
+    "seed": 20260928,
+    "size": "1536x512"
+  },
+  "prompt": "Goal: Hero banner for the GitHub profile README of soydachi, following the soydachi.com governed-paper design guideline.\nAsset kind: github profile README header banner.\nSubject: Warm cream paper stock with visible fiber texture, one solid amber rectangular block pressed into the surface like letterpress, two charcoal ink hairline rules near the edges, subtle paper emboss. A builder's business card printed on good warm paper. No text of any kind..\nComposition: Wide horizontal 3:1 band, flat top-down view, amber block off-center left third, quiet paper space right two-thirds, even soft daylight, clean straight edges.\nArt direction: editorial, minimal, letterpress print, analog paper photography.\nBrand tokens: paper #f5f1e8, ink #272727, amber #f9be4a, warm floor #ece3d1.\nMust include: paper fiber texture, one solid amber block as the only chroma, charcoal hairline rules, no text, no letters, no numbers.\nAvoid: text, letters, logos, watermarks, dark background, gradient decoration, screenshots, devices, people.\nAdditional constraints: Light warm ground so it reads correctly on GitHub light mode; a dark #272727 variant can be generated later for a <picture> pair. Amber is a block, never a line or glow..",
+  "provider": "nan-builders",
+  "references": [],
+  "schema_version": 1
+}

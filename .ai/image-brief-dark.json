@@ -1,0 +1,39 @@
+{
+  "goal": "Dark-mode variant of the GitHub profile README banner for soydachi, same composition as the light pair, soydachi.com governed-paper guideline (one dark material)",
+  "asset_kind": "github profile README header banner",
+  "subject": "Dark charcoal paper stock (#272727, the single dark material) with visible fiber texture, one solid amber rectangular block pressed into the surface like letterpress, two warm off-white hairline rules near the edges, subtle paper emboss. No text of any kind.",
+  "composition": "Wide horizontal 3:1 band, flat top-down view, amber block off-center left third, quiet paper space right two-thirds, even soft daylight, clean straight edges",
+  "style": [
+    "editorial",
+    "minimal",
+    "letterpress print",
+    "analog paper photography"
+  ],
+  "brand_tokens": [
+    "dark material #272727",
+    "amber #f9be4a",
+    "dark-fg #f5f1e8"
+  ],
+  "must_include": [
+    "paper fiber texture",
+    "one solid amber block as the only chroma",
+    "charcoal hairline rules",
+    "no text, no letters, no numbers"
+  ],
+  "avoid": [
+    "text",
+    "letters",
+    "logos",
+    "watermarks",
+    "dark background",
+    "gradient decoration",
+    "screenshots",
+    "devices",
+    "people"
+  ],
+  "notes": "Dark ground for GitHub dark mode via <picture> prefers-color-scheme pair; amber is a block, never a line or glow; composition mirrors the light variant: amber block off-center left third, quiet space right.",
+  "size": "1536x512",
+  "n": 2,
+  "seed": 20260929,
+  "guidance": 3.5
+}
