@@ -199,11 +199,19 @@ def checkpoint1(text):
 # shortcut ![alt]) carry no inline URL — resolve against definition lines.
 # Only refs actually used in image syntax resolve: a plain link definition is
 # not an image and never reaches the allowlist.
+def ref_label(label):
+    """F15: CommonMark reference labels compare case-insensitively with
+    surrounding whitespace stripped and internal whitespace collapsed —
+    applied to BOTH the definition and the usage lookup."""
+    return re.sub(r"\s+", " ", label.strip()).casefold()
+
+
 def ref_definitions(text):
     """Reference DEFINITIONS are file-global (CommonMark): collect them from
     the whole file; only the image USAGE has a scope (F14 residual — a
     definition at file end must still resolve an in-section usage)."""
-    return dict(re.findall(r"^\[([^\]]+)\]:\s*(\S+)", text, re.M))
+    return {ref_label(k): v
+            for k, v in re.findall(r"^\[([^\]]+)\]:\s*(\S+)", text, re.M)}
 
 
 def extract_images(text, ref_defs=None):
@@ -212,12 +220,13 @@ def extract_images(text, ref_defs=None):
     if ref_defs is None:
         ref_defs = ref_definitions(text)
     for m in re.finditer(r"!\[([^\]]*)\]\[([^\]]*)\]", text):
-        label = m.group(2) or m.group(1)
-        if label in ref_defs:
-            imgs.append((m.group(1), ref_defs[label]))
+        url = ref_defs.get(ref_label(m.group(2) or m.group(1)))
+        if url:
+            imgs.append((m.group(1), url))
     for m in re.finditer(r"!\[([^\]]*)\](?![\[(])", text):
-        if m.group(1) in ref_defs:
-            imgs.append((m.group(1), ref_defs[m.group(1)]))
+        url = ref_defs.get(ref_label(m.group(1)))
+        if url:
+            imgs.append((m.group(1), url))
     # F13: HTML <img> in any quoting — these render as badges but carry no
     # inline markdown URL, so they were invisible to the liveness greps.
     for tag in re.findall(r"<img\b[^>]*>", text, re.I):

@@ -302,7 +302,7 @@ Fresh critic (no loop memory); judged artifacts at HEAD 7e38eae — `git show --
   - Too large — 6 inline widgets + `![…][api-stars]` with `[api-stars]: https://komarev.com/nope-404` (measured 404) appended: 7 badges render in Now (6 inline + 1 ref); bare exit 0 (92 checks), cp2 exit 0, 2-2 exit 0 (regex sees 6), 2-3 exit 0, 2-4 exit 0 (the 404 ref URL never extracted — same grep gap as F13).
   WHY IT MATTERS: acceptance 1 (checkpoints:79) says 3-6 badge *images*; the gates certify a number that can be met or exceeded by syntax that renders differently — L2 scope in the direction the previous rounds did not probe.
   CHECK: run either mutant → every gate exit 0 while the rendered count is 2 (or 7).
-  STATUS: open — round 6: fence/comment half fixed (A/A' now fail the count gate); ref-count half NOT fixed (7 rendered badges still pass with a live ref URL — see Round 6)
+  STATUS: resolved in round 7 (commit 1677721; exact round-6 residual re-run by critic — see Round 7; successor gap opened as F15)
 
 ### Attacks that did not land (round 5)
 
@@ -359,4 +359,37 @@ VERDICT: FAIL — F14
 ## Round 6 · fixer (2026-09-28)
 
 **F14 response:** Confirmed — the shared extractor resolved reference definitions from the scope it was handed, and checkpoint2 hands it the `## Now` body, so a definition at file end (CommonMark file-global semantics, the conventional placement) never resolved an in-section usage and the count saw 6 of the 7 badges GFM renders. `ref_definitions(text)` is now a separate file-global collection: `checkpoint2` resolves the section's usages against definitions from the WHOLE file while the usage itself must still sit inside `## Now` (L2 scope unchanged); the file-global allowlist and `--list-images` already ran over the whole file and are untouched. Mutation tests (fresh /tmp harness, fixed script + committed README): critic's exact mutant — 6 inline widgets + `![Release star count for the soydachi profile][api-stars]` usage inside Now, `[api-stars]: https://shieldcn.dev/github/forks/soydachi.svg` at file end (live 200) → bare exit 1 with `FAIL: now: 3 to 6 Markdown images inside ## Now: found 7` (was `PASS: all 92 checks`); `--checkpoint 2` exit 1 (case 2-2 runs it). Negative control — same usage placed in `## Contact` with the file-end definition → count unchanged, bare exit 0 (83 checks), no FAIL: out-of-section usages never count into Now. Baseline: bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` 51 exit 0; `--checkpoint 2` 32 exit 0; all 21 plan cases exit 0.
+STATUS: resolved
+
+---
+
+## Round 7 · critic verification (2026-09-28)
+
+Verified against HEAD 1677721 by re-running my exact round-6 mutant plus its negative control (fresh harness per run: committed README + committed script); repo untouched — `git status --porcelain` shows only this thread file.
+
+**F14 residual re-run (exact round-6 mutant):** 6 inline widgets + `![Release star count for the soydachi profile][api-stars]` usage in `## Now`, `[api-stars]: https://shieldcn.dev/github/forks/soydachi.svg` (live 200) at file end → `FAIL: now: 3 to 6 Markdown images inside ## Now: found 7`, `1 of 94 checks failed`; bare exit 1, `--checkpoint 2` exit 1 (round 6: exit 0/0). `ref_definitions(text)` (check-readme.py:202-206) now feeds the section-scoped usage extraction at :302 as claimed.
+**Negative control:** same usage+definition but the usage placed in `## Contact` → Now count unchanged (4 inline), bare `PASS: all 84 checks` exit 0 (83 baseline + the one new allowlist URL check), cp2 exit 0 — in-section scoping (L2) preserved.
+**Regression:** bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` 51 exit 0; `--checkpoint 2` 32 exit 0; `--list-images` 9 URLs; all 21 plan cases (1-1..1-8, 2-1..2-4, 3-1..3-9) exit 0.
+**F14:** STATUS: resolved (re-verified round 7).
+
+**F15:** Reference-label matching is exact-string, but CommonMark reference labels resolve case-insensitively (and with internal whitespace collapsed) — a usage whose label differs only by case from its file-global definition renders for readers while the shared extractor never resolves it, so the count/alt/pin gate, the host allowlist, and `--list-images` all behave as if the image does not exist.
+  EVIDENCE (fresh harness; check-readme.py:206 verbatim def dict, :216/:219 `label in ref_defs` exact):
+  - Acceptance-1 instance: exact round-6 construction with the definition renamed `[API-Stars]:` (capital S) against usage `[api-stars]` → bare `PASS: all 91 checks` exit 0, `--checkpoint 2` exit 0, case 2-4 exit 0 — while GFM render (POST api.github.com/markdown, HTTP 200) shows **7 `<img>` in the Now segment**, the 7th `data-canonical-src="https://shieldcn.dev/github/forks/soydachi.svg"`, no unresolved literal. Acceptance 1 (checkpoints:79) violated with every gate green.
+  - Acceptance-4 instance: usage `![GitHub profile stats][API-Cards]` just before `## Contact` + `[api-cards]: https://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk` at file end → bare `PASS: all 83 checks` exit 0, cp2 exit 0 (the mismatched label never resolves, so the banned host never reaches the allowlist) — GFM render HTTP 200 contains `github-profile-summary-cards.vercel.app`: the fixed-theme stats card displays. Acceptance 4 (checkpoints:82) violated with every gate green — the F9-F11 class reopened through label normalization rather than URL serialization.
+  WHY IT MATTERS: the round-6 fix's own docstring invokes CommonMark semantics for definition scope ("file-global (CommonMark)") while the label comparison does not implement CommonMark matching — the same L1 outclaim pattern, now in the last unresolved edge of the shared extractor.
+  CHECK: run either mutant → all gates exit 0; render shows 7 images in Now / the banned card.
+  STATUS: open
+
+### Round-7 attacks that did not land
+
+- The round-6 residual itself: same-case file-end definition + in-Now usage → `found 7`, bare/cp2 exit 1; moving the usage out of `## Now` → green with count unchanged (negative control passes).
+- Regression sweep: 83/51/32 baseline counts, 9 `--list-images` URLs, all 21 plan cases exit 0 at HEAD 1677721.
+
+VERDICT: FAIL — F15
+
+---
+
+## Round 7 · fixer (2026-09-28)
+
+**F15 response:** Confirmed. `ref_label()` now normalizes reference labels exactly as CommonMark requires — surrounding whitespace stripped, internal whitespace collapsed, case folded — and is applied on BOTH sides: the `ref_definitions()` dict keys and every usage lookup in `extract_images()` (the single path count/alt/pins, allowlist, and `--list-images` all resolve through). Mutation tests (fresh /tmp harness, fixed script + committed README): (A) def `[API-Stars]:` vs usage `[api-stars]` in Now → bare exit 1, `FAIL: now: 3 to 6 Markdown images inside ## Now: found 7` (was PASS 91); (B) usage `![GitHub profile stats][API-Cards]` + `[api-cards]: https://github-profile-summary-cards.vercel.app/…` at file end → bare exit 1 with `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app' is one of the sanctioned widget hosts …` (was PASS 83) — also `found 7` since the usage sits inside Now; (C) whitespace-folded labels — GFM probe against GitHub's own renderer (POST api.github.com/markdown, HTTP 200) established ground truth first: def `[API   Stars]` matches usage `[api   stars]` (renders `<img>`) but NOT usage `[api-stars]` (literal text, no `<img>`). Per that ground truth: rendering variant def `[API   Stars]` + usage `[api   stars]` → bare exit 1 `found 7` ✓; the literal `[API   Stars]`-vs-`[api-stars]` pair GFM does not render, so the extractor correctly does not resolve it and green is the honest result (failing it would be a false positive against the renderer the gate emulates); negative control (plain link definition) stays exit 0. Baseline: bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` 51 exit 0; `--checkpoint 2` 32 exit 0; `--list-images` 9 URLs; all 21 plan cases exit 0.
 STATUS: resolved
