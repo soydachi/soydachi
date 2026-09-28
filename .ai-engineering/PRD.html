@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="ai-feature" content="readme-profesional">
 <meta name="ai-approved" content="2026-09-28">
-<title>Brainstorm · readme-profesional</title>
+<title>PRD · readme-profesional</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23001E2B%22/%3E%3Crect x=%220.5%22 y=%220.5%22 width=%2231%22 height=%2231%22 rx=%226.5%22 fill=%22none%22 stroke=%22%2300ED64%22 stroke-opacity=%220.35%22/%3E%3Ctext x=%2216%22 y=%2217%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-family=%22ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace%22 font-size=%2214%22 font-weight=%22700%22 letter-spacing=%22-1%22%3E%3Ctspan fill=%22%2300ED64%22%3E%7B%3C/tspan%3E%3Ctspan fill=%22%23E8EEF7%22%3Eai%3C/tspan%3E%3Ctspan fill=%22%2300ED64%22%3E%7D%3C/tspan%3E%3C/text%3E%3C/svg%3E">
 <style>
 /* ── {ai} Engineering — the artifact design system ─────────────────────────
@@ -258,156 +258,73 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
 <header class="hero">
   <span class="corner tl"></span><span class="corner tr"></span>
   <span class="corner bl"></span><span class="corner br"></span>
-  <span class="stamp">Brainstorm · readme-profesional</span>
-  <h1>README profesional<span class="x">.</span> perfil, comunidad y plantillas</h1>
-  <p class="sub"><strong>Read-back v2:</strong> el feature es <strong>solo el README de tu perfil de GitHub</strong> (<code>soydachi/soydachi</code>), la presentación que ven todos los visitantes. Tiene que lucir bonito y reflejar las mejores prácticas: visual, estructurado, dinámico, standard. Las direcciones 2 y 3 del informe (health files de cuenta y plantilla por repo) quedan <strong>fuera de este run</strong>.</p>
-  <p class="meta"><b>Estado:</b> complete · 2026-09-28<br>
-  <b>Evidencia:</b> .ai-engineering/research/001-readme-profesional.html (20 fuentes)</p>
+  <span class="stamp">PRD · readme-profesional</span>
+  <h1>README de perfil profesional<span class="x">.</span></h1>
+  <p class="sub">Una sola superficie: la caja README de <strong>github.com/soydachi</strong>. En inglés, identidad + datos vivos + contacto, banner con la guideline de la marca y widgets que responden.</p>
+  <p class="meta"><b>Aprobado:</b> 2026-09-28 · brainstorm: .ai-engineering/brainstorm.html<br>
+  <b>Evidencia:</b> .ai-engineering/research/001-readme-profesional.html · Fuente de contenido: soydachi.com/docs/brand/</p>
 </header>
 
 <nav aria-label="Secciones">
-  <a href="#s1"><b>01</b>Idea</a>
-  <a href="#s2"><b>02</b>Por qué</a>
-  <a href="#s3"><b>03</b>Para quién</a>
-  <a href="#s4"><b>04</b>Qué existe</a>
-  <a href="#s5"><b>05</b>Éxito</a>
-  <a href="#s6"><b>06</b>Decidido</a>
-  <a href="#s7"><b>07</b>Abierto</a>
-  <a href="#s8"><b>08</b>Reglas</a>
-  <a href="#s9"><b>09</b>Fuera de alcance</a>
-  <a href="#s10"><b>10</b>Investigación</a>
-  <a href="#s11"><b>11</b>Handoff</a>
+  <a href="#s1"><b>01</b>Problema</a>
+  <a href="#s2"><b>02</b>Objetivo</a>
+  <a href="#s3"><b>03</b>Usuarios</a>
+  <a href="#s4"><b>04</b>Feature y reglas</a>
+  <a href="#s5"><b>05</b>Fuera de alcance</a>
 </nav>
 
 <main id="main">
 
 <section id="s1" class="container">
-  <h2><span class="num">01</span>La idea en palabras simples</h2>
-  <p>Read-back provisional (falta la confirmación del usuario):</p>
-  <div class="note warn">
-    <h3>Read-back · v3 · aprobado 2026-09-28</h3>
-    <p>Tu perfil de GitHub necesita lucir profesional y con tu marca: visual, estructurado, dinámico y standard. El feature es <strong>solo el README de perfil</strong> de <code>soydachi/soydachi</code>. Va en <strong>inglés</strong>, con banner usando el par claro/oscuro ya generado bajo tu guideline de <code>soydachi.com</code>, y con <strong>widgets que responden hoy</strong> (shieldcn.dev, verificado 200) en lugar del stats card roto (503 en tres mediciones). <strong>Sin sección de proyectos</strong>: los pins de GitHub ya los muestran debajo; el README se queda en identidad, qué haces, datos vivos y contacto. La línea de cargo sale del perfil canónico: Platform Governance Lead at Nationale-Nederlanden España, y la identidad lidera con "general engineer", el cargo respalda. Los health files de cuenta y la plantilla por repo quedan fuera de este run.</p>
-  </div>
+  <h2><span class="num">01</span>Problema</h2>
+  <p>La caja README es lo primero que ve cada visitante del perfil, y hoy no es una presentación: es una lista de cinco bullets con el widget de stats roto (un signo de interrogación en pantalla, 503 en tres mediciones el 2026-09-28), iconos sociales con enlace e alt incorrectos, cero encabezados y datos de marca desactualizados. El informe 001 verificó 6 defectos concretos (§06). Se ve descuidado justo donde debería dar credibilidad.</p>
 </section>
 
 <section id="s2" class="container">
-  <h2><span class="num">02</span>Por qué importa</h2>
-  <ul>
-    <li>El README es lo primero que un visitante ve, y GitHub lo usa para comunicar expectativas junto a licencia, CONTRIBUTING y code of conduct <span class="dim">(informe 001 §03)</span>.</li>
-    <li>Tu perfil de salud mide <strong>28 %</strong> y el README de perfil tiene <strong>6 defectos verificados</strong> (enlace que dice Instagram y va a Twitter, alt con typo, iconos invisibles en dark mode, widget caído con 503, cero encabezados, cero pinned) <span class="dim">(001 §06)</span>.</li>
-    <li>Ninguna de tus dos cuentas tiene repo <code>.github</code>, así que CONTRIBUTING, CoC, SECURITY y templates hay que duplicarlos repo por repo o se quedan sin poner <span class="dim">(001 §05)</span>.</li>
-    <li>Hay READMEs de 91 y 345 bytes, links legacy a <code>dachibox</code> en 301 y un badge de CI en un repo con <strong>0 workflows</strong> <span class="dim">(001 §05)</span>.</li>
-  </ul>
+  <h2><span class="num">02</span>Objetivo</h2>
+  <p>Un README que sea <strong>visual, estructurado, dinámico y standard</strong>: banner con la guideline de la marca (papel + bloque ámbar, par claro/oscuro), secciones con encabezados, widgets que devuelven 200 y alt auto-suficiente, y cada dato con fuente en <code>docs/brand/</code>. Éxito: los 6 defectos en cero, render comprobado en dark y light a 320/768/1440 px, publicado en <code>main</code>.</p>
 </section>
 
 <section id="s3" class="container">
-  <h2><span class="num">03</span>Para quién es</h2>
+  <h2><span class="num">03</span>Usuarios y roles</h2>
   <ul>
-    <li><strong>Visitantes de tu perfil</strong>: reclutadores, colaboradores, gente que llega por un proyecto de arcasilesgroup y sube a verte.</li>
-    <li><strong>Usuarios y contribuidores de los 15 repos propios</strong>: ven si el proyecto da confianza y cómo se contribuye.</li>
-    <li><strong>Tú como mantenedor</strong>: menos repetición (los health files viven una vez) y una portada que no hay que defender.</li>
+    <li><strong>Visitante del perfil</strong> (reclutadores, colaboradores, comunidad): decide en segundos quién es Dachi y si sigue leyendo.</li>
+    <li><strong>Dachi</strong> (mantenedor): actualiza el README sin romper datos canónicos ni contradecir LinkedIn.</li>
+    <li><strong>Agentes futuros</strong> (ai-architect, ai-orchestrator): leen este PRD y el brainstorm para no reabrir decisiones.</li>
   </ul>
 </section>
 
 <section id="s4" class="container">
-  <h2><span class="num">04</span>Qué existe hoy</h2>
-  <ul>
-    <li><strong>Informe 001</strong>: <code>.ai-engineering/research/001-readme-profesional.html</code> (commit fc6a695). Trae la auditoría de 21 READMEs, las plantillas §07 (proyecto) y §08 (perfil), el snippet <code>&lt;picture&gt;</code> y las tres direcciones §12.</li>
-    <li><strong>Assets de imagen ya generados</strong>: <code>.ai-engineering/images/profile-banner/</code> (claro, seed 20260928) y <code>profile-banner-dark/</code> (oscuro, seed 20260929), con briefs y manifests. Migrados desde <code>.ai/</code> en el commit 04e7251.</li>
-    <li><strong>Este repo</strong>: solo <code>README.md</code> (1.325 bytes). No hay AGENTS.md, app, DB, servidor ni UI. El trabajo de este repo es contenido.</li>
-    <li><strong>Las dos cuentas</strong>: 15 repos no-fork públicos, 0 repos <code>.github</code>, 0 pinned repos en el perfil, health de 28 % a 100 % <span class="dim">(001 §05, medido 2026-09-28)</span>.</li>
-    <li><strong>Forks intocables (6)</strong>: Graft, oh-my-pi, postiz-app, Pearcleaner, Html2Xaml, paperclip-upstream <span class="dim">(001 §05)</span>.</li>
-    <li><strong>Migración hecha</strong>: <code>.ai/</code> ya no existe; briefs, imágenes y reportes viven bajo <code>.ai-engineering/</code> (04e7251).</li>
-  </ul>
+  <h2><span class="num">04</span>Feature y reglas</h2>
+  <p><strong>Feature:</strong> reescribir <code>README.md</code> de <code>soydachi/soydachi</code> siguiendo la plantilla de perfil del informe 001 §08, en este repo y en una rama <code>feat/readme-profesional</code>.</p>
+  <div class="note ok">
+    <h4>Reglas · decisiones cerradas, el plan no las reabre</h4>
+    <p><strong>R1.</strong> Alcance: solo este README. Sin health files de cuenta ni plantillas en otros 14 repos (quedan para otro run).<br>
+    <strong>R2.</strong> Idioma: inglés.<br>
+    <strong>R3.</strong> Sin sección de proyectos: los pins de GitHub cumplen esa función. El README es identidad + qué haces + datos vivos + contacto.<br>
+    <strong>R4.</strong> Cargo: Platform Governance Lead at Nationale-Nederlanden España; la identidad lidera con "general engineer", el cargo respalda (perfil canónico §3 [DG]).<br>
+    <strong>R5.</strong> Banner: el par claro/oscuro ya generado en <code>.ai-engineering/images/</code> con <code>&lt;picture&gt;</code> + alt descriptivo. Sin nueva llamada a nan-image salvo que pida variantes.<br>
+    <strong>R6.</strong> Dinámico = widgets que responden: sustituir github-readme-stats (503) por shieldcn.dev / komarev (200 verificado), 3 a 6 badges de alta señal, alt auto-suficiente.<br>
+    <strong>R7.</strong> Fuente de contenido: <code>soydachi.com/docs/brand/</code> (perfil canónico, enlaces oficiales, tono). Nada de la lista de datos prohibidos §16 (sin MVP activo, sin "~3000 miembros", sin nombres de repos privados, sin titeros anteriores como cargo actual). Email público: info@arcasiles.com.<br>
+    <strong>R8.</strong> Accesibilidad: enlaces descriptivos, alt reales, jerarquía de encabezados sin saltos, adapción dark/light (informe 001 §06, GitHub docs).<br>
+    <strong>R9.</strong> Todo bajo <code>.ai-engineering/</code>; <code>.ai/</code> prohibido.<br>
+    <strong>R10.</strong> Verificación: widgets con 200 medido, render sin scroll lateral en 320/768/1440, y commiteado paso a paso.</p>
+  </div>
 </section>
 
 <section id="s5" class="container">
-  <h2><span class="num">05</span>Cómo se ve el éxito</h2>
-  <p>Propuesta, falta cerrar métricas con el usuario:</p>
-  <ol>
-    <li><strong>README publicado</strong> en <code>main</code>: banner en <code>&lt;picture&gt;</code>, secciones con encabezados, inglés, los 6 defectos de §06 del informe en cero (enlace Instagram→Twitter, alt typo, iconos de tema, widget 503, cero encabezados, cero pinned).</li>
-    <li><strong>Dinámico sin roturas:</strong> todos los widgets del README devuelven 200 en el momento de publicar (medido con <code>curl</code>), con alt auto-suficiente.</li>
-    <li><strong>Contenido canónico:</strong> cada dato del README tiene fuente en <code>docs/brand/</code> (cargo, email, enlaces, bandas) y nada de la lista §16 de datos prohibidos aparece.</li>
-    <li><strong>Render comprobado</strong> en dark y light a 320/768/1440 px sin scroll lateral.</li>
-  </ol>
-</section>
-
-<section id="s6" class="container">
-  <h2><span class="num">06</span>Decisiones ya tomadas</h2>
-  <div class="note ok">
-    <h3>Cerradas · el plan no las reabre</h3>
-    <p><strong>1.</strong> Todo lo generado vive bajo <code>.ai-engineering/</code>; <code>.ai/</code> queda prohibido (usuario, 2026-09-28; migración en 04e7251).<br>
-    <strong>2.</strong> Assets de imagen vía <code>nan-image</code> con la guideline de <code>soydachi.com</code> (papel, tinta, ámbar como bloque) (usuario; briefs en <code>.ai-engineering/image-brief*.json</code>).<br>
-    <strong>3.</strong> La evidencia y las plantillas salen del informe 001, no se re-inventan (usuario: "implementemos lo que salió del research").<br>
-    <strong>4.</strong> Los 6 forks no se tocan (001 §05).<br>
-    <strong>5.</strong> Banner de perfil con patrón <code>&lt;picture&gt;</code> claro/oscuro (001 §09, fuentes 7 y 15).<br>
-    <strong>6.</strong> Slug del feature: <code>readme-profesional</code>.<br>
-    <strong>7.</strong> <strong>Alcance: solo el README de perfil</strong> de <code>soydachi/soydachi</code>. Las direcciones 2 y 3 del informe 001 (repos <code>.github</code> y plantilla en los 15 repos) quedan fuera de este run (usuario, 2026-09-28, tras ver la captura del perfil).<br>
-    <strong>8.</strong> La pregunta de aplicar cambios en los 14 repos ajenos queda anulada por el alcance: no se toca ningún repo fuera de este.<br>
-    <strong>9.</strong> <strong>Cargo:</strong> Platform Governance Lead at Nationale-Nederlanden España; la identidad lidera con "general engineer", el cargo respalda (perfil canónico §3, decisión [DG] 2026-07-08).<br>
-    <strong>10.</strong> <strong>Sin sección de proyectos en el README</strong> (usuario, 2026-09-28): los pins de GitHub cumplen esa función.<br>
-    <strong>11.</strong> <strong>Widgets:</strong> sustituir github-readme-stats (503 en 3 mediciones) por widgets que responden: gráfico de commits de vida + contador de visitas, vía shieldcn.dev/komarev (ambos 200 verificados).<br>
-    <strong>12.</strong> <strong>Idioma: inglés</strong> (usuario, 2026-09-28).<br>
-    <strong>13.</strong> <strong>Banner:</strong> el par claro/oscuro ya generado en <code>.ai-engineering/images/</code> con <code>&lt;picture&gt;</code>; sin nueva llamada a nan-image.</p>
-  </div>
-</section>
-
-<section id="s7" class="container">
-  <h2><span class="num">07</span>Decisiones todavía abiertas</h2>
-  <div class="note warn">
-    <h3>Cerradas en la entrevista · ninguna queda abierta</h3>
-    <p>Las seis se resolvieron: alcance (solo perfil), aplicación (anulada), cargo (perfil canónico §3), proyectos (sin sección), widgets (shieldcn/komarev, ambos 200), idioma (inglés), banner (par ya generado). Lo que era hecho y no decisión se miró en <code>docs/brand/</code> de soydachi.com: cargo, email público (info@arcasiles.com), enlaces oficiales y datos prohibidos (§16 del perfil canónico).</p>
-  </div>
-</section>
-
-<section id="s8" class="container">
-  <h2><span class="num">08</span>Reglas y límites</h2>
-  <ul>
-    <li><strong>Nunca</strong> tocar forks ni sus READMEs; son del upstream.</li>
-    <li><strong>Nunca</strong> usar <code>.ai/</code> otra vez; assets y briefs solo bajo <code>.ai-engineering/</code>.</li>
-    <li>Cambios en otros repos: <strong>solo contenido</strong> (README, health files, LICENSE). Nada de código, nada de releases.</li>
-    <li>Toda escritura vía <code>gh api</code> se verifica con una lectura posterior en el mismo paso.</li>
-    <li>Los 28 repos privados no entran en este run (solo se contaron, no se abre su contenido).</li>
-    <li>Badges: 3 a 6 de alta señal; nada de star-history (API restringida desde jun-2026) <span class="dim">(001 §10)</span>.</li>
-  </ul>
-</section>
-
-<section id="s9" class="container">
-  <h2><span class="num">09</span>Fuera de alcance</h2>
+  <h2><span class="num">05</span>Fuera de alcance</h2>
   <div class="note danger">
     <h3>No es parte de esta feature</h3>
-    <p>Las direcciones 2 y 3 del informe 001 (repos <code>.github</code> de cuenta, plantilla en los 15 repos) · cambios en <code>soydachi.com</code> o en el código de cualquier proyecto · archivar o eliminar repos legacy (solo se arregla su README) · reescribir los READMEs de los 6 forks · widgets star-history · habilitar features de seguridad más allá de private vulnerability reporting · los 28 repos privados.</p>
+    <p>Repos <code>.github</code> de cuenta y plantilla en los 15 repos (direcciones 2 y 3 del informe 001) · cambios en soydachi.com o en el código de otros proyectos · sección de proyectos en el README · nuevos assets de imagen · datos de la lista §16 del perfil canónico · los 28 repos privados.</p>
   </div>
-</section>
-
-<section id="s10" class="container">
-  <h2><span class="num">10</span>Preguntas para investigación</h2>
-  <p>Ninguna abierta: la investigación ya corrió y su informe es el insumo. Las que estaban abiertas quedaron resueltas así:</p>
-  <ol>
-    <li>Qué secciones exige GitHub y cómo funcionan los health files por defecto → informe 001 §03 (docs.github.com, 6 páginas leídas 2026-09-28).</li>
-    <li>Qué mide la checklist de salud de un repo y qué le falta al tuyo → 001 §05 (auditoría <code>gh api</code> de 21 repos).</li>
-    <li>Cómo estructurar el README de proyecto y el de perfil → 001 §07 y §08 (standard-readme, awesome-readme, notebook de 65 fuentes).</li>
-    <li>Cómo adaptar imágenes a dark/light en GitHub → 001 §09 (github.blog 2025-04-18).</li>
-  </ol>
-</section>
-
-<section id="s11" class="container">
-  <h2><span class="num">11</span>Notas para el planificador</h2>
-  <ul>
-    <li>Slug <code>readme-profesional</code>, rama <code>feat/readme-profesional</code>. Este repo no tiene AGENTS.md ni app: <code>gates.ui</code> va en <code>n/a</code> y la verificación es <code>gh api</code> + checks de contenido/markdown + medición de health % antes y después.</li>
-    <li>Alcance de un solo repo. Checkpoint plan probable: 2 checkpoints, CP1 estructura+contenido canónico, CP2 widgets+banner+verificación, con <code>gates.ui</code> en <code>n/a</code> y tests de contenido (script que verifica secciones, enlaces 200 y ausencia de datos prohibidos §16).<br>
-    <li>Insumos: informe 001 §08 (plantilla de perfil), §09 (snippet <code>&lt;picture&gt;</code>), §06 (los 6 defectos a cerrar), banner par claro/oscuro con briefs y seeds en <code>.ai-engineering/</code>.</li>
-    <li>Sin DB, sin servidor, sin auth: el preflight de fase 0 se reduce al árbol git y a la rama.</li>
-    <li>Fuentes de contenido obligatorias para el worker: <code>/Users/soydachi/repos/soydachi.com/docs/brand/dachi-gogotchuri-profile.md</code> (cargo, email info@arcasiles.com, enlaces, §16 prohibidos), <code>enlaces-oficiales.md</code>, <code>tono-y-estilo.md</code> (voz: primera persona, concreto, dato con fuente).</li>
-    <li>El PRD se escribe recién después de que el usuario apruebe esta página.</li>
-  </ul>
 </section>
 
 </main>
 
 <footer>
-  <div><span class="x">{ai}</span> engineering · brainstorm · readme-profesional</div>
-  <div>complete · 2026-09-28 · aprobado</div>
+  <div><span class="x">{ai}</span> engineering · PRD · readme-profesional</div>
+  <div>complete · 2026-09-28</div>
 </footer>
 
 <script>
