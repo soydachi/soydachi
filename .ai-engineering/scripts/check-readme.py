@@ -161,7 +161,13 @@ def checkpoint1(text):
               "instagram.com/jaleo.band"):
         check(f"contact: '{s}' present", s in text)
     # Acceptance[3] "as descriptive links": each entry must carry Markdown
-    # link syntax, not sit in the file as bare text.
+    # link syntax inside the ## Contact section itself — a duplicate target
+    # elsewhere (e.g. the LinkedIn link in ## What I do) must not satisfy it.
+    contact_idx = next((i for i, (lvl, li) in enumerate(heads)
+                        if lvl == 2 and lines[li][2:].strip() == "Contact"),
+                       None)
+    contact = ("\n".join(section_body(contact_idx))
+               if contact_idx is not None else "")
     for label, pat in (
             ("soydachi.com", r"\[[^\]]+\]\(https://soydachi\.com\)"),
             ("linkedin.com/in/soydachi",
@@ -172,8 +178,8 @@ def checkpoint1(text):
              r"\[[^\]]+\]\(https://(?:www\.)?instagram\.com/vegasoulband\)"),
             ("instagram.com/jaleo.band",
              r"\[[^\]]+\]\(https://(?:www\.)?instagram\.com/jaleo\.band\)")):
-        check(f"contact: '{label}' is a descriptive Markdown link",
-              bool(re.search(pat, text)))
+        check(f"contact: '{label}' is a descriptive Markdown link in ## Contact",
+              bool(re.search(pat, contact)))
 
     # --- forbidden canonical data: case 1-6 + checkpoint-1 task (PRD R7 / §16) ---
     forbidden_16(text)
