@@ -1,28 +1,30 @@
-Hi there 👋
+# Hello, I'm Dachi Gogotchuri
 
-- 🔭 I’m Dachi Gogotchuri
-- 🏢 I work at Nationale Nederlanden where I enjoy creating and managing projects
-- 🚀 Founder of [@arcasilesgroup ](https://www.instagram.com/arcasilesgroup/)
-- 🎸 Leading [@vegasoulband](https://www.instagram.com/vegasoulband/) & [@jaleo.band](https://www.instagram.com/jaleo.band/)
-- 📫 How to reach me: https://www.arcasiles.com/
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".ai-engineering/images/profile-banner-dark/image-01.jpg">
+  <source media="(prefers-color-scheme: light)" srcset=".ai-engineering/images/profile-banner/image-01.jpg">
+  <img alt="Dachi Gogotchuri profile banner: warm paper background with a solid amber block" src=".ai-engineering/images/profile-banner/image-01.jpg" width="1536" height="512">
+</picture>
 
-![Dachi's GitHub stats](https://github-readme-stats.vercel.app/api?username=soydachi&show_icons=true&theme=vue-dark)
+I am a general engineer. I build platforms, communities, and music.
 
-Made with :heart:
+## What I do
 
-<p>
-<a href="https://twitter.com/soydachi">
-  <img align="left" alt="Dachi Gogotchuri | Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/instagram.svg" />
-</a>
-<a href="https://www.linkedin.com/in/soydachi/">
-  <img align="left" alt="Dachis's LinkdeIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />
-</a>
-<a href="https://www.youtube.com/channel/UCHKPJg8TjYnhokWPEOdVHVA">
-  <img align="left" alt="Arcasiles Group's Youtube Channel" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/youtube.svg" />
-</a>
-</p>
+I lead as a **general engineer**: that framing is my decision, set in `dachi-gogotchuri-profile.md` section 3 on 2026-07-08, and it is wider than any single job title.
 
-<!---
-soydachi/soydachi is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+The current job is the backing fact: **Platform Governance Lead at Nationale-Nederlanden España** ([LinkedIn](https://www.linkedin.com/in/soydachi)). There I created the Platform Engineering team, led API governance and company-wide CI/CD standardization, and organize NN Tech Talks, 70+ talks so far.
+
+I also founded **Arcasiles Group**, a cultural-tech platform in Vega Baja that spans tech, events, music, and community.
+
+## Now
+
+- Writing the monthly LinkedIn newsletter "Entre código y personas".
+- Building AI engineering tooling in arcasilesgroup/ai-engineering.
+- Running Arcasiles community events in Madrid and the Vega Baja.
+
+## Contact
+
+- Website: [soydachi.com](https://soydachi.com)
+- LinkedIn: [linkedin.com/in/soydachi](https://www.linkedin.com/in/soydachi)
+- Email: [info@arcasiles.com](mailto:info@arcasiles.com)
+- Music: [@vegasoulband](https://instagram.com/vegasoulband) and [@jaleo.band](https://instagram.com/jaleo.band)
