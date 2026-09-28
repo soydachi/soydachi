@@ -24,3 +24,10 @@ Accumulated failures and lessons from building features, mostly written by `/ai-
 - **Fix:** The five patterns now run against the parsed `## Contact` body only; counterexample fails (exit 1), free links elsewhere stay green; commit 845f529.
 - **Lesson:** An assertion's scope must match the acceptance criterion's scope — matching content anywhere in the file is not matching it in the section the contract names; mutation-test with a duplicate of the target outside the section.
 - **Tags:** tests, review, scope
+
+### L3 · 2026-09-28 · readme-profesional #2 · review
+- **Failure:** Review gate hit the 4-round cap with F11 open: reference-style markdown images (`![alt][ref]` + definition line) bypassed every extraction layer, so a banned stats card rendered in GFM while bare, cp1, cp2 and the curl case all stayed green. Two earlier findings in the same loop (F9 http scheme, F10 quoting/bracket serializations) were the same class.
+- **Root cause:** The extractor was written around the serializations the README happened to use instead of every serialization the renderer accepts; each round the critic found one more form.
+- **Fix:** Extraction now covers inline, HTML (all quoting), angle-bracket, reference/collapsed/shortcut forms, scheme-agnostic, host-allowlisted; mutation-tested per syntax form (commit 895123d, M1/M2/baseline green).
+- **Lesson:** An extraction gate must cover every serialization the renderer accepts — mutation-test each syntax form (inline, HTML, reference-style) or the gate's name outclaims its assertion.
+- **Tags:** tests, review, extraction

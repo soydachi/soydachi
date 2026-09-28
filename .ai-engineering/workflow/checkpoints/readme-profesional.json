@@ -95,7 +95,7 @@
       "gates": {
         "behavior": { "status": "passed", "attempts": 1, "findings": [] },
         "ui": { "status": "n/a", "attempts": 0, "findings": [] },
-        "review": { "status": "pending", "attempts": 0, "findings": [] }
+        "review": { "status": "failed", "attempts": 1, "findings": ["F11 (round 4 cap): reference-style markdown image ![alt][ref] bypasses image extraction entirely; definition-line URL never reaches the allowlist; GFM renders the card with full suite green"] }
       },
       "status": "pending"
     },
