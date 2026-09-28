@@ -302,7 +302,7 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
         <tr><td>Local (siempre)</td><td>Reportes previos en <code>.ai-engineering/research/</code></td><td><span class="pill p-dim">ninguno</span></td><td>Este es el 001; no había nada que reusar</td></tr>
         <tr><td>Web</td><td>web_search + lectura directa de URLs</td><td><span class="pill p-ok">usado</span></td><td>Docs de GitHub, GitHub Blog, standard-readme, awesome-readme, plantillas <a href="#src-1">[1]</a>–<a href="#src-10">[10]</a></td></tr>
         <tr><td>NotebookLM</td><td><code>notebooklm doctor</code> → exit 0</td><td><span class="pill p-ok">deep research</span></td><td>Lanzado primero, cosechado al final: 65 fuentes, notebook <code>0e5da800…</code> <a href="#src-11">[11]</a></td></tr>
-        <tr><td>Imágenes</td><td><code>nan-image</code> (keychain, flux-2-klein)</td><td><span class="pill p-ok">2 llamadas --yes</span></td><td>4 banners → 2 elegidos (claro/oscuro), briefs y manifests en <code>.ai/</code> <a href="#src-15">[15]</a></td></tr>
+        <tr><td>Imágenes</td><td><code>nan-image</code> (keychain, flux-2-klein)</td><td><span class="pill p-ok">2 llamadas --yes</span></td><td>4 banners → 2 elegidos (claro/oscuro), briefs y manifests en <code>.ai-engineering/</code> <a href="#src-15">[15]</a></td></tr>
         <tr><td>Ausente</td><td>exa</td><td><span class="pill p-bad">degraded-tool: exa</span></td><td><code>command -v exa</code> falló; no bloqueó: web_search cubrió el rung</td></tr>
         <tr><td>Presente, sin usar</td><td>tvly · ctx7</td><td><span class="pill p-dim">no necesario</span></td><td>No hizo falta: las fuentes primarias se leyeron directas</td></tr>
       </tbody>
@@ -518,12 +518,12 @@ Una frase: quién soy y qué construyo.
 
 <section id="s9" class="container">
   <h2><span class="num">09</span>Imágenes: banner claro/oscuro ya generado</h2>
-  <p>Guideline: <code>soydachi.com/DESIGN.md</code> — papel cálido, tinta #272727, ámbar #f9be4a <strong>como bloque, nunca como línea</strong>, un solo material oscuro <a href="#src-14">[14]</a>. Brief + seeds en <code>.ai/</code>, manifests con hashes en <code>.ai/images/*/manifest.json</code> <a href="#src-15">[15]</a>.</p>
+  <p>Guideline: <code>soydachi.com/DESIGN.md</code> — papel cálido, tinta #272727, ámbar #f9be4a <strong>como bloque, nunca como línea</strong>, un solo material oscuro <a href="#src-14">[14]</a>. Brief + seeds en <code>.ai-engineering/</code>, manifests con hashes en <code>.ai-engineering/images/*/manifest.json</code> <a href="#src-15">[15]</a>.</p>
   <div class="grid g2">
     <div class="card">
       <h3>Par generado (flux-2-klein, 1536×512)</h3>
-      <p><strong>Claro:</strong> <code>.ai/images/profile-banner/image-01.jpg</code> (seed 20260928) — papel crema, bloque ámbar a la izquierda, filetes carbón.<br>
-      <strong>Oscuro:</strong> <code>.ai/images/profile-banner-dark/image-01.jpg</code> (seed 20260929) — el mismo material en #272727 con filetes claros.<br>
+      <p><strong>Claro:</strong> <code>.ai-engineering/images/profile-banner/image-01.jpg</code> (seed 20260928) — papel crema, bloque ámbar a la izquierda, filetes carbón.<br>
+      <strong>Oscuro:</strong> <code>.ai-engineering/images/profile-banner-dark/image-01.jpg</code> (seed 20260929) — el mismo material en #272727 con filetes claros.<br>
       Dos variantes por llamada; se conservó la elegida de cada par <a href="#src-15">[15]</a>.</p>
       <span class="src">4 generados → 2 guardados · preflight: keychain OK</span>
     </div>
@@ -542,7 +542,7 @@ Una frase: quién soy y qué construyo.
        src="assets/banner-light.jpg" width="1536" height="512"&gt;
 &lt;/picture&gt;</code></pre>
   </div>
-  <p class="dim">Los assets aún viven en <code>.ai/</code>; al aceptar la reescritura se mueven a <code>assets/</code> del repo de perfil (la ruta de arriba asume eso). El README de <code>ai-engineering</code> usa ya el mismo patrón con su hero <a href="#src-16">[16]</a>.</p>
+  <p class="dim">Los assets viven en <code>.ai-engineering/images/</code> y el README los referencia desde ahí con rutas relativas. El README de <code>ai-engineering</code> usa ya el mismo patrón con su hero <a href="#src-16">[16]</a>.</p>
 </section>
 
 <section id="s10" class="container">
@@ -598,7 +598,7 @@ Una frase: quién soy y qué construyo.
     <li id="src-12">Auditoría local · 2026-09-28 · <code>gh api repos/*/readme</code>, <code>community/profile</code>, <code>git/matching-refs</code>, GraphQL pinned items, <code>curl -I</code> de badges y URLs, <code>git log</code>, lectura de <code>README.md</code> línea a línea — esta máquina</li>
     <li id="src-13"><a href="https://github.com/vuejs/core/blob/main/README.md">vuejs/core README</a> · leído 2026-09-28</li>
     <li id="src-14"><code>/Users/soydachi/repos/soydachi.com/DESIGN.md</code> + <code>design/soydachi.tokens.json</code> · guideline de marca local</li>
-    <li id="src-15">Manifests <code>nan-image</code>: <code>.ai/images/profile-banner/manifest.json</code> y <code>.ai/images/profile-banner-dark/manifest.json</code> · flux-2-klein · 2026-09-28</li>
+    <li id="src-15">Manifests <code>nan-image</code>: <code>.ai-engineering/images/profile-banner/manifest.json</code> y <code>.ai-engineering/images/profile-banner-dark/manifest.json</code> · flux-2-klein · 2026-09-28</li>
     <li id="src-16"><a href="https://github.com/arcasilesgroup/ai-engineering">arcasilesgroup/ai-engineering README</a> · vía <code>gh api</code> 2026-09-28</li>
     <li id="src-17">Skill local <code>shieldcn-badges</code> (<code>~/.agents/skills/shieldcn-badges</code>) + <a href="https://shieldcn.dev">shieldcn.dev</a> · badges 3–6, patrón <code>&lt;picture&gt;</code>, retiro de star-history (API restringida jun-2026)</li>
     <li id="src-18"><a href="https://www.freecodecamp.org/news/how-to-structure-your-readme-file/">freeCodeCamp — How to Structure Your README File</a> · vía web_search 2026-09-28</li>
