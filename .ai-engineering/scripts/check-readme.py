@@ -79,18 +79,13 @@ def forbidden_16(text):
 # same function; add new mechanics here so every checkpoint shares one gate.
 # =============================================================================
 def voice_mechanics(text):
-    check("voice: no em dash (U+2014)", "\u2014" not in text)
+    check("voice: no em dash (U+2014)", "—" not in text)
     curly = sorted({f"U+{ord(c):04X}" for c in text
                     if ord(c) in (0x2018, 0x2019, 0x201C, 0x201D)})
     check("voice: no curly quotes (U+2018/U+2019/U+201C/U+201D)",
           not curly, ", ".join(curly))
-    emoji = sorted({f"U+{ord(c):04X}" for c in text
-                    if 0x1F000 <= ord(c) <= 0x1FAFF
-                    or 0x2600 <= ord(c) <= 0x27BF
-                    or 0x2B00 <= ord(c) <= 0x2BFF
-                    or ord(c) == 0xFE0F})
-    check("voice: no emoji codepoints (U+1F000-U+1FAFF, U+2600-U+27BF, "
-          "U+2B00-U+2BFF, U+FE0F)", not emoji, ", ".join(emoji))
+    # Emoji ban removed 2026-09-28: the user's target layout uses emoji
+    # (greeting wave, fact bullets), his example overrides the tone guide.
     upper = text.upper()
     for marker in ("TODO", "TBD", "[COMPLETAR]"):
         check(f"voice: no placeholder '{marker}'", marker not in upper)
@@ -100,12 +95,17 @@ def checkpoint1(text):
     lines = text.splitlines()
 
     # --- structure: cases 1-1, 1-2 (PRD R8, defect 5) ---
+    # The user's target layout uses a centered HTML <h1 align="center">, so
+    # an HTML h1 line counts as the page's single H1 alongside markdown ones.
     heads = [(len(m.group(1)), i) for i, l in enumerate(lines)
              if (m := re.match(r"^(#{1,6}) ", l))]
+    html_h1 = [i for i, l in enumerate(lines) if re.search(r"<h1[\s>]", l)]
     check("structure: at least one heading exists", bool(heads))
-    h1s = [h for h in heads if h[0] == 1]
+    h1s = [h for h in heads if h[0] == 1] + html_h1
     check("structure: exactly one H1", len(h1s) == 1, f"found {len(h1s)}")
-    check("structure: first heading is the H1", bool(heads) and heads[0][0] == 1)
+    first_heading = min([i for _, i in heads] + html_h1) if (heads or html_h1) else None
+    check("structure: first heading is the H1",
+          first_heading is not None and first_heading in html_h1)
     check("structure: at least two H2 sections",
           sum(1 for h in heads if h[0] == 2) >= 2)
     check("structure: no heading level skipped",
@@ -119,30 +119,9 @@ def checkpoint1(text):
           bool(heads) and all(any(l.strip() for l in section_body(i))
                               for i in range(len(heads))))
 
-    # --- banner: case 1-3 (PRD R5) ---
-    m = re.search(r"<picture>.*?</picture>", text, re.S)
-    pic = m.group(0) if m else ""
-    check("banner: a <picture> block exists", bool(m))
-    dark = re.search(r'<source[^>]*prefers-color-scheme:\s*dark[^>]*>', pic, re.I)
-    check("banner: dark source uses prefers-color-scheme dark",
-          bool(dark) and "profile-banner-dark/image-01.jpg" in dark.group(0))
-    light = re.search(r'<source[^>]*prefers-color-scheme:\s*light[^>]*>', pic, re.I)
-    check("banner: light source uses prefers-color-scheme light",
-          bool(light) and "profile-banner/image-01.jpg" in light.group(0)
-          and "profile-banner-dark" not in light.group(0))
-    img = re.search(r"<img[^>]*>", pic, re.I)
-    alt = re.search(r'alt="([^"]*)"', img.group(0)) if img else None
-    check("banner: img fallback with alt of at least 15 chars",
-          bool(alt) and len(alt.group(1).strip()) >= 15)
-    check("banner: img width 1536", bool(img) and 'width="1536"' in img.group(0))
-    src = re.search(r'src="([^"]*)"', img.group(0)) if img else None
-    check("banner: img fallback has a src attribute", bool(src))
-    check("banner: img fallback src file exists on disk",
-          bool(src) and os.path.isfile(os.path.join(ROOT, src.group(1))))
-    check("banner: light image file exists on disk",
-          os.path.isfile(os.path.join(ROOT, ".ai-engineering/images/profile-banner/image-01.jpg")))
-    check("banner: dark image file exists on disk",
-          os.path.isfile(os.path.join(ROOT, ".ai-engineering/images/profile-banner-dark/image-01.jpg")))
+    # --- banner (former case 1-3, PRD R5): assertions removed 2026-09-28 ---
+    # The user rejected the banner image ("esa imagen no tiene sentido ahí en
+    # medio"); R5 is void by user order, so no <picture> assertion remains.
 
     # --- canonical identity: case 1-4 (PRD R4) ---
     ge = re.search(r"general engineer", text, re.I)
@@ -230,10 +209,12 @@ def checkpoint2(text):
     check("now: section sits before '## Contact'",
           now_idx is not None and contact_idx is not None
           and now_idx < contact_idx)
-    # intro content (banner/paragraph) must precede the Now heading, so an
+    # intro content (tagline/paragraph) must precede the Now heading, so an
     # '## Now' dropped right under the H1 (pushing the intro into the
-    # section) fails the order check.
-    h1_idx = heads[0][1] if heads and heads[0][0] == 1 else None
+    # section) fails the order check. The H1 may be markdown or the user's
+    # centered HTML <h1>.
+    h1_idx = heads[0][1] if heads and heads[0][0] == 1 else next(
+        (i for i, l in enumerate(lines) if re.search(r"<h1[\s>]", l)), None)
     check("now: intro content precedes the section",
           now_idx is not None and h1_idx is not None and any(
               l.strip() and not re.match(r"^#{1,6} ", l)
