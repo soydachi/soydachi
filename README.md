@@ -12,7 +12,7 @@
 
 ## Now
 
-I work in the open at [github.com/soydachi](https://github.com/soydachi); the numbers below update on their own.
+Now I'm building [ai-engineering](https://github.com/arcasilesgroup/ai-engineering) in the open and organizing tech talks; the numbers below update on their own.
 
 <div align="center">
 
@@ -20,7 +20,7 @@ I work in the open at [github.com/soydachi](https://github.com/soydachi); the nu
 
 ![Profile views counter for soydachi](https://komarev.com/ghpvc/?username=soydachi)
 ![GitHub followers count for soydachi](https://shieldcn.dev/github/followers/soydachi.svg?variant=secondary)
-![Star count for the MeetupApi repository on GitHub](https://shieldcn.dev/github/stars/soydachi/MeetupApi.svg?variant=secondary)
+![Star count for the ai-engineering repository on GitHub](https://shieldcn.dev/github/stars/arcasilesgroup/ai-engineering.svg?variant=secondary)
 
 </div>
 

@@ -2,10 +2,10 @@
 """Assertions for the readme-profesional rewrite. Run from anywhere.
 
 Usage: python3 .ai-engineering/scripts/check-readme.py [--checkpoint N]
-No --checkpoint runs checkpoint 1 (the shipped baseline); --checkpoint N
-runs one checkpoint's assertions (checkpoint 2 is red until README gains
-its ## Now widgets). Exit 0 + PASS line when all selected assertions hold;
-exit 1 printing each failing assertion.
+No --checkpoint runs every checkpoint whose README section exists (baseline
+checkpoint 1, plus checkpoint 2 once ## Now is present); --checkpoint N
+runs one checkpoint's assertions regardless. Exit 0 + PASS line when all
+selected assertions hold; exit 1 printing each failing assertion.
 """
 import os
 import re
@@ -231,18 +231,33 @@ def checkpoint2(text):
               3 <= len(imgs) <= 6, f"found {len(imgs)}")
         generic = {"image", "chart", "badge", "logo", "picture",
                    "graphic", "stats", "widget"}
+        # F5: the generic-set floor passes "GitHub badge chart" for every
+        # widget — a self-sufficient alt must also name its subject or the
+        # metric it shows (acceptance 2).
+        metric_words = ("commit", "star", "follower", "view", "counter",
+                        "contribution", "trophy", "streak", "fork",
+                        "sponsor", "download", "member", "score", "rank")
         for i, (alt, url) in enumerate(imgs, 1):
             a = alt.strip()
-            words = set(re.findall(r"[a-z]+", a.lower()))
-            check(f"now: image {i} alt is descriptive "
-                  f"(>=10 chars, not just 'image'/'chart')",
-                  len(a) >= 10 and bool(words) and not words <= generic,
+            low = a.lower()
+            words = set(re.findall(r"[a-z]+", low))
+            check(f"now: image {i} alt is descriptive and specific "
+                  f"(>=10 chars, names the subject or the metric)",
+                  len(a) >= 10 and bool(words) and not words <= generic
+                  and ("soydachi" in low
+                       or any(m in low for m in metric_words)),
                   repr(a))
             check(f"now: image {i} URL is https",
                   url.strip().startswith("https://"), url.strip())
         urls = [u for _, u in imgs]
 
         # --- required providers inside ## Now: PRD R6 / brainstorm d11 ---
+        # F2: acceptance 1 names the lifetime commit chart by URL — pin it
+        # exactly, not just "any shieldcn.dev widget".
+        check("now: lifetime commit chart URL present as an image "
+              "(https://shieldcn.dev/chart/github/commits/soydachi.svg)",
+              "https://shieldcn.dev/chart/github/commits/soydachi.svg"
+              in [u.strip() for _, u in imgs])
         check("now: at least one shieldcn.dev widget image",
               any("shieldcn.dev" in u for u in urls))
         check("now: komarev.com/ghpvc counter widget image",
@@ -263,6 +278,18 @@ def checkpoint2(text):
           not re.search(r"github-readme-stats", text, re.I))
     check("§10: absent 'star-history.com' (retired widget)",
           not re.search(r"star-history\.com", text, re.I))
+    # --- F4: acceptance 4 also bans "any fixed-theme single-provider stats
+    # card", not just the literals above — fail closed: every image may only
+    # come from the sanctioned widget hosts, so github-profile-summary-cards
+    # and friends can never re-enter (any other host fails this check).
+    img_urls = re.findall(r"!\[[^\]]*\]\((https://[^)]+)\)", text)
+    img_urls += re.findall(r'<img[^>]+src="(https://[^"]+)"', text, re.I)
+    for u in img_urls:
+        m = re.match(r"https://([^/?#]+)", u)
+        host = m.group(1).lower() if m else ""
+        check(f"stats-card: image host '{host}' is one of the sanctioned "
+              f"widget hosts (shieldcn.dev / komarev.com / img.shields.io)",
+              host in ("shieldcn.dev", "komarev.com", "img.shields.io"), u)
 
 
 # CHECKPOINT 3 — later test writer: add a checkpoint3(text) function and
@@ -272,16 +299,14 @@ def checkpoint2(text):
 # heuristic and link liveness (widgets + soydachi.com return 200).
 
 CHECKPOINTS = {1: checkpoint1, 2: checkpoint2}
-# Bare invocation runs checkpoint 1 only: CP1's verify line is the bare
-# command and must stay green while the ## Now section does not exist yet.
-# --checkpoint 2 runs the widget assertions; once CP2's README slice lands,
-# the orchestrator can promote 2 into this default (one-line change).
-DEFAULT = [1]
+# Section each checkpoint's assertions need to exist in the README for the
+# bare invocation to run it (checkpoint 1 is the always-on baseline).
+SECTIONS = {2: "Now"}
 
 
 def main():
     args = sys.argv[1:]
-    selected = list(DEFAULT)
+    text = read_readme()
     if "--checkpoint" in args:
         try:
             n = int(args[args.index("--checkpoint") + 1])
@@ -292,8 +317,14 @@ def main():
             print(f"FAIL: checkpoint {n} checks are not implemented yet")
             return 1
         selected = [n]
+    else:
+        # Bare invocation runs every checkpoint whose README slice has landed
+        # (F1: CP2's verify lines use this bare command, so it must actually
+        # exercise the ## Now assertions once the section exists).
+        selected = sorted(n for n in CHECKPOINTS
+                          if n not in SECTIONS
+                          or re.search(rf"^## {SECTIONS[n]}\b", text or "", re.M))
 
-    text = read_readme()
     if text is not None:
         for n in selected:
             CHECKPOINTS[n](text)
