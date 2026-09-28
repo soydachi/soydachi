@@ -2,8 +2,10 @@
 """Assertions for the readme-profesional rewrite. Run from anywhere.
 
 Usage: python3 .ai-engineering/scripts/check-readme.py [--checkpoint N]
-No --checkpoint runs every implemented checkpoint. Exit 0 + PASS line when
-all selected assertions hold; exit 1 printing each failing assertion.
+No --checkpoint runs checkpoint 1 (the shipped baseline); --checkpoint N
+runs one checkpoint's assertions (checkpoint 2 is red until README gains
+its ## Now widgets). Exit 0 + PASS line when all selected assertions hold;
+exit 1 printing each failing assertion.
 """
 import os
 import re
@@ -203,23 +205,102 @@ def checkpoint1(text):
                   for _, i in heads))
 
 
-# CHECKPOINT 2 — later test writer: add a checkpoint2(text) function and
-# register it here. Asserts: '## Now' section exists; exactly 3-6 https
-# Markdown images with non-empty alt; at least one shieldcn.dev badge and
-# the komarev.com counter; widget URLs measured 200.
-#
+# CHECKPOINT 2 — 'Live widgets replace dead stats' (PRD R6, §06 defect 4,
+# §10 star-history retirement). Static scope only: the ## Now section and two
+# file-global regressions. HTTP 200 is deliberately NOT asserted here — the
+# test plan keeps it as its own cli-layer case (one curl per image URL), so
+# the unit layer stays offline and the curl case owns liveness.
+def checkpoint2(text):
+    lines = text.splitlines()
+    heads = [(len(m.group(1)), i) for i, l in enumerate(lines)
+             if (m := re.match(r"^(#{1,6}) ", l))]
+
+    def heading(lvl, title):
+        return next((i for lvl_, i in heads
+                     if lvl_ == lvl and lines[i][lvl + 1:].strip() == title),
+                    None)
+
+    now_idx = heading(2, "Now")
+    contact_idx = heading(2, "Contact")
+
+    # --- section existence, order, non-empty: acceptance[0]/[1] ---
+    check("now: '## Now' section exists", now_idx is not None)
+    check("now: '## Contact' exists to order against",
+          contact_idx is not None)
+    check("now: section sits before '## Contact'",
+          now_idx is not None and contact_idx is not None
+          and now_idx < contact_idx)
+    # intro content (banner/paragraph) must precede the Now heading, so an
+    # '## Now' dropped right under the H1 (pushing the intro into the
+    # section) fails the order check.
+    h1_idx = heads[0][1] if heads and heads[0][0] == 1 else None
+    check("now: intro content precedes the section",
+          now_idx is not None and h1_idx is not None and any(
+              l.strip() and not re.match(r"^#{1,6} ", l)
+              for l in lines[h1_idx + 1:now_idx]))
+    if now_idx is not None:
+        end = next((i for _, i in heads if i > now_idx), len(lines))
+        body = "\n".join(lines[now_idx + 1:end])
+        check("now: section is non-empty",
+              any(l.strip() for l in lines[now_idx + 1:end]))
+
+        # --- 3-6 Markdown images in ## Now, alt quality, https: PRD R6 ---
+        imgs = re.findall(r"!\[([^\]]*)\]\(([^)]*)\)", body)
+        check("now: 3 to 6 Markdown images inside ## Now",
+              3 <= len(imgs) <= 6, f"found {len(imgs)}")
+        generic = {"image", "chart", "badge", "logo", "picture",
+                   "graphic", "stats", "widget"}
+        for i, (alt, url) in enumerate(imgs, 1):
+            a = alt.strip()
+            words = set(re.findall(r"[a-z]+", a.lower()))
+            check(f"now: image {i} alt is descriptive "
+                  f"(>=10 chars, not just 'image'/'chart')",
+                  len(a) >= 10 and bool(words) and not words <= generic,
+                  repr(a))
+            check(f"now: image {i} URL is https",
+                  url.strip().startswith("https://"), url.strip())
+        urls = [u for _, u in imgs]
+
+        # --- required providers inside ## Now: PRD R6 / brainstorm d11 ---
+        check("now: at least one shieldcn.dev widget image",
+              any("shieldcn.dev" in u for u in urls))
+        check("now: komarev.com/ghpvc counter widget image",
+              any("komarev.com/ghpvc" in u for u in urls))
+
+        # --- widget URLs live only inside Markdown image syntax, never as
+        # bare links or raw text (scope: ## Now, per L2) ---
+        img_spans = [m.span() for m in
+                     re.finditer(r"!\[[^\]]*\]\([^)]*\)", body)]
+        for m in re.finditer(r"shieldcn\.dev|komarev\.com/ghpvc", body):
+            check("now: widget URL inside Markdown image syntax "
+                  "(not a bare link)",
+                  any(s <= m.start() and m.end() <= e
+                      for s, e in img_spans), m.group(0))
+
+    # --- defect 4 regression + §10: file-global by acceptance ("anywhere") ---
+    check("§06: absent 'github-readme-stats' (defect 4, fixed-theme card)",
+          not re.search(r"github-readme-stats", text, re.I))
+    check("§10: absent 'star-history.com' (retired widget)",
+          not re.search(r"star-history\.com", text, re.I))
+
+
 # CHECKPOINT 3 — later test writer: add a checkpoint3(text) function and
 # register it here. Voice mechanics (no U+2014, no curly quotes, no emoji,
 # no TODO markers) and the full §16 sweep already run in checkpoint 1 via
 # voice_mechanics() and forbidden_16() above; checkpoint 3 adds the English
 # heuristic and link liveness (widgets + soydachi.com return 200).
 
-CHECKPOINTS = {1: checkpoint1}
+CHECKPOINTS = {1: checkpoint1, 2: checkpoint2}
+# Bare invocation runs checkpoint 1 only: CP1's verify line is the bare
+# command and must stay green while the ## Now section does not exist yet.
+# --checkpoint 2 runs the widget assertions; once CP2's README slice lands,
+# the orchestrator can promote 2 into this default (one-line change).
+DEFAULT = [1]
 
 
 def main():
     args = sys.argv[1:]
-    selected = sorted(CHECKPOINTS)
+    selected = list(DEFAULT)
     if "--checkpoint" in args:
         try:
             n = int(args[args.index("--checkpoint") + 1])
