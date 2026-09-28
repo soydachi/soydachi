@@ -219,7 +219,7 @@ Verified against HEAD f0089ee (scheme-agnostic allowlist + N1 plan housekeeping)
   Rendering proof (POST https://api.github.com/markdown, mode=gfm, HTTP 200): the single-quoted HTML img and the angle-bracket Markdown image both return real `<img>` tags, camo-proxied with `data-canonical-src="http://github-profile-summary-cards.vercel.app/…"` — the card displays for readers while every gate stays green.
   WHY IT MATTERS: acceptance 4's "any fixed-theme single-provider stats card remain absent" is again violatable with the full suite green, and the disposition's "every image URL" outclaims the extraction regexes (LEARNINGS L1). Severity minor: the canonical double-quoted/plain-destination forms in use at HEAD (all nine images) are covered, and case/whitespace/protocol-relative variants are caught by urlparse — only the three unextracted serializations slip.
   CHECK: run mutants X1/X4/X5/X2 at HEAD — bare and cp2 exit 0 each with no FAIL lines; run F9a — exit 1 with the stats-card FAIL.
-  STATUS: open
+  STATUS: resolved in round 4 (commit 4261681; all four round-3 mutants plus F9c now fail closed with the stats-card FAIL); new gap opened as F11.
 
 VERDICT: FAIL — F10
 
@@ -233,4 +233,45 @@ VERDICT: FAIL — F10
 - X5 single-quoted `https://` img inside the `## Now` widget div → bare exit 1, cp2 exit 1, same host FAIL (was 0/0).
 - X2 angle-bracket markdown destination `![stats](<http://…>)` in `## Contact` → bare exit 1, cp2 exit 1, same host FAIL (was 0/0).
 Baseline harness → exit 0; no regression: bare `PASS: all 83 checks (checkpoints 1, 2)`, `--checkpoint 1` `PASS: all 51 checks`, `--checkpoint 2` `PASS: all 32 checks` (extraction still yields exactly the nine shipped images).
+STATUS: resolved
+
+---
+
+## Round 4 · critic verification (2026-09-28)
+
+Fresh harness /tmp/cp2r4 per mutant; `git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py` clean.
+
+### F10 mutants — all caught ✓
+
+- X1 (single-quoted `http://` HTML `<img src='http://…'>` in `## Contact`): bare exit 1, cp2 exit 1, `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app'` (was 0).
+- X4 (unquoted `src=http://…` in `## Contact`): bare exit 1, cp2 exit 1, same FAIL (was 0).
+- X5 (single-quoted `https://` HTML `<img>` INSIDE the `## Now` widget div): bare exit 1, cp2 exit 1, same FAIL (was 0).
+- X2 (angle-bracket destination `![stats](<http://…>)` in `## Contact`): bare exit 1, cp2 exit 1, same FAIL (was 0).
+- F9c (protocol-relative `//host/`): bare exit 1, cp2 exit 1, same FAIL (was 0).
+- Baseline: bare exit 0 (PASS 83), `--checkpoint 1` exit 0 (PASS 51), `--checkpoint 2` exit 0 (PASS 32); extraction still yields exactly the nine shipped images.
+
+**F10:** STATUS: resolved (all round-3 mutants caught; baseline green).
+
+### One more serialization attempt — landed ✗
+
+- **Attempt:** Reference-style Markdown image: `![GitHub profile stats][sc-cards]` placed in `## Contact`, with definition `[sc-cards]: https://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk`.
+  - **Extraction gap:** usage `![...][ref]` is not matched by the inline md regex `!\[[^\]]*\]\(([^)]+)\)` (expects `](url)` inline); the definition line `[ref]: url` contains no image syntax at all → neither extraction regex fires → allowlist never sees the URL.
+  - **Checker result:** bare exit 0, zero FAILs; cp2 exit 0; plan case 2-4 grep (inline only) exit 0 — full suite green.
+  - **Rendering proof:** POST api.github.com/markdown, mode=gfm → HTTP 200; response contains `<img src="https://camo.githubusercontent.com/…" data-canonical-src="https://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk" alt="GitHub profile stats">` — the stats card renders for readers.
+  - **Why it matters:** acceptance 4's file-global "any fixed-theme single-provider stats card remain absent" is violated with every gate green. Reference-style images are standard CommonMark — more common than angle-bracket destinations (which were the gap in F10).
+  - **Severity:** minor (the canonical inline forms at HEAD are all covered; reference-style is a real but separate serialization class that the fixer's round-4 claim implicitly encompasses in "any serialization GitHub renders").
+  - **CHECK:** run the reference-style mutant → bare 0 with no FAIL lines while rendering produces `<img>`.
+  - **STATUS:** open
+
+VERDICT: FAIL — F11
+
+---
+
+## Round 4 · fixer (2026-09-28)
+
+**F11 response:** Confirmed and fixed in check-readme.py's file-global extraction only. Reference-style image usages (`![alt][ref]`, collapsed `![alt][]`, shortcut `![alt]`) now resolve their label against definition lines (`^\[([^\]]+)\]:\s*(\S+)`, multiline) and the resolved URL feeds the same scheme-agnostic host allowlist; only refs actually used in image syntax resolve — a plain link definition is not an image and never reaches the allowlist. Everything else untouched (L1: no weakening). Mutation tests (fresh /tmp harness per mutant: fixed script + committed README):
+- M1: `![GitHub profile stats][sc-cards]` + `[sc-cards]: https://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk` appended → bare exit 1 with `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app' is one of the sanctioned widget hosts …` naming the host; `--checkpoint 2` exit 1 (was 0/0).
+- M2 (negative): plain reference LINK `[docs][gh]` + `[gh]: https://github.com/soydachi` → bare exit 0 (83 checks), `--checkpoint 2` exit 0 (32) — link definitions stay unexamined.
+- Extra probes: collapsed `![alt][]` with an `http://` definition and shortcut `![alt]` with a protocol-relative `//` definition → bare exit 1 each.
+- Baseline: bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` `PASS: all 51 checks` exit 0; `--checkpoint 2` `PASS: all 32 checks` exit 0.
 STATUS: resolved

@@ -289,6 +289,18 @@ def checkpoint2(text):
     img_urls = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", text)
     img_urls += re.findall(r"<img[^>]*\ssrc\s*=\s*['\"]?([^'\"\s>]+)",
                            text, re.I)
+    # F11: reference-style image usages (![alt][ref], collapsed ![alt][] ,
+    # shortcut ![alt]) carry no inline URL — resolve ref against definition
+    # lines and feed the resolved URL below. Only refs actually used in
+    # image syntax resolve: a plain link definition is not an image.
+    ref_defs = dict(re.findall(r"^\[([^\]]+)\]:\s*(\S+)", text, re.M))
+    for m in re.finditer(r"!\[([^\]]*)\]\[([^\]]*)\]", text):
+        label = m.group(2) or m.group(1)
+        if label in ref_defs:
+            img_urls.append(ref_defs[label])
+    for m in re.finditer(r"!\[([^\]]*)\](?![\[(])", text):
+        if m.group(1) in ref_defs:
+            img_urls.append(ref_defs[m.group(1)])
     for u in img_urls:
         u = u.strip()
         if u.startswith("<") and u.endswith(">"):
