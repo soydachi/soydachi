@@ -259,7 +259,7 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
   <span class="corner bl"></span><span class="corner br"></span>
   <span class="stamp">Brainstorm · readme-profesional</span>
   <h1>README profesional<span class="x">.</span> perfil, comunidad y plantillas</h1>
-  <p class="sub"><strong>Borrador, read-back provisional:</strong> quieres que tu presencia en GitHub se vea profesional y siga tu marca. Tres trabajos en el orden del informe 001: crear los repos <code>.github</code> de comunidad en tus dos cuentas, reescribir tu README de perfil con banner claro/oscuro, y reconstruir los READMEs propios con una plantilla única. Los forks no se tocan y todo lo generado vive bajo <code>.ai-engineering/</code>.</p>
+  <p class="sub"><strong>Read-back v2:</strong> el feature es <strong>solo el README de tu perfil de GitHub</strong> (<code>soydachi/soydachi</code>), la presentación que ven todos los visitantes. Tiene que lucir bonito y reflejar las mejores prácticas: visual, estructurado, dinámico, standard. Las direcciones 2 y 3 del informe (health files de cuenta y plantilla por repo) quedan <strong>fuera de este run</strong>.</p>
   <p class="meta"><b>Estado:</b> draft · interview in progress · 2026-09-28<br>
   <b>Evidencia:</b> .ai-engineering/research/001-readme-profesional.html (20 fuentes)</p>
 </header>
@@ -284,8 +284,8 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
   <h2><span class="num">01</span>La idea en palabras simples</h2>
   <p>Read-back provisional (falta la confirmación del usuario):</p>
   <div class="note warn">
-    <h3>Read-back · draft</h3>
-    <p>Tu presencia en GitHub tiene que verse profesional y con tu marca. Salen tres trabajos del informe 001, en su orden recomendado. <strong>Primero:</strong> crear un repo <code>.github</code> público en cada cuenta (soydachi y arcasilesgroup) con los archivos de comunidad que GitHub aplica por defecto a todos los repos que no tengan los suyos, así 15 proyectos suben de salud sin tocarlos uno por uno. <strong>Segundo:</strong> reescribir el README de tu perfil con estructura, encabezados, enlaces correctos y un banner claro/oscuro con tu marca, ya generado. <strong>Tercero:</strong> reconstruir los READMEs propios con una plantilla única, empezando por los más delgados y los legacy con links rotos. Los 6 forks no se tocan. Todo lo generado vive bajo <code>.ai-engineering/</code>. La evidencia ya está en el informe 001; esto es la construcción.</p>
+    <h3>Read-back · draft v2</h3>
+    <p>Quieres que tu perfil de GitHub (la caja README que se ve en <code>github.com/soydachi</code>, captura del usuario 2026-09-28) sea la presentación profesional de ti. Ahora mismo es una lista de cinco bullets, el widget de stats está roto (aparece como un signo de interrogación porque el proveedor devuelve 503) y los iconos sociales se ven mal. El resultado tiene que ser visual (banner con tu marca), estructurado (secciones con encabezados, la info justa), dinámico (datos vivos que no se rompan) y standard (las mejores prácticas de README de perfil de GitHub: accesibilidad, dark/light, enlaces correctos). Solo este repo: los otros 14 repos y los health files de cuenta quedan para otro run.</p>
   </div>
 </section>
 
@@ -324,10 +324,9 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
   <h2><span class="num">05</span>Cómo se ve el éxito</h2>
   <p>Propuesta, falta cerrar métricas con el usuario:</p>
   <ol>
-    <li><strong>Comunidad:</strong> <code>soydachi/.github</code> y <code>arcasilesgroup/.github</code> creados, públicos, con CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT e issue/PR templates. Verificable con <code>gh api</code>.</li>
-    <li><strong>Perfil:</strong> README reescrito en vivo con banner en <code>&lt;picture&gt;</code>, los 6 defectos de §06 en cero, encabezados correctos y enlaces que llevan donde dicen.</li>
-    <li><strong>Plantilla:</strong> los 15 repos no-fork con README según §07, links verificados (HTTP 200) y health % medido antes y después.</li>
-    <li><strong>Historial:</strong> todo commiteado paso a paso, resumible con <code>/ai-orchestrator resume</code>.</li>
+    <li><strong>Perfil en vivo:</strong> README reescrito con banner en <code>&lt;picture&gt;</code>, secciones con encabezados, los 6 defectos de §06 del informe en cero, enlaces que llevan donde dicen.</li>
+    <li><strong>Dinámico sin roturas:</strong> todo widget que quede devuelve 200 en el momento de publicar y su alt se entiende aunque la imagen no cargue.</li>
+    <li><strong>Verificación:</strong> render comprobado en dark y light, y el README commiteado en <code>main</code> de este repo.</li>
   </ol>
   <p><span class="pill p-warn">TODO</span> confirmar si el objetivo de health % es numérico o solo checklist de archivos.</p>
 </section>
@@ -341,7 +340,9 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
     <strong>3.</strong> La evidencia y las plantillas salen del informe 001, no se re-inventan (usuario: "implementemos lo que salió del research").<br>
     <strong>4.</strong> Los 6 forks no se tocan (001 §05).<br>
     <strong>5.</strong> Banner de perfil con patrón <code>&lt;picture&gt;</code> claro/oscuro (001 §09, fuentes 7 y 15).<br>
-    <strong>6.</strong> Slug del feature: <code>readme-profesional</code>.</p>
+    <strong>6.</strong> Slug del feature: <code>readme-profesional</code>.<br>
+    <strong>7.</strong> <strong>Alcance: solo el README de perfil</strong> de <code>soydachi/soydachi</code>. Las direcciones 2 y 3 del informe 001 (repos <code>.github</code> y plantilla en los 15 repos) quedan fuera de este run (usuario, 2026-09-28, tras ver la captura del perfil).<br>
+    <strong>8.</strong> La pregunta de aplicar cambios en los 14 repos ajenos queda anulada por el alcance: no se toca ningún repo fuera de este.</p>
   </div>
 </section>
 
@@ -349,12 +350,11 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
   <h2><span class="num">07</span>Decisiones todavía abiertas</h2>
   <div class="note warn">
     <h3>Solo el usuario puede cerrarlas · con default recomendado</h3>
-    <p><strong>1. Alcance y orden de este run.</strong> Recomendado: las tres direcciones en el orden 2 → 1 → 3 (comunidad primero, porque es un solo commit con alcance de toda la cuenta), y la plantilla en los 15 no-fork empezando por los delgados.<br>
-    <strong>2. Cómo se aplican cambios en los 14 repos que no están clonados aquí.</strong> Recomendado: commit directo vía <code>gh api</code> al branch por defecto, siempre con lectura de verificación después; PR solo si una branch protection lo exija.<br>
-    <strong>3. Archivos de comunidad.</strong> Recomendado: Contributor Covenant (la plantilla de GitHub) para CODE_OF_CONDUCT, SECURITY estándar, y habilitar private vulnerability reporting.<br>
-    <strong>4. Contenido del perfil.</strong> Recomendado: confirmar si la línea de empleo sigue vigente (estaba marcada [unsourced]), 3 a 5 proyectos propios como destacados (hoy 0 pinned), inglés como idioma.<br>
-    <strong>5. Imágenes de proyecto.</strong> Recomendado: banner generado solo para el perfil en este run; los proyectos se quedan con badges hasta que pidas más.<br>
-    <strong>6. Métrica de éxito de la plantilla.</strong> Recomendado: checklist de archivos + links 200, sin objetivo numérico de health %.</p>
+    <p><strong>1. La línea de empleo.</strong> El README actual dice "I work at Nationale Nederlanden"; estaba marcada [unsourced] porque no se puede verificar desde aquí. Recomendado: confirmar si sigue vigente y cómo quieres presentarlo.<br>
+    <strong>2. Qué proyectos destacar.</strong> Hoy el perfil no tiene pinned y el README no lista proyectos. Recomendado: 3 a 5 propios (candidatos: ai-engineering, .ai, claudeline, copilotline, MeetupApi), sin forks.<br>
+    <strong>3. El elemento dinámico.</strong> El stats card actual (github-readme-stats) devuelve 503 medido hoy y trae un tema fijo. Recomendado: reemplazarlo por uno o dos widgets que sí respondan y se adapten al tema, con alt auto-suficiente.<br>
+    <strong>4. Idioma.</strong> Recomendado: inglés, como está hoy, por audiencia global en GitHub.<br>
+    <strong>5. Banner.</strong> Recomendado: usar el par claro/oscuro ya generado en <code>.ai-engineering/images/</code> con <code>&lt;picture&gt;</code>.</p>
   </div>
 </section>
 
@@ -374,7 +374,7 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
   <h2><span class="num">09</span>Fuera de alcance</h2>
   <div class="note danger">
     <h3>No es parte de esta feature</h3>
-    <p>Cambios en <code>soydachi.com</code> o en el código de cualquier proyecto · archivar o eliminar repos legacy (solo se arregla su README) · reescribir los READMEs de los 6 forks · widgets star-history · habilitar features de seguridad más allá de private vulnerability reporting · los 28 repos privados.</p>
+    <p>Las direcciones 2 y 3 del informe 001 (repos <code>.github</code> de cuenta, plantilla en los 15 repos) · cambios en <code>soydachi.com</code> o en el código de cualquier proyecto · archivar o eliminar repos legacy (solo se arregla su README) · reescribir los READMEs de los 6 forks · widgets star-history · habilitar features de seguridad más allá de private vulnerability reporting · los 28 repos privados.</p>
   </div>
 </section>
 
@@ -393,8 +393,8 @@ footer a{color:var(--dim);display:inline-block;padding:12px 4px}
   <h2><span class="num">11</span>Notas para el planificador</h2>
   <ul>
     <li>Slug <code>readme-profesional</code>, rama <code>feat/readme-profesional</code>. Este repo no tiene AGENTS.md ni app: <code>gates.ui</code> va en <code>n/a</code> y la verificación es <code>gh api</code> + checks de contenido/markdown + medición de health % antes y después.</li>
-    <li>Orden sugerido de checkpoints: CP1 repos <code>.github</code> (las dos cuentas), CP2 README de perfil (este repo, local), CP3+ plantilla de proyecto agrupada por repo o por tanda (delgados primero, legacy después).</li>
-    <li>Insumos: informe 001 (plantillas §07/§08, snippet <code>&lt;picture&gt;</code>, defectos §06), briefs y seeds de banner en <code>.ai-engineering/</code>.</li>
+    <li>Alcance de un solo repo: el feature es el README de perfil de este repo. Checkpoint plan probable: 1-2 checkpoints (estructura+contenido, widgets+imagen) con <code>gates.ui</code> en <code>n/a</code>.</li>
+    <li>Insumos: informe 001 §08 (plantilla de perfil), §09 (snippet <code>&lt;picture&gt;</code>), §06 (los 6 defectos a cerrar), banner par claro/oscuro con briefs y seeds en <code>.ai-engineering/</code>.</li>
     <li>Sin DB, sin servidor, sin auth: el preflight de fase 0 se reduce al árbol git y a la rama.</li>
     <li>El PRD se escribe recién después de que el usuario apruebe esta página.</li>
   </ul>
