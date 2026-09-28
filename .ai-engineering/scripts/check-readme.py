@@ -195,14 +195,22 @@ def checkpoint1(text):
 # that counts rendered widgets, because fences/code/comments render as code
 # or not at all. srcset URLs render but carry no alt, so they feed the
 # allowlist and liveness only, never the count or alt gate.
-def extract_images(text):
+# F11: reference-style image usages (![alt][ref], collapsed ![alt][] ,
+# shortcut ![alt]) carry no inline URL — resolve against definition lines.
+# Only refs actually used in image syntax resolve: a plain link definition is
+# not an image and never reaches the allowlist.
+def ref_definitions(text):
+    """Reference DEFINITIONS are file-global (CommonMark): collect them from
+    the whole file; only the image USAGE has a scope (F14 residual — a
+    definition at file end must still resolve an in-section usage)."""
+    return dict(re.findall(r"^\[([^\]]+)\]:\s*(\S+)", text, re.M))
+
+
+def extract_images(text, ref_defs=None):
     """(alt, url) for every rendered image: inline, reference, HTML <img>."""
     imgs = [(a, u) for a, u in re.findall(r"!\[([^\]]*)\]\(([^)]*)\)", text)]
-    # F11: reference-style usages (![alt][ref], collapsed ![alt][] , shortcut
-    # ![alt]) carry no inline URL — resolve against definition lines. Only
-    # refs actually used in image syntax resolve: a plain link definition is
-    # not an image and never reaches the allowlist.
-    ref_defs = dict(re.findall(r"^\[([^\]]+)\]:\s*(\S+)", text, re.M))
+    if ref_defs is None:
+        ref_defs = ref_definitions(text)
     for m in re.finditer(r"!\[([^\]]*)\]\[([^\]]*)\]", text):
         label = m.group(2) or m.group(1)
         if label in ref_defs:
@@ -287,9 +295,11 @@ def checkpoint2(text):
         # --- 3-6 images in ## Now, alt quality, https: PRD R6 ---
         # F14: count badges GFM renders, not syntax — fenced/commented copies
         # render as code/nothing and must not pad the count; reference-style
-        # widgets resolve. srcset (F12) has no alt and stays out of the
+        # widgets resolve against file-global definitions (CommonMark): the
+        # USAGE must be inside ## Now (L2 scope), the definition may sit
+        # anywhere in the file. srcset (F12) has no alt and stays out of the
         # count/alt gate; it is covered by the file-global allowlist below.
-        imgs = extract_images(strip_nonrendering(body))
+        imgs = extract_images(strip_nonrendering(body), ref_definitions(text))
         check("now: 3 to 6 Markdown images inside ## Now",
               3 <= len(imgs) <= 6, f"found {len(imgs)}")
         generic = {"image", "chart", "badge", "logo", "picture",
