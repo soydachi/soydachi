@@ -16,6 +16,20 @@ The current job is the backing fact: **Platform Governance Lead at Nationale-Ned
 
 I also founded **Arcasiles Group** in November 2024, a cultural-tech platform in Vega Baja that spans tech, events, music, and community.
 
+## Now
+
+I work in the open at [github.com/soydachi](https://github.com/soydachi); the numbers below update on their own.
+
+<div align="center">
+
+![Lifetime GitHub contribution commit chart for soydachi](https://shieldcn.dev/chart/github/commits/soydachi.svg)
+
+![Profile views counter for soydachi](https://komarev.com/ghpvc/?username=soydachi)
+![GitHub followers count for soydachi](https://shieldcn.dev/github/followers/soydachi.svg?variant=secondary)
+![Star count for the MeetupApi repository on GitHub](https://shieldcn.dev/github/stars/soydachi/MeetupApi.svg?variant=secondary)
+
+</div>
+
 ## Contact
 
 - Website: [soydachi.com](https://soydachi.com)
