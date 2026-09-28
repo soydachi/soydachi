@@ -10,6 +10,7 @@ selected assertions hold; exit 1 printing each failing assertion.
 import os
 import re
 import sys
+from urllib.parse import urlparse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 README = os.path.join(ROOT, "README.md")
@@ -278,15 +279,19 @@ def checkpoint2(text):
           not re.search(r"github-readme-stats", text, re.I))
     check("§10: absent 'star-history.com' (retired widget)",
           not re.search(r"star-history\.com", text, re.I))
-    # --- F4: acceptance 4 also bans "any fixed-theme single-provider stats
-    # card", not just the literals above — fail closed: every image may only
-    # come from the sanctioned widget hosts, so github-profile-summary-cards
-    # and friends can never re-enter (any other host fails this check).
-    img_urls = re.findall(r"!\[[^\]]*\]\((https://[^)]+)\)", text)
-    img_urls += re.findall(r'<img[^>]+src="(https://[^"]+)"', text, re.I)
+    # --- F4/F9: acceptance 4 also bans "any fixed-theme single-provider stats
+    # card", not just the literals above — fail closed: every image URL that
+    # carries a remote host (any scheme, Markdown or HTML <img>) must come
+    # from the sanctioned widget hosts, so github-profile-summary-cards and
+    # friends can never re-enter — https:// and http:// forms alike. Scheme-less
+    # URLs are relative/local images with no remote host and stay unexamined.
+    img_urls = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", text)
+    img_urls += re.findall(r'<img[^>]+src="([^"]+)"', text, re.I)
     for u in img_urls:
-        m = re.match(r"https://([^/?#]+)", u)
-        host = m.group(1).lower() if m else ""
+        p = urlparse(u.strip())
+        if not p.netloc:
+            continue
+        host = (p.hostname or "").lower()
         check(f"stats-card: image host '{host}' is one of the sanctioned "
               f"widget hosts (shieldcn.dev / komarev.com / img.shields.io)",
               host in ("shieldcn.dev", "komarev.com", "img.shields.io"), u)

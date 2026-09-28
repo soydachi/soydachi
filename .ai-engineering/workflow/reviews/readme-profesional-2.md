@@ -122,3 +122,61 @@ STATUS: resolved
 
 VERIFY (post-fix): bare checker `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 2` `PASS: all 32 checks` exit 0; case 2-4 loop prints `200` for all four widget URLs with no error body, exit 0; mutations A-F all fail as cited; both workflow JSONs parse.
 STATUS: resolved
+
+---
+
+## Round 2 · critic verification (2026-09-28)
+
+Verified against HEAD 9551b2f. Commit 8df7943 (user content redesign: banner R5 void, emoji allowed, centered layout) was treated as user order — banner/emoji fragments are VOID and not re-litigated. Fresh harness /tmp/cp2r2 per mutation (committed script + committed README); `git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py` empty at HEAD.
+
+### Dispositions verified
+
+**F1** — STATUS: resolved. `SECTIONS = {2: "Now"}` (check-readme.py:304) + selection at :324-326: bare now runs CP1+CP2 when `## Now` exists. HEAD: bare = `PASS: all 83 checks (checkpoints 1, 2)` exit 0 (CP1 51 + CP2 32). Mutant B (all four images moved out of `## Now`): bare exit 1, cp2 exit 1 (was bare 0). CP1 fully covered: diff 99d0636..HEAD of `checkpoint1` shows only banner block removed (R5 void), emoji check removed (user order), HTML-`<h1>` structure accommodation — identity/contact/§06/§16/voice/R3 assertions intact and green.
+
+**F2** — STATUS: resolved. Exact-URL pin at check-readme.py:257-260 (`https://shieldcn.dev/chart/github/commits/soydachi.svg` must be an image inside `## Now`). Mutant A (chart swapped for a forks badge): bare exit 1, cp2 exit 1, `FAIL: now: lifetime commit chart URL present as an image` (was exit 0).
+
+**F3** — STATUS: resolved. Cases 2-2/2-3 (and their verify copies, test-plans/readme-profesional.json:33-34, :41-43) now split the `## Now` body before matching. Mutant B: case 2-2 exit 1, case 2-3 exit 1 (was 0/0). Mutant C (komarev relocated into `## Contact`, 3 shieldcn images left in Now): case 2-2 exit 0 (3 is within 3-6 — correct), case 2-3 exit 1 (was 0). The L2 counterexample class now fails in the plan itself.
+
+**F4** — STATUS: resolved for the round-1 evidence (https forms), residual opened as F9. Host allowlist at check-readme.py:281-293 covers Markdown and HTML `<img>` URLs. Mutant E (https markdown github-profile-summary-cards in Now): bare exit 1, cp2 exit 1, `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app' …`. Mutant E2 (https HTML `<img src="https://avatars.githubusercontent.com/…">`): bare exit 1, cp2 exit 1 with the same stats-card FAIL.
+
+**F5** — STATUS: resolved. Alt must now clear the generic floor AND name its subject or metric (check-readme.py:234-249, `metric_words` at :237-239). Mutant D (every alt → "GitHub badge chart"): bare exit 1, cp2 exit 1, four `FAIL: now: image N alt is descriptive and specific …` lines (was cp2 exit 0).
+
+**F6** — STATUS: resolved as disposition-scoped. Plan cases 2-4 and 3-8 (and their verify copies) save each body and fail on `usage:` / `"error":true` in addition to non-200. Mutant F (retired stars chart URL): case 2-4 prints `error-badge body: https://shieldcn.dev/chart/github/stars/soydachi.svg`, exit 1 (was exit 0); the F2 pin independently fails the checker (cp2 exit 1). Baseline case 2-4: all four URLs `200` with clean bodies, exit 0. Note (not a finding): the contract's own verify loop (checkpoints json, CP2 verify[1]) stays 200-only, which matches contract acceptance 3's literal "returns HTTP 200"; the body discipline lives in the test plan, which the checker comment (check-readme.py:210-212) names as the liveness owner.
+
+**F7** — STATUS: resolved. MeetupApi badge replaced by `https://shieldcn.dev/github/stars/arcasilesgroup/ai-engineering.svg?variant=secondary` (README:29). Independently re-probed: shieldcn json `{"label":"stars","value":"58"}`, last-commit json `{"label":"last commit","value":"today"}`, api.github.com `stargazers_count 58, pushed_at 2026-09-28, archived false, visibility public` — live same-day activity, high-signal under R6.
+
+**F8** — STATUS: resolved. Lead line (README:19): "Now I'm building [ai-engineering](https://github.com/arcasilesgroup/ai-engineering) in the open and organizing tech talks; the numbers below update on their own." — first person, one link, concrete current work per contract CP2 task 1; passes the bare run's voice/§16 gates.
+
+**F9:** The F4 fail-closed claim ("every Markdown and HTML image URL in the README must come from [the allowlist] … fails by construction", check-readme.py:281-284) is false for non-`https` schemes: both allowlist regexes require `https://` (:285-286), so an `http://` stats card outside `## Now` is never examined by any gate.
+  EVIDENCE: mutant — `![stats](http://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk)` inserted in the `## Contact` body — bare exit 0 with zero FAILs and cp2 exit 0 (allowlist silent); the full documented CP2 verify suite also stays green (2-1 exit 0, 2-2 exit 0, 2-3 exit 0, 2-4 exit 0 — its grep extracts only `https://` URLs, so the card is not even probed). Same bypass with an HTML `<img src="http://…">` in Contact: bare exit 0, zero FAILs. In contrast the https form of the identical card is caught (mutant E).
+  WHY IT MATTERS: acceptance 4's "any fixed-theme single-provider stats card remain absent" can be violated with every gate green the moment the scheme is `http://`, and the comment's "fails by construction" outclaims the assertion (LEARNINGS L1). Severity minor: the canonical https form — the one that occurs in practice and in §06 defect 4 — is now blocked, and the shipped file is clean.
+  CHECK: run the two mutants above; bare exits 0 with no FAIL lines, while mutant E exits 1.
+  STATUS: open
+
+### Round-2 notes (not findings)
+
+- N1: CP1 test-plan case 1-1 (`h[0]==1` markdown-H1 heuristic, test-plans:31) exits 1 at HEAD because the user redesign moved the H1 into HTML (`<h1>Hi 👋, I'm Dachi</h1>`); the bare checker covers the same assertion adapted (`structure: exactly one H1` / `first heading is the H1`, check-readme.py:104-115) and is green. Cases 1-3 (banner) and 3-3 (emoji) are VOID by user order but their stale commands remain in the plan — CP3/plan housekeeping, outside the CP2 slice.
+- N2: deleting the `## Now` heading entirely (mutant G) makes bare exit 0 running CP1 only (51 checks, SECTIONS gating at check-readme.py:304 by design) — but the documented verify suite stays red: case 2-1 exit 1 and case 2-2 exit 1. No gate bypass as long as the plan's commands run.
+- Both workflow JSONs parse (json.load on checkpoints and test-plans CP2 files at HEAD).
+
+### Round-2 attacks that did not land
+
+- Baseline: bare 83 checks exit 0, `--checkpoint 2` 32 checks exit 0, plan 2-1/2-2/2-3 exit 0, case 2-4 prints four `200` lines with clean bodies exit 0, changed files clean.
+- CP1 coverage regression: diff of `checkpoint1` 99d0636..HEAD shows only voided banner/emoji assertions plus the HTML-h1 adaptation; 51 CP1 checks green (identity order, contact descriptive links, forbidden §16, voice sans-emoji, §06 literals, R3).
+- §06/§16/voice re-check after the redesign: bare exit 0 (forbidden_16 + voice_mechanics + defect literals run inside CP1); plan case 1-7 exit 0. Emoji present and permitted per user order (emoji assertion deliberately removed, documented at check-readme.py:91-93).
+- F1-F8 dispositions: all mutations behave exactly as the fixer reported (per-F evidence above) — no disposition overstated except the F4 "every image URL" wording, which is F9.
+
+VERDICT: FAIL — F9
+
+---
+
+## Round 2 · fixer (2026-09-28)
+
+**F9 response:** Confirmed. The allowlist now captures every image URL regardless of scheme (Markdown `![...](url)` and HTML `<img src>`), strips the scheme with `urllib.parse.urlparse`, and matches `hostname` against shieldcn.dev / komarev.com / img.shields.io; any URL carrying a remote host is rejected on an unknown host regardless of scheme (`http://`, `https://`, protocol-relative `//host`), while scheme-less relative/local images keep the previous skip (none exist at HEAD — verified: all nine README images are remote). Mutation tests (fresh /tmp harness, post-fix script + committed README): `![stats](http://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk)` appended anywhere in README → bare exit 1 with `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app' …`, `--checkpoint 2` exit 1 (was 0/0); HTML `<img src="http://…">` → bare exit 1 (was 0); `//github-profile-summary-cards.vercel.app/…` → bare exit 1; baseline harness → exit 0; a relative `images/old-banner.jpg` image stays unexamined (only the 2 remote-host FAILs fire).
+STATUS: resolved
+
+**N1 (plan housekeeping):** Case 1-1 now runs `python3 .ai-engineering/scripts/check-readme.py --checkpoint 1` (structure gate: single H1, markdown or the user's HTML `<h1>`) instead of the markdown-only `h[0]==1` heuristic that was red at HEAD. Case 1-3 (VOID banner, R5 rejected by user redesign) repurposed to the live image acceptance via `--checkpoint 2` (file-wide host allowlist + descriptive `## Now` alts); case 3-3 (VOID emoji ban, emoji allowed by user order) repurposed to the shared voice-mechanics gate via `--checkpoint 1`. Their `what`/`expects`, the verbatim verify-array copies (CP1 verify[1]/[3], CP3 verify[3]), and plan `notes` (four new entries) updated in step. Verified: all CP1+CP2 case commands exit 0 at HEAD (1-1..1-8, 2-1..2-4).
+
+**N2:** No action — SECTIONS gating is by design; the plan's commands (2-1/2-2, now also 1-3) stay red on a deleted `## Now`, so no gate is bypassed. Documented in plan notes.
+
+VERIFY (post-fix): bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` `PASS: all 51 checks` exit 0; `--checkpoint 2` `PASS: all 32 checks` exit 0; the `http://` markdown and HTML mutants exit 1 while the baseline harness exits 0; both workflow JSONs parse (test-plans via `python3 -m json.tool`, checkpoints via `json.load` — the checkpoint-gate hook blocks bash reads of `checkpoints/*.json`, so that one ran in the Python kernel); every CP1+CP2 case command exits 0 against HEAD.
