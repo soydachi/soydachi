@@ -275,3 +275,52 @@ VERDICT: FAIL — F11
 - Extra probes: collapsed `![alt][]` with an `http://` definition and shortcut `![alt]` with a protocol-relative `//` definition → bare exit 1 each.
 - Baseline: bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` `PASS: all 51 checks` exit 0; `--checkpoint 2` `PASS: all 32 checks` exit 0.
 STATUS: resolved
+
+---
+
+## Round 5 · fresh critic (2026-09-28)
+
+Fresh critic (no loop memory); judged artifacts at HEAD 7e38eae — `git show --stat` confirms it touched only the checkpoint record and LEARNINGS.md, so changed_files (README.md, check-readme.py) are identical to 895123d. Fresh harness /tmp/cp2r5{,b,c,d,e,f} (committed README + committed script per mutant); repo untouched — `git status --porcelain` empty.
+
+**Baseline at HEAD:** bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` 51 checks exit 0; `--checkpoint 2` 32 checks exit 0; plan cases 1-1..1-8, 2-1..2-3, 3-1..3-7 exit 0; case 2-4 prints four `200 <url>` with clean bodies exit 0; case 3-9 (soydachi.com) exit 0. Acceptance reality (surface a): `## Now` at README:13 sits between intro and Contact; 4 markdown badges at README:19,21,22,23 (within 3-6); lifetime commit chart (README:19) and komarev counter (README:21) both present; all four alts name subject or metric; all four badge URLs measured `200` this session.
+
+**F12:** The allowlist still misses `<source srcset>` — a `<picture>` block in `## Now` whose `<source>` carries a fixed-theme stats card renders the card for readers while its allowlisted sibling `<img>` satisfies every gate (L3 recurrence: extraction covers the serializations the README uses, not every serialization the renderer accepts; the comment at check-readme.py:285-288 again outclaims the regexes at :289-291).
+  EVIDENCE: mutant (fresh harness): `<picture><source srcset="https://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk"><img src="https://img.shields.io/badge/follow-up-d9d9d9" alt="Activity summary chart for soydachi" height="24"></picture>` inserted at the top of the Now widget div → bare exit 0 (84 checks), `--checkpoint 2` exit 0, plan case 2-2 exit 0, case 2-4 exit 0. Extraction proof: `img_urls` (check-readme.py:289-291) matches `![](…)` and `<img … src=…>` only; `source`/`srcset` never reach `urlparse`. Rendering proof (POST https://api.github.com/markdown, mode=gfm, HTTP 200): the Now segment contains `<source srcset="https://camo.githubusercontent.com/…" data-canonical-src="https://github-profile-summary-cards.vercel.app/api?username=soydachi&amp;theme=radpunk">` — no `media` attribute, so the browser selects that source over the `<img>` and displays the stats card. Negative control: the same card as a plain `https` markdown image → exit 1 with the stats-card/alt FAIL.
+  WHY IT MATTERS: acceptance 4 (checkpoints:82) is violated with the full suite green — the same failure class F9-F11 closed, in the element GitHub's own dark/light pattern uses.
+  CHECK: run the mutant (bare/cp2/2-2/2-4 all exit 0); render shows the evil `data-canonical-src` inside the Now section.
+  STATUS: open
+
+**F13:** Every liveness owner — plan case 2-4 (test-plans:35), case 3-8 (test-plans:56), and the contract's own CP2/CP3 verify loops (checkpoints:87, :132) — extracts only inline markdown `![](https://…)` URLs, so HTML `<img src>` widget URLs are probed by no gate: at HEAD that is 5 of the 9 image URLs (README:4, :32-35), and case 2-4's `what` claims "every widget image URL in README.md".
+  EVIDENCE: mutant: `<img src="https://komarev.com/nope-404" alt="New project stars counter for soydachi" height="24">` inserted inside `## Now` → bare exit 0 (84 checks), `--checkpoint 2` exit 0, plan 2-2 exit 0, case 2-4 exit 0 printing only the four markdown URLs — while `curl -sL -o /dev/null -w '%{http_code}' https://komarev.com/nope-404` → **404**. Rendering proof (api.github.com/markdown, HTTP 200): output carries `data-canonical-src="https://komarev.com/nope-404"` inside the Now section — readers see a broken widget. The mirror gap also holds: `shieldcn.dev/chart/github/stars/soydachi.svg` (measured 200 with `usage:` error body) behind an HTML src passes every gate, so the F6 body discipline only ever runs on markdown-extracted URLs.
+  WHY IT MATTERS: acceptance 3 (checkpoints:81) can be violated with every documented gate green, and case 2-4's stated scope is already false at HEAD (the header counter at README:4 is a widget image URL nothing curls).
+  CHECK: run the mutant → all gates exit 0 while the URL 404s.
+  STATUS: open
+
+**F14:** The `## Now` 3-6 count (check-readme.py:230-232; plan case 2-2) counts inline image *syntax*, not badges that render — non-rendering syntax pads the count and reference-style widgets are invisible to it, so both a too-small and a too-large rendered set pass.
+  EVIDENCE (both mutants green everywhere):
+  - Too small — followers and stars images replaced by a fenced copy inside Now: bare exit 0 (79 checks), cp2 exit 0, 2-2 exit 0, 2-4 exit 0; GFM render (HTTP 200) shows `imgs rendered in Now: 2` with the third image inside `<pre class="notranslate"><code …>`. HTML-comment variant (`<!-- ![…](url) -->`, README:22): gates exit 0 (79 checks), render shows 2 imgs, comment invisible.
+  - Too large — 6 inline widgets + `![…][api-stars]` with `[api-stars]: https://komarev.com/nope-404` (measured 404) appended: 7 badges render in Now (6 inline + 1 ref); bare exit 0 (92 checks), cp2 exit 0, 2-2 exit 0 (regex sees 6), 2-3 exit 0, 2-4 exit 0 (the 404 ref URL never extracted — same grep gap as F13).
+  WHY IT MATTERS: acceptance 1 (checkpoints:79) says 3-6 badge *images*; the gates certify a number that can be met or exceeded by syntax that renders differently — L2 scope in the direction the previous rounds did not probe.
+  CHECK: run either mutant → every gate exit 0 while the rendered count is 2 (or 7).
+  STATUS: open
+
+### Attacks that did not land (round 5)
+
+- data: URI stats card outside `## Now` — checker silent (bare/cp2 exit 0), but GitHub's renderer drops `data:` images entirely (render output contains no `data:image`) → nothing displays, no acceptance violated.
+- Plain `<img srcset="evil, allowlisted">` without `<picture>` — GitHub strips `srcset` on a bare img (render keeps only `src`/`data-canonical-src`) → the card never displays.
+- credentials@host, ports, IPs, URL-encoded hosts — `urlparse(...).hostname` probes: `shieldcn.dev@evil.com`→`evil.com` (caught), `1.2.3.4` (not allowlisted), `evil%2Ecom` (not allowlisted), `shieldcn.dev:8080`→`shieldcn.dev` (really that host); `evil.com@shieldcn.dev`→`shieldcn.dev` which is the server actually contacted — all fail closed or genuinely allowlisted.
+- Mixed-case/uppercase scheme — hostname normalization holds (round-3 `HTTP://` probe re-confirmed by the `S HIELD.cn`→`s hield.cn` probe).
+- Reference defined but used as a plain *link* with an evil URL → bare exit 0 (83 checks) — correct: links are not images; refs resolve only through image syntax (check-readme.py:292-299).
+- Markdown image inside a blockquote in Now → counted (4) and renders on GitHub — syntax and render agree, no vacuity.
+- Acceptance reality (a): all five CP2 acceptance items hold at HEAD (baseline block above).
+- Voice/§16/defect regressions from the redesign commits (d): bare 83 checks green (voice_mechanics + forbidden_16 + §06 literals run in CP1), plan 3-1..3-7 exit 0, emoji user-ordered — none found.
+- Red/vacuous plan cases (e): every CP1+CP2 case plus 3-1..3-9 exits 0 at HEAD — the only vacuous gates are the ones F12-F14 mutate.
+
+VERDICT: FAIL — F12, F13, F14
+
+---
+
+## Round 5 · fixer (2026-09-28)
+
+**F12/F13/F14 response:** All three came from one root cause — three separate extraction paths (allowlist regexes, count regex, liveness grep) each covering only the serializations the README happened to use. They now share one extractor in check-readme.py (`extract_images` inline + reference-resolved + HTML `<img>` any quoting; `srcset_urls` for comma-separated `<source srcset>`/`srcset=` lists, quoted or not; `strip_nonrendering` for what GFM actually renders). **F12:** the scheme-agnostic allowlist consumes srcset/source URLs too — mutant (`<picture><source srcset="https://github-profile-summary-cards.vercel.app/…">` + allowlisted `<img>` in Now): bare exit 1 with `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app' is one of the sanctioned widget hosts …` (was 0/0/0/0). **F13:** new `--list-images` mode prints every extracted image URL (all serializations, deduped, host-bearing); plan cases 2-4/3-8 and the CP2/CP3 verify loops (checkpoints JSON) curl its output instead of an inline-markdown grep — mutant `<img src="https://komarev.com/nope-404">` (probe: real 404) in Now: case 2-4 prints `404 https://komarev.com/nope-404`, exit 1 (was 0 printing only the four markdown URLs); the header counter and four HTML contact badges are now probed (9 URLs at HEAD, all 200). **F14:** the 3-6 count (and its alt/https/pin consumers) now runs the same extraction over `strip_nonrendering(body)` — fences, inline code, and HTML comments are stripped (they render as code or nothing), reference-style widgets resolve: fenced-copy mutant → bare exit 1 `found 2`; comment mutant → exit 1 `found 2`; 6-inline-plus-ref-404 mutant (critic's B) → exit 1 `found 7` and case 2-4 exit 1 on the ref's `404 https://komarev.com/nope-404`; plan case 2-2 now invokes the checker's section-scoped count gate instead of a second inline-only regex. No assertion weakened: prior mutants (http scheme F9a, reference-style M1, unquoted src X4) still exit 1 with the stats-card FAIL naming the host, plain link definitions stay unexamined. Baseline: bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` 51 exit 0; `--checkpoint 2` 32 exit 0; all 21 plan cases 1-1..1-8, 2-1..2-4, 3-1..3-9 exit 0 (case 2-4 curls all nine URLs, `200` each); both workflow JSONs parse.
+STATUS: resolved

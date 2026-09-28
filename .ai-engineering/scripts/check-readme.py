@@ -2,9 +2,12 @@
 """Assertions for the readme-profesional rewrite. Run from anywhere.
 
 Usage: python3 .ai-engineering/scripts/check-readme.py [--checkpoint N]
+                                       [--list-images]
 No --checkpoint runs every checkpoint whose README section exists (baseline
 checkpoint 1, plus checkpoint 2 once ## Now is present); --checkpoint N
-runs one checkpoint's assertions regardless. Exit 0 + PASS line when all
+runs one checkpoint's assertions regardless; --list-images prints every
+rendered image URL (all serializations) one per line for the curl cases.
+Exit 0 + PASS line when all
 selected assertions hold; exit 1 printing each failing assertion.
 """
 import os
@@ -185,6 +188,61 @@ def checkpoint1(text):
                   for _, i in heads))
 
 
+# F12/F13/F14: one extractor for every image serialization GitHub renders —
+# inline markdown, reference-style (resolved against definition lines), and
+# HTML <img> in any quoting. Callers pick the input: raw text for the
+# file-global allowlist and --list-images; strip_nonrendering() for anything
+# that counts rendered widgets, because fences/code/comments render as code
+# or not at all. srcset URLs render but carry no alt, so they feed the
+# allowlist and liveness only, never the count or alt gate.
+def extract_images(text):
+    """(alt, url) for every rendered image: inline, reference, HTML <img>."""
+    imgs = [(a, u) for a, u in re.findall(r"!\[([^\]]*)\]\(([^)]*)\)", text)]
+    # F11: reference-style usages (![alt][ref], collapsed ![alt][] , shortcut
+    # ![alt]) carry no inline URL — resolve against definition lines. Only
+    # refs actually used in image syntax resolve: a plain link definition is
+    # not an image and never reaches the allowlist.
+    ref_defs = dict(re.findall(r"^\[([^\]]+)\]:\s*(\S+)", text, re.M))
+    for m in re.finditer(r"!\[([^\]]*)\]\[([^\]]*)\]", text):
+        label = m.group(2) or m.group(1)
+        if label in ref_defs:
+            imgs.append((m.group(1), ref_defs[label]))
+    for m in re.finditer(r"!\[([^\]]*)\](?![\[(])", text):
+        if m.group(1) in ref_defs:
+            imgs.append((m.group(1), ref_defs[m.group(1)]))
+    # F13: HTML <img> in any quoting — these render as badges but carry no
+    # inline markdown URL, so they were invisible to the liveness greps.
+    for tag in re.findall(r"<img\b[^>]*>", text, re.I):
+        src = re.search(r"\ssrc\s*=\s*['\"]?([^'\"\s>]+)", tag, re.I)
+        if src:
+            alt = re.search(r"\salt\s*=\s*['\"]([^'\"]*)['\"]", tag, re.I)
+            imgs.append((alt.group(1) if alt else "", src.group(1)))
+    return imgs
+
+
+def srcset_urls(text):
+    """F12: srcset (e.g. <picture><source srcset=...>) is a comma-separated
+    URL list with optional width descriptors, quoted or not; every candidate
+    is an image URL for the allowlist and liveness."""
+    out = []
+    for m in re.finditer(r"\ssrcset\s*=\s*(?:['\"]([^'\"]*)['\"]|([^\s'>]+))",
+                         text, re.I):
+        value = m.group(1) if m.group(1) is not None else m.group(2)
+        for part in value.split(","):
+            part = part.split()
+            if part:
+                out.append(part[0])
+    return out
+
+
+def strip_nonrendering(text):
+    """F14: drop fenced code, inline code, and HTML comments — GFM renders
+    those as code or nothing, so images inside them are not badges."""
+    text = re.sub(r"```.*?```", "", text, flags=re.S)
+    text = re.sub(r"`[^`\n]*`", "", text)
+    return re.sub(r"<!--.*?-->", "", text, flags=re.S)
+
+
 # CHECKPOINT 2 — 'Live widgets replace dead stats' (PRD R6, §06 defect 4,
 # §10 star-history retirement). Static scope only: the ## Now section and two
 # file-global regressions. HTTP 200 is deliberately NOT asserted here — the
@@ -226,8 +284,12 @@ def checkpoint2(text):
         check("now: section is non-empty",
               any(l.strip() for l in lines[now_idx + 1:end]))
 
-        # --- 3-6 Markdown images in ## Now, alt quality, https: PRD R6 ---
-        imgs = re.findall(r"!\[([^\]]*)\]\(([^)]*)\)", body)
+        # --- 3-6 images in ## Now, alt quality, https: PRD R6 ---
+        # F14: count badges GFM renders, not syntax — fenced/commented copies
+        # render as code/nothing and must not pad the count; reference-style
+        # widgets resolve. srcset (F12) has no alt and stays out of the
+        # count/alt gate; it is covered by the file-global allowlist below.
+        imgs = extract_images(strip_nonrendering(body))
         check("now: 3 to 6 Markdown images inside ## Now",
               3 <= len(imgs) <= 6, f"found {len(imgs)}")
         generic = {"image", "chart", "badge", "logo", "picture",
@@ -279,28 +341,14 @@ def checkpoint2(text):
           not re.search(r"github-readme-stats", text, re.I))
     check("§10: absent 'star-history.com' (retired widget)",
           not re.search(r"star-history\.com", text, re.I))
-    # --- F4/F9/F10: acceptance 4 also bans "any fixed-theme single-provider
-    # stats card", not just the literals above — fail closed: every image URL
-    # that carries a remote host must come from the sanctioned widget hosts,
-    # in any scheme and any serialization GitHub renders: markdown plain or
-    # <angle-bracket> destinations, HTML src double-quoted, single-quoted, or
-    # unquoted. Scheme-less URLs are relative/local images with no remote host
-    # and stay unexamined.
-    img_urls = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", text)
-    img_urls += re.findall(r"<img[^>]*\ssrc\s*=\s*['\"]?([^'\"\s>]+)",
-                           text, re.I)
-    # F11: reference-style image usages (![alt][ref], collapsed ![alt][] ,
-    # shortcut ![alt]) carry no inline URL — resolve ref against definition
-    # lines and feed the resolved URL below. Only refs actually used in
-    # image syntax resolve: a plain link definition is not an image.
-    ref_defs = dict(re.findall(r"^\[([^\]]+)\]:\s*(\S+)", text, re.M))
-    for m in re.finditer(r"!\[([^\]]*)\]\[([^\]]*)\]", text):
-        label = m.group(2) or m.group(1)
-        if label in ref_defs:
-            img_urls.append(ref_defs[label])
-    for m in re.finditer(r"!\[([^\]]*)\](?![\[(])", text):
-        if m.group(1) in ref_defs:
-            img_urls.append(ref_defs[m.group(1)])
+    # --- F4/F9/F10/F11/F12: acceptance 4 also bans "any fixed-theme
+    # single-provider stats card", not just the literals above — fail closed:
+    # every image URL the renderer can display must come from the sanctioned
+    # widget hosts, in any scheme and any serialization GitHub renders:
+    # markdown plain or <angle-bracket> destinations, reference-style, HTML
+    # src (all quoting), and srcset/source lists. Scheme-less URLs are
+    # relative/local images with no remote host and stay unexamined.
+    img_urls = [u for _, u in extract_images(text)] + srcset_urls(text)
     for u in img_urls:
         u = u.strip()
         if u.startswith("<") and u.endswith(">"):
@@ -329,6 +377,22 @@ SECTIONS = {2: "Now"}
 def main():
     args = sys.argv[1:]
     text = read_readme()
+    # F13: the liveness cases curl every URL this prints — the same complete
+    # extraction the allowlist uses (inline, reference, HTML img, srcset), so
+    # an HTML <img> or ref-style widget 404 can no longer pass unprobed.
+    if "--list-images" in args:
+        if text is None:
+            return 1
+        seen = []
+        for u in [u for _, u in extract_images(text)] + srcset_urls(text):
+            u = u.strip()
+            if u.startswith("<") and u.endswith(">"):
+                u = u[1:-1].strip()
+            if urlparse(u).netloc and u not in seen:
+                seen.append(u)
+        for u in seen:
+            print(u)
+        return 0
     if "--checkpoint" in args:
         try:
             n = int(args[args.index("--checkpoint") + 1])

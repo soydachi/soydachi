@@ -84,7 +84,7 @@
       ],
       "verify": [
         "python3 .ai-engineering/scripts/check-readme.py",
-        "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
+        "python3 .ai-engineering/scripts/check-readme.py --list-images | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
         "test -z \"$(git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py)\""
       ],
       "ui": null,
@@ -129,7 +129,7 @@
       ],
       "verify": [
         "python3 .ai-engineering/scripts/check-readme.py",
-        "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
+        "python3 .ai-engineering/scripts/check-readme.py --list-images | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
         "test \"$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 https://soydachi.com)\" = \"200\"",
         "test -z \"$(git status --porcelain -- README.md)\""
       ],
