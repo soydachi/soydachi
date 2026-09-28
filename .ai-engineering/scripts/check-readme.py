@@ -376,9 +376,20 @@ def checkpoint2(text):
         if not p.netloc:
             continue
         host = (p.hostname or "").lower()
-        check(f"stats-card: image host '{host}' is one of the sanctioned "
-              f"widget hosts (shieldcn.dev / komarev.com / img.shields.io)",
-              host in ("shieldcn.dev", "komarev.com", "img.shields.io"), u)
+        # Owner-ordered redesign (2026-09-29): devicon tech-logos and the
+        # owner's own raw.githubusercontent assets are sanctioned content,
+        # still fail-closed to their exact CDN scopes.
+        allowed = (
+            host in ("shieldcn.dev", "komarev.com", "img.shields.io",
+                     "cdn.jsdelivr.net")
+            or (host == "raw.githubusercontent.com"
+                and p.path.startswith("/soydachi/soydachi/"))
+        )
+        if host == "cdn.jsdelivr.net":
+            allowed = allowed and p.path.startswith("/gh/devicons/devicon/")
+        check(f"stats-card: image host '{host}' is a sanctioned "
+              f"host (shieldcn / komarev / img.shields / devicons / own repo)",
+              allowed, u)
 
 
 # CHECKPOINT 3 — later test writer: add a checkpoint3(text) function and
