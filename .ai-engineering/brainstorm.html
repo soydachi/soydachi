@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="ai-feature" content="readme-profesional">
+<title>Brainstorm · readme-profesional</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23001E2B%22/%3E%3Crect x=%220.5%22 y=%220.5%22 width=%2231%22 height=%2231%22 rx=%226.5%22 fill=%22none%22 stroke=%22%2300ED64%22 stroke-opacity=%220.35%22/%3E%3Ctext x=%2216%22 y=%2217%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-family=%22ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace%22 font-size=%2214%22 font-weight=%22700%22 letter-spacing=%22-1%22%3E%3Ctspan fill=%22%2300ED64%22%3E%7B%3C/tspan%3E%3Ctspan fill=%22%23E8EEF7%22%3Eai%3C/tspan%3E%3Ctspan fill=%22%2300ED64%22%3E%7D%3C/tspan%3E%3C/text%3E%3C/svg%3E">
+<style>
+/* ── {ai} Engineering — the artifact design system ─────────────────────────
+   Tokens are the brand's, at system stacks so an artifact renders offline:
+   one signal green, neutral borders, the reading tint for small green,
+   dark-only. Anything ai-engineering renders as an artifact — spec.html,
+   plan.html, a recap, a research page — inherits this block verbatim.                                                                */
+:root{
+  --bg:#001E2B; --surface:#112733; --surface-2:#1C2D38;
+  --line:rgba(61,79,88,.3); --line-strong:rgba(61,79,88,.6);
+  --accent:#00ED64; --accent-dim:#71F6BA;
+  --text:#FFFFFF; --dim:#C1C7C6; --comment:#889397;
+  --ok:#00ED64; --bad:#FF6960; --warn:#FFC010; --purple:#B45AF2; --orange:#FFC010;
+  --mono:'SF Mono','JetBrains Mono','Fira Code',ui-monospace,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,'Inter',system-ui,sans-serif;
+
+  /* type: one scale, tracking and leading set per size, never one value for all */
+  --fs-display:44px; --lh-display:1.06; --ls-display:-.028em;
+  --fs-h2:26px;      --lh-h2:1.16;      --ls-h2:-.018em;
+  --fs-h3:17px;      --lh-h3:1.32;      --ls-h3:-.006em;
+  --fs-h4:14px;      --lh-h4:1.35;
+  --fs-body:15px;    --lh-body:1.62;
+  --fs-small:13.5px; --lh-small:1.55;
+  --fs-mono:12.5px;  --lh-mono:1.7;
+  --fs-label:10.5px;
+
+  /* space: a 4px rhythm, so nothing lands on an arbitrary number */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+  --radius:12px; --radius-sm:8px; --container:1040px; --measure:68ch;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:var(--fs-body);line-height:var(--lh-body);
+  font-synthesis-weight:none;-webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(0,237,100,.28)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.skip{position:absolute;top:var(--s2);left:var(--s2);z-index:99;background:var(--surface);
+      border:1px solid var(--line-strong);border-radius:var(--radius-sm);
+      padding:14px 18px;
+      clip-path:inset(50%);width:1px;height:1px;overflow:hidden}
+.skip:focus{clip-path:none;width:auto;height:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* ── hero ─────────────────────────────────────────────────────────────── */
+.hero{
+  position:relative;overflow:hidden;text-align:center;
+  padding:88px var(--s6) 56px;border-bottom:1px solid var(--line);
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px),
+    radial-gradient(ellipse 80% 60% at 50% 0%,#11273366,transparent);
+  background-size:32px 32px,32px 32px,100% 100%;
+}
+.hero .stamp{
+  display:inline-block;font-family:var(--mono);font-size:var(--fs-label);
+  letter-spacing:.26em;text-transform:uppercase;color:var(--accent);
+  border:1px solid var(--line-strong);border-radius:3px;padding:6px 14px;
+  margin-bottom:var(--s5);
+}
+.hero h1{font-size:var(--fs-display);line-height:var(--lh-display);
+         letter-spacing:var(--ls-display);font-weight:740}
+.hero h1 .x{color:var(--accent)}
+.hero .sub{font-size:17px;line-height:1.6;color:var(--dim);max-width:62ch;
+           margin:var(--s4) auto 0}
+.hero .sub strong{color:var(--text);font-weight:620}
+.hero .meta{font-family:var(--mono);font-size:11.5px;line-height:1.6;color:var(--dim);
+            margin:var(--s5) auto 0;max-width:66ch;letter-spacing:.02em}
+.hero .meta b{color:var(--accent-dim);font-weight:500}
+.hero .corner{position:absolute;width:22px;height:22px;border:0 solid var(--accent);opacity:.85}
+.hero .tl{top:18px;left:18px;border-width:2px 0 0 2px}
+.hero .tr{top:18px;right:18px;border-width:2px 2px 0 0}
+.hero .bl{bottom:18px;left:18px;border-width:0 0 2px 2px}
+.hero .br{bottom:18px;right:18px;border-width:0 2px 2px 0}
+
+/* ── nav: translucent chrome, content scrolls under it ────────────────── */
+nav{
+  position:sticky;top:0;z-index:50;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:2px 4px;
+  padding:var(--s2) var(--s4);
+  background:rgba(0,30,43,.78);backdrop-filter:blur(14px) saturate(150%);
+  border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;
+}
+nav a{color:var(--dim);letter-spacing:.03em;padding:6px 9px;border-radius:999px;
+      white-space:nowrap;transition:color .15s,background .15s}
+nav a:hover{color:var(--accent);text-decoration:none;background:rgba(0,237,100,.06)}
+nav a.active{color:var(--accent);background:rgba(0,237,100,.1);font-weight:600}
+nav a b{color:var(--accent);font-weight:500;margin-right:5px;opacity:.75}
+nav a.active b{opacity:1}
+
+/* ── page ─────────────────────────────────────────────────────────────── */
+.container{max-width:var(--container);margin:0 auto;padding:0 var(--s5)}
+section{padding:64px 0 52px;border-bottom:1px solid var(--line);scroll-margin-top:88px}
+section:last-of-type{border-bottom:none}
+h2{font-size:var(--fs-h2);line-height:var(--lh-h2);letter-spacing:var(--ls-h2);font-weight:700}
+h2 .num{display:block;font-family:var(--mono);font-size:11px;font-weight:400;
+        letter-spacing:.22em;color:var(--accent);margin-bottom:var(--s2)}
+h3{font-size:var(--fs-h3);line-height:var(--lh-h3);letter-spacing:var(--ls-h3);
+   font-weight:640;margin:var(--s6) 0 var(--s3)}
+h4{font-size:var(--fs-h4);line-height:var(--lh-h4);font-weight:640}
+h2+p,h3+p,h3+div,h2+div{margin-top:var(--s3)}
+p{color:var(--dim);max-width:var(--measure);margin:0 auto var(--s3);text-align:center}
+p:last-child{margin-bottom:0}
+p strong,li strong{color:var(--text);font-weight:620}
+ul,ol{margin:var(--s3) 0 var(--s5) var(--s5)}
+li{color:var(--dim);font-size:14px;line-height:1.6;margin-bottom:var(--s2);max-width:var(--measure)}
+li strong{color:var(--text)}
+.dim{color:var(--comment)}
+
+/* ── code ─────────────────────────────────────────────────────────────── */
+code{font-family:var(--mono);font-size:var(--fs-mono);background:var(--surface-2);
+     border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--accent-dim);
+     overflow-wrap:anywhere}
+pre{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+    padding:var(--s4) var(--s5);overflow-x:auto;font-family:var(--mono);
+    font-size:var(--fs-mono);line-height:var(--lh-mono);color:var(--dim);margin:var(--s4) 0;
+    -webkit-overflow-scrolling:touch}
+pre code{background:none;border:none;padding:0;color:inherit;overflow-wrap:normal}
+pre,.flow,.tbl-wrap{scrollbar-color:var(--line-strong) transparent;scrollbar-width:thin}
+pre::-webkit-scrollbar,.flow::-webkit-scrollbar,.tbl-wrap::-webkit-scrollbar{height:8px;width:8px}
+pre::-webkit-scrollbar-thumb,.flow::-webkit-scrollbar-thumb,.tbl-wrap::-webkit-scrollbar-thumb{
+  background:var(--line-strong);border-radius:99px}
+pre::-webkit-scrollbar-track,.flow::-webkit-scrollbar-track,.tbl-wrap::-webkit-scrollbar-track{background:transparent}
+pre .c{color:var(--comment)} pre .k{color:var(--accent)} pre .s{color:var(--ok)}
+pre .t{color:var(--purple)} pre .n{color:var(--orange)} pre .b{color:var(--text);font-weight:600}
+.flow{white-space:pre;font-size:12px;line-height:1.75;overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+/* ── panels ───────────────────────────────────────────────────────────── */
+.bracket{position:relative;border:1px solid var(--line);background:var(--surface-2);
+         border-radius:8px;padding:var(--s5) var(--s5) var(--s4);margin:var(--s5) 0}
+.bracket::before,.bracket::after{content:'';position:absolute;width:14px;height:14px;
+         border:0 solid var(--accent)}
+.bracket::before{top:-1px;left:-1px;border-width:2px 0 0 2px}
+.bracket::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+.bracket>.tag{position:absolute;top:-9px;left:18px;background:var(--bg);padding:0 10px;
+         font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.22em;
+         text-transform:uppercase;color:var(--accent)}
+.bracket pre{margin:0;border:none;background:none;padding:0}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+      padding:var(--s5);display:flex;flex-direction:column;gap:var(--s2)}
+.card h3,.card h4{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap}
+.card h3,.card h4{min-height:1.6em}
+.card h3{font-size:var(--fs-h4);line-height:var(--lh-h4);font-weight:640;margin:0}
+.card p{font-size:var(--fs-small);line-height:var(--lh-small);margin:0}
+.card .src{font-family:var(--mono);font-size:11px;color:var(--comment)}
+.card pre{font-size:12px;line-height:1.6;margin:var(--s2) 0 0}
+
+.note{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+      padding:var(--s5);margin:var(--s5) 0}
+.note h3,.note h4{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.18em;
+         text-transform:uppercase;color:var(--accent-dim);margin:0 0 var(--s3)}
+.note p{font-size:var(--fs-small);line-height:var(--lh-small);margin:0}
+.note.ok{border-color:rgba(0,237,100,.3)} .note.ok h4{color:var(--ok)}
+.note.warn{border-color:rgba(255,192,16,.3)} .note.warn h4{color:var(--warn)}
+.note.danger{border-color:rgba(255,105,96,.3)} .note.danger h4{color:var(--bad)}
+
+.grid{display:grid;gap:var(--s3);margin:var(--s5) 0;align-items:stretch}
+.grid>*{min-width:0}
+pre{max-width:100%}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.stats{display:flex;gap:var(--s3);flex-wrap:wrap;justify-content:center;margin:var(--s5) 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+      padding:var(--s4) var(--s5);min-width:132px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--text)}
+.stat .v em{font-style:normal;color:var(--accent)}
+.stat .l{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.14em;
+      text-transform:uppercase;color:var(--dim);margin-top:var(--s1)}
+
+/* ── tables: a component, not a spill ─────────────────────────────────── */
+.tbl-wrap{border:1px solid var(--line);border-radius:8px;background:var(--surface-2);
+          overflow-x:auto;-webkit-overflow-scrolling:touch;margin:var(--s4) 0}
+table{width:100%;border-collapse:collapse;font-size:var(--fs-small)}
+th{text-align:left;padding:12px var(--s4) 10px;white-space:nowrap;
+   font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.12em;
+   text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--line-strong)}
+td{padding:13px var(--s4);border-bottom:1px solid var(--line);color:var(--dim);
+   vertical-align:top;line-height:var(--lh-small)}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--text);font-weight:520}
+@media (hover:hover) and (pointer:fine){tbody tr:hover td{background:rgba(17,39,51,.35)}}
+td code{overflow-wrap:normal;word-break:keep-all}
+table{min-width:640px}
+
+/* ── pills, marks ─────────────────────────────────────────────────────── */
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;line-height:1.5;font-weight:600;
+      padding:2px 8px;border-radius:999px;letter-spacing:.05em;white-space:nowrap;color:var(--text)}
+.p-ok{background:rgba(0,237,100,.13);border:1px solid rgba(0,237,100,.32)}
+.p-bad{background:rgba(255,105,96,.13);border:1px solid rgba(255,105,96,.34)}
+.p-warn{background:rgba(255,192,16,.12);border:1px solid rgba(255,192,16,.32)}
+.p-fix{background:rgba(0,237,100,.1);border:1px solid rgba(0,237,100,.35)}
+.p-dim{background:rgba(17,39,51,.6);color:var(--dim);border:1px solid var(--line)}
+.check{color:var(--ok);font-weight:600} .cross{color:var(--bad);font-weight:600}
+.half{color:var(--warn);font-weight:600} .center{text-align:center}
+
+footer{text-align:center;padding:var(--s7) var(--s5) var(--s6);
+       border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;
+       color:var(--comment);letter-spacing:.08em;line-height:2.1}
+footer .x{color:var(--accent)}
+footer a{color:var(--dim);display:inline-block;padding:12px 4px}
+
+@media (max-width:900px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .hero{padding:64px var(--s5) 44px}
+  .hero h1{font-size:34px;letter-spacing:-.022em}
+  .hero .sub{font-size:16px}
+  section{padding:var(--s7) 0 var(--s6)}
+  .tier .tlat{text-align:left}
+}
+@media (max-width:560px){
+  .container{padding:0 var(--s4)}
+  nav{font-size:10.5px;gap:0 2px;flex-wrap:nowrap;justify-content:flex-start;
+      overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav::after{content:'';position:sticky;right:0;flex:0 0 28px;margin-left:-28px;
+      background:linear-gradient(90deg,transparent,rgba(0,30,43,.95));pointer-events:none}
+  nav a{padding:14px 8px}
+  table{font-size:13px} th,td{padding:10px var(--s3)}
+  pre{font-size:11.5px;padding:var(--s3) var(--s4)}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+@media (prefers-reduced-transparency:reduce){
+  nav{background:var(--bg);backdrop-filter:none}
+}
+@media (prefers-contrast:more){
+  :root{--dim:#E8EDEB;--comment:#C1C7C6}
+  .card,.note,p,li,td{color:var(--dim)}
+  nav a{color:#E8EDEB}
+}
+@media print{
+  nav,.skip{display:none}
+  body{background:#fff;color:#111}
+  section{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="hero">
+  <span class="corner tl"></span><span class="corner tr"></span>
+  <span class="corner bl"></span><span class="corner br"></span>
+  <span class="stamp">Brainstorm · readme-profesional</span>
+  <h1>README profesional<span class="x">.</span> perfil, comunidad y plantillas</h1>
+  <p class="sub"><strong>Borrador, read-back provisional:</strong> quieres que tu presencia en GitHub se vea profesional y siga tu marca. Tres trabajos en el orden del informe 001: crear los repos <code>.github</code> de comunidad en tus dos cuentas, reescribir tu README de perfil con banner claro/oscuro, y reconstruir los READMEs propios con una plantilla única. Los forks no se tocan y todo lo generado vive bajo <code>.ai-engineering/</code>.</p>
+  <p class="meta"><b>Estado:</b> draft · interview in progress · 2026-09-28<br>
+  <b>Evidencia:</b> .ai-engineering/research/001-readme-profesional.html (20 fuentes)</p>
+</header>
+
+<nav aria-label="Secciones">
+  <a href="#s1"><b>01</b>Idea</a>
+  <a href="#s2"><b>02</b>Por qué</a>
+  <a href="#s3"><b>03</b>Para quién</a>
+  <a href="#s4"><b>04</b>Qué existe</a>
+  <a href="#s5"><b>05</b>Éxito</a>
+  <a href="#s6"><b>06</b>Decidido</a>
+  <a href="#s7"><b>07</b>Abierto</a>
+  <a href="#s8"><b>08</b>Reglas</a>
+  <a href="#s9"><b>09</b>Fuera de alcance</a>
+  <a href="#s10"><b>10</b>Investigación</a>
+  <a href="#s11"><b>11</b>Handoff</a>
+</nav>
+
+<main id="main">
+
+<section id="s1" class="container">
+  <h2><span class="num">01</span>La idea en palabras simples</h2>
+  <p>Read-back provisional (falta la confirmación del usuario):</p>
+  <div class="note warn">
+    <h3>Read-back · draft</h3>
+    <p>Tu presencia en GitHub tiene que verse profesional y con tu marca. Salen tres trabajos del informe 001, en su orden recomendado. <strong>Primero:</strong> crear un repo <code>.github</code> público en cada cuenta (soydachi y arcasilesgroup) con los archivos de comunidad que GitHub aplica por defecto a todos los repos que no tengan los suyos, así 15 proyectos suben de salud sin tocarlos uno por uno. <strong>Segundo:</strong> reescribir el README de tu perfil con estructura, encabezados, enlaces correctos y un banner claro/oscuro con tu marca, ya generado. <strong>Tercero:</strong> reconstruir los READMEs propios con una plantilla única, empezando por los más delgados y los legacy con links rotos. Los 6 forks no se tocan. Todo lo generado vive bajo <code>.ai-engineering/</code>. La evidencia ya está en el informe 001; esto es la construcción.</p>
+  </div>
+</section>
+
+<section id="s2" class="container">
+  <h2><span class="num">02</span>Por qué importa</h2>
+  <ul>
+    <li>El README es lo primero que un visitante ve, y GitHub lo usa para comunicar expectativas junto a licencia, CONTRIBUTING y code of conduct <span class="dim">(informe 001 §03)</span>.</li>
+    <li>Tu perfil de salud mide <strong>28 %</strong> y el README de perfil tiene <strong>6 defectos verificados</strong> (enlace que dice Instagram y va a Twitter, alt con typo, iconos invisibles en dark mode, widget caído con 503, cero encabezados, cero pinned) <span class="dim">(001 §06)</span>.</li>
+    <li>Ninguna de tus dos cuentas tiene repo <code>.github</code>, así que CONTRIBUTING, CoC, SECURITY y templates hay que duplicarlos repo por repo o se quedan sin poner <span class="dim">(001 §05)</span>.</li>
+    <li>Hay READMEs de 91 y 345 bytes, links legacy a <code>dachibox</code> en 301 y un badge de CI en un repo con <strong>0 workflows</strong> <span class="dim">(001 §05)</span>.</li>
+  </ul>
+</section>
+
+<section id="s3" class="container">
+  <h2><span class="num">03</span>Para quién es</h2>
+  <ul>
+    <li><strong>Visitantes de tu perfil</strong>: reclutadores, colaboradores, gente que llega por un proyecto de arcasilesgroup y sube a verte.</li>
+    <li><strong>Usuarios y contribuidores de los 15 repos propios</strong>: ven si el proyecto da confianza y cómo se contribuye.</li>
+    <li><strong>Tú como mantenedor</strong>: menos repetición (los health files viven una vez) y una portada que no hay que defender.</li>
+  </ul>
+</section>
+
+<section id="s4" class="container">
+  <h2><span class="num">04</span>Qué existe hoy</h2>
+  <ul>
+    <li><strong>Informe 001</strong>: <code>.ai-engineering/research/001-readme-profesional.html</code> (commit fc6a695). Trae la auditoría de 21 READMEs, las plantillas §07 (proyecto) y §08 (perfil), el snippet <code>&lt;picture&gt;</code> y las tres direcciones §12.</li>
+    <li><strong>Assets de imagen ya generados</strong>: <code>.ai-engineering/images/profile-banner/</code> (claro, seed 20260928) y <code>profile-banner-dark/</code> (oscuro, seed 20260929), con briefs y manifests. Migrados desde <code>.ai/</code> en el commit 04e7251.</li>
+    <li><strong>Este repo</strong>: solo <code>README.md</code> (1.325 bytes). No hay AGENTS.md, app, DB, servidor ni UI. El trabajo de este repo es contenido.</li>
+    <li><strong>Las dos cuentas</strong>: 15 repos no-fork públicos, 0 repos <code>.github</code>, 0 pinned repos en el perfil, health de 28 % a 100 % <span class="dim">(001 §05, medido 2026-09-28)</span>.</li>
+    <li><strong>Forks intocables (6)</strong>: Graft, oh-my-pi, postiz-app, Pearcleaner, Html2Xaml, paperclip-upstream <span class="dim">(001 §05)</span>.</li>
+    <li><strong>Migración hecha</strong>: <code>.ai/</code> ya no existe; briefs, imágenes y reportes viven bajo <code>.ai-engineering/</code> (04e7251).</li>
+  </ul>
+</section>
+
+<section id="s5" class="container">
+  <h2><span class="num">05</span>Cómo se ve el éxito</h2>
+  <p>Propuesta, falta cerrar métricas con el usuario:</p>
+  <ol>
+    <li><strong>Comunidad:</strong> <code>soydachi/.github</code> y <code>arcasilesgroup/.github</code> creados, públicos, con CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, SUPPORT e issue/PR templates. Verificable con <code>gh api</code>.</li>
+    <li><strong>Perfil:</strong> README reescrito en vivo con banner en <code>&lt;picture&gt;</code>, los 6 defectos de §06 en cero, encabezados correctos y enlaces que llevan donde dicen.</li>
+    <li><strong>Plantilla:</strong> los 15 repos no-fork con README según §07, links verificados (HTTP 200) y health % medido antes y después.</li>
+    <li><strong>Historial:</strong> todo commiteado paso a paso, resumible con <code>/ai-orchestrator resume</code>.</li>
+  </ol>
+  <p><span class="pill p-warn">TODO</span> confirmar si el objetivo de health % es numérico o solo checklist de archivos.</p>
+</section>
+
+<section id="s6" class="container">
+  <h2><span class="num">06</span>Decisiones ya tomadas</h2>
+  <div class="note ok">
+    <h3>Cerradas · el plan no las reabre</h3>
+    <p><strong>1.</strong> Todo lo generado vive bajo <code>.ai-engineering/</code>; <code>.ai/</code> queda prohibido (usuario, 2026-09-28; migración en 04e7251).<br>
+    <strong>2.</strong> Assets de imagen vía <code>nan-image</code> con la guideline de <code>soydachi.com</code> (papel, tinta, ámbar como bloque) (usuario; briefs en <code>.ai-engineering/image-brief*.json</code>).<br>
+    <strong>3.</strong> La evidencia y las plantillas salen del informe 001, no se re-inventan (usuario: "implementemos lo que salió del research").<br>
+    <strong>4.</strong> Los 6 forks no se tocan (001 §05).<br>
+    <strong>5.</strong> Banner de perfil con patrón <code>&lt;picture&gt;</code> claro/oscuro (001 §09, fuentes 7 y 15).<br>
+    <strong>6.</strong> Slug del feature: <code>readme-profesional</code>.</p>
+  </div>
+</section>
+
+<section id="s7" class="container">
+  <h2><span class="num">07</span>Decisiones todavía abiertas</h2>
+  <div class="note warn">
+    <h3>Solo el usuario puede cerrarlas · con default recomendado</h3>
+    <p><strong>1. Alcance y orden de este run.</strong> Recomendado: las tres direcciones en el orden 2 → 1 → 3 (comunidad primero, porque es un solo commit con alcance de toda la cuenta), y la plantilla en los 15 no-fork empezando por los delgados.<br>
+    <strong>2. Cómo se aplican cambios en los 14 repos que no están clonados aquí.</strong> Recomendado: commit directo vía <code>gh api</code> al branch por defecto, siempre con lectura de verificación después; PR solo si una branch protection lo exija.<br>
+    <strong>3. Archivos de comunidad.</strong> Recomendado: Contributor Covenant (la plantilla de GitHub) para CODE_OF_CONDUCT, SECURITY estándar, y habilitar private vulnerability reporting.<br>
+    <strong>4. Contenido del perfil.</strong> Recomendado: confirmar si la línea de empleo sigue vigente (estaba marcada [unsourced]), 3 a 5 proyectos propios como destacados (hoy 0 pinned), inglés como idioma.<br>
+    <strong>5. Imágenes de proyecto.</strong> Recomendado: banner generado solo para el perfil en este run; los proyectos se quedan con badges hasta que pidas más.<br>
+    <strong>6. Métrica de éxito de la plantilla.</strong> Recomendado: checklist de archivos + links 200, sin objetivo numérico de health %.</p>
+  </div>
+</section>
+
+<section id="s8" class="container">
+  <h2><span class="num">08</span>Reglas y límites</h2>
+  <ul>
+    <li><strong>Nunca</strong> tocar forks ni sus READMEs; son del upstream.</li>
+    <li><strong>Nunca</strong> usar <code>.ai/</code> otra vez; assets y briefs solo bajo <code>.ai-engineering/</code>.</li>
+    <li>Cambios en otros repos: <strong>solo contenido</strong> (README, health files, LICENSE). Nada de código, nada de releases.</li>
+    <li>Toda escritura vía <code>gh api</code> se verifica con una lectura posterior en el mismo paso.</li>
+    <li>Los 28 repos privados no entran en este run (solo se contaron, no se abre su contenido).</li>
+    <li>Badges: 3 a 6 de alta señal; nada de star-history (API restringida desde jun-2026) <span class="dim">(001 §10)</span>.</li>
+  </ul>
+</section>
+
+<section id="s9" class="container">
+  <h2><span class="num">09</span>Fuera de alcance</h2>
+  <div class="note danger">
+    <h3>No es parte de esta feature</h3>
+    <p>Cambios en <code>soydachi.com</code> o en el código de cualquier proyecto · archivar o eliminar repos legacy (solo se arregla su README) · reescribir los READMEs de los 6 forks · widgets star-history · habilitar features de seguridad más allá de private vulnerability reporting · los 28 repos privados.</p>
+  </div>
+</section>
+
+<section id="s10" class="container">
+  <h2><span class="num">10</span>Preguntas para investigación</h2>
+  <p>Ninguna abierta: la investigación ya corrió y su informe es el insumo. Las que estaban abiertas quedaron resueltas así:</p>
+  <ol>
+    <li>Qué secciones exige GitHub y cómo funcionan los health files por defecto → informe 001 §03 (docs.github.com, 6 páginas leídas 2026-09-28).</li>
+    <li>Qué mide la checklist de salud de un repo y qué le falta al tuyo → 001 §05 (auditoría <code>gh api</code> de 21 repos).</li>
+    <li>Cómo estructurar el README de proyecto y el de perfil → 001 §07 y §08 (standard-readme, awesome-readme, notebook de 65 fuentes).</li>
+    <li>Cómo adaptar imágenes a dark/light en GitHub → 001 §09 (github.blog 2025-04-18).</li>
+  </ol>
+</section>
+
+<section id="s11" class="container">
+  <h2><span class="num">11</span>Notas para el planificador</h2>
+  <ul>
+    <li>Slug <code>readme-profesional</code>, rama <code>feat/readme-profesional</code>. Este repo no tiene AGENTS.md ni app: <code>gates.ui</code> va en <code>n/a</code> y la verificación es <code>gh api</code> + checks de contenido/markdown + medición de health % antes y después.</li>
+    <li>Orden sugerido de checkpoints: CP1 repos <code>.github</code> (las dos cuentas), CP2 README de perfil (este repo, local), CP3+ plantilla de proyecto agrupada por repo o por tanda (delgados primero, legacy después).</li>
+    <li>Insumos: informe 001 (plantillas §07/§08, snippet <code>&lt;picture&gt;</code>, defectos §06), briefs y seeds de banner en <code>.ai-engineering/</code>.</li>
+    <li>Sin DB, sin servidor, sin auth: el preflight de fase 0 se reduce al árbol git y a la rama.</li>
+    <li>El PRD se escribe recién después de que el usuario apruebe esta página.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <div><span class="x">{ai}</span> engineering · brainstorm · readme-profesional</div>
+  <div>draft · interview in progress · 2026-09-28</div>
+</footer>
+
+<script>
+/* scroll-spy: mark the nav link for the section in view.
+   Lead matches scroll-margin-top (88px): the highlight flips when the
+   heading clears the sticky nav. */
+(function () {
+  const lead = 88;
+  const links = document.querySelectorAll('nav a[href^="#"]');
+  function updateNav() {
+    let current = "";
+    for (const link of links) {
+      const href = link.getAttribute("href");
+      if (!href) continue;
+      const section = document.getElementById(href.slice(1));
+      if (!section) continue;
+      if (section.getBoundingClientRect().top <= lead) current = href.slice(1);
+    }
+    for (const link of links) {
+      const on = link.getAttribute("href") === "#" + current;
+      link.classList.toggle("active", on);
+      if (on) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    }
+  }
+  window.addEventListener("scroll", updateNav, { passive: true });
+  updateNav();
+})();
+</script>
+</body>
+</html>
