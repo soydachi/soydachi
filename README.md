@@ -14,13 +14,7 @@ I lead as a **general engineer**: that framing is my decision, set in `dachi-gog
 
 The current job is the backing fact: **Platform Governance Lead at Nationale-Nederlanden España** ([LinkedIn](https://www.linkedin.com/in/soydachi)). There I created the Platform Engineering team, led API governance and company-wide CI/CD standardization, and organize NN Tech Talks, 70+ talks so far.
 
-I also founded **Arcasiles Group**, a cultural-tech platform in Vega Baja that spans tech, events, music, and community.
-
-## Now
-
-- Writing the monthly LinkedIn newsletter "Entre código y personas".
-- Building AI engineering tooling in arcasilesgroup/ai-engineering.
-- Running Arcasiles community events in Madrid and the Vega Baja.
+I also founded **Arcasiles Group** in November 2024, a cultural-tech platform in Vega Baja that spans tech, events, music, and community.
 
 ## Contact
 
