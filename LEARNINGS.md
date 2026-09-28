@@ -10,3 +10,9 @@ Accumulated failures and lessons from building features, mostly written by `/ai-
 <!-- - R1: <imperative rule>. (from L3, L7) -->
 
 ## Log
+
+- **L1** (2026-09-29): a resume reader for `cache/<sha256-user>.txt` skipped a
+  fixed 7-line comment prefix, but a cache file written mid-run has no comment
+  block yet, so the first 7 repo rows were fetched again. Detect the comment
+  block (`line == comment`) instead of assuming its length. Harmless here
+  because those 7 rows were all zeros; it would double-count otherwise.

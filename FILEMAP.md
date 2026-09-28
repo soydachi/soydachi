@@ -23,3 +23,10 @@ prototypes/                    /ai-prototype HTML mockups + <name>.states.json s
 ```
 
 <!-- Add the app's own files below as they're created. -->
+README.md                     Profile README: renders light_mode.svg / dark_mode.svg by theme
+light_mode.svg                Profile card, light theme: ASCII portrait + panel + GitHub stats
+dark_mode.svg                 Profile card, dark theme: inverted portrait, same panel
+today.py                      Refreshes the stats in both SVGs (CI runs it daily)
+cache/requirements.txt        Python deps the build workflow installs for today.py
+cache/<sha256-user>.txt       Per-repo commit/LOC cache today.py reads and updates
+.github/workflows/build.yaml  Daily workflow that runs today.py and commits the SVGs
