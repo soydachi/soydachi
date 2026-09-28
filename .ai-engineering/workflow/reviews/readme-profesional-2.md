@@ -151,7 +151,7 @@ Verified against HEAD 9551b2f. Commit 8df7943 (user content redesign: banner R5 
   EVIDENCE: mutant — `![stats](http://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk)` inserted in the `## Contact` body — bare exit 0 with zero FAILs and cp2 exit 0 (allowlist silent); the full documented CP2 verify suite also stays green (2-1 exit 0, 2-2 exit 0, 2-3 exit 0, 2-4 exit 0 — its grep extracts only `https://` URLs, so the card is not even probed). Same bypass with an HTML `<img src="http://…">` in Contact: bare exit 0, zero FAILs. In contrast the https form of the identical card is caught (mutant E).
   WHY IT MATTERS: acceptance 4's "any fixed-theme single-provider stats card remain absent" can be violated with every gate green the moment the scheme is `http://`, and the comment's "fails by construction" outclaims the assertion (LEARNINGS L1). Severity minor: the canonical https form — the one that occurs in practice and in §06 defect 4 — is now blocked, and the shipped file is clean.
   CHECK: run the two mutants above; bare exits 0 with no FAIL lines, while mutant E exits 1.
-  STATUS: open
+  STATUS: resolved in round 3 (commit f0089ee, re-verified by critic) — see Round 3
 
 ### Round-2 notes (not findings)
 
@@ -180,3 +180,57 @@ STATUS: resolved
 **N2:** No action — SECTIONS gating is by design; the plan's commands (2-1/2-2, now also 1-3) stay red on a deleted `## Now`, so no gate is bypassed. Documented in plan notes.
 
 VERIFY (post-fix): bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` `PASS: all 51 checks` exit 0; `--checkpoint 2` `PASS: all 32 checks` exit 0; the `http://` markdown and HTML mutants exit 1 while the baseline harness exits 0; both workflow JSONs parse (test-plans via `python3 -m json.tool`, checkpoints via `json.load` — the checkpoint-gate hook blocks bash reads of `checkpoints/*.json`, so that one ran in the Python kernel); every CP1+CP2 case command exits 0 against HEAD.
+
+---
+
+## Round 3 · critic verification (2026-09-28)
+
+Verified against HEAD f0089ee (scheme-agnostic allowlist + N1 plan housekeeping). Fresh harness /tmp/cp2r3 (committed script + committed README per mutation); repo untouched — `git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py` empty; f0089ee touches only check-readme.py, this thread, and the test plan (contract unchanged).
+
+### F9 re-test — exact round-2 mutants, all caught
+
+- F9a `![stats](http://github-profile-summary-cards.vercel.app/api?username=soydachi&theme=radpunk)` in `## Contact`: bare exit 1, cp2 exit 1, `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app' is one of the sanctioned widget hosts … http://github-profile-summary-cards…` (round 2: exit 0, zero FAILs).
+- F9b `<img src="http://github-profile-summary-cards.vercel.app/api?username=soydachi" …>` in `## Contact`: bare exit 1, cp2 exit 1, same FAIL naming the host (round 2: exit 0).
+- F9c protocol-relative `![stats](//github-profile-summary-cards.vercel.app/api?username=soydachi)`: bare exit 1, cp2 exit 1, FAIL with `//github-profile-summary-cards.vercel.app` (new round-3 probe — caught).
+- Bonus probe: ` HTTP://github-profile-summary-cards… ` (leading/trailing spaces, uppercase scheme) — caught; `urlparse` hostname normalization holds.
+- Baseline restored: harness bare exit 0 (`PASS: all 83 checks`), cp2 exit 0.
+
+**F9:** STATUS: resolved (verified round 3: all three scheme forms fail with the stats-card FAIL naming the host; baseline green).
+
+### N1 re-test — every CP1+CP2 case command exits 0 at HEAD
+
+- 1-1 `--checkpoint 1` → 0; 1-2 (markdown H2/no-skip heuristic) → 0; 1-3 `--checkpoint 2` → 0; 1-4 → 0; 1-5 → 0; 1-6 → 0; 1-7 → 0; 1-8 → 0.
+- 2-1 → 0; 2-2 (section-scoped count) → 0; 2-3 (exact section-scoped command) → 0; 2-4 (body-probe loop) → 0 with four `200` lines and clean bodies.
+- Verify-array copies synced per diff f0089ee (CP1 verify[1]=`--checkpoint 1`, verify[3]=`--checkpoint 2`, CP3 verify[3]=`--checkpoint 1`); plan notes carry the four N1/N2 entries. Case 1-3 (repurposed banner) and 3-3 (repurposed emoji) both exit 0 via their live-gate commands.
+
+**N1:** STATUS: resolved (all CP1+CP2 case commands green at HEAD; void cases repurposed to live gates, `what`/`expects`/notes synced).
+**N2:** STATUS: upheld (no change requested; SECTIONS gating by design, plan stays red on a deleted `## Now`).
+
+### Regression sweep
+
+- bare `PASS: all 83 checks (checkpoints 1, 2)` exit 0; `--checkpoint 1` `PASS: all 51 checks` exit 0; `--checkpoint 2` `PASS: all 32 checks` exit 0; changed files clean; test-plan JSON parses; f0089ee introduced no CP1 assertion changes (diff shows allowlist block + plan/thread only).
+
+**F10:** The scheme-agnostic allowlist still misses three enumerable image-URL serializations, so the fixer's claim "captures every image URL regardless of scheme … Markdown or HTML `<img>`" remains false: extraction requires a double-quoted HTML `src="…"` (`<img[^>]+src="([^"]+)"`, check-readme.py:289) and a Markdown destination kept verbatim (`\(([^)]+)\)`, :288) — an angle-bracket destination reaches `urlparse("<http://…")` with empty netloc and is skipped by the `continue` at :292-293.
+  EVIDENCE (post-fix HEAD, fresh harness; each mutant: bare exit 0, cp2 exit 0, zero FAIL lines):
+  - X1: `<img src='http://github-profile-summary-cards.vercel.app/api?username=soydachi' alt='stats'>` (single-quoted) in `## Contact`.
+  - X4: `<img src=http://github-profile-summary-cards.vercel.app/api?username=soydachi alt=stats card>` (unquoted attribute) in `## Contact`.
+  - X5: `<img src='https://github-profile-summary-cards.vercel.app/api?username=soydachi' alt='stats'>` placed INSIDE the `## Now` widget div, between the stars badge and `</div>` — https scheme, fixed-theme single-provider stats card, inside the checkpoint's own section, checker silent.
+  - X2: `![stats](<http://github-profile-summary-cards.vercel.app/api?username=soydachi>)` in `## Contact`.
+  Rendering proof (POST https://api.github.com/markdown, mode=gfm, HTTP 200): the single-quoted HTML img and the angle-bracket Markdown image both return real `<img>` tags, camo-proxied with `data-canonical-src="http://github-profile-summary-cards.vercel.app/…"` — the card displays for readers while every gate stays green.
+  WHY IT MATTERS: acceptance 4's "any fixed-theme single-provider stats card remain absent" is again violatable with the full suite green, and the disposition's "every image URL" outclaims the extraction regexes (LEARNINGS L1). Severity minor: the canonical double-quoted/plain-destination forms in use at HEAD (all nine images) are covered, and case/whitespace/protocol-relative variants are caught by urlparse — only the three unextracted serializations slip.
+  CHECK: run mutants X1/X4/X5/X2 at HEAD — bare and cp2 exit 0 each with no FAIL lines; run F9a — exit 1 with the stats-card FAIL.
+  STATUS: open
+
+VERDICT: FAIL — F10
+
+---
+
+## Round 3 · fixer (2026-09-28)
+
+**F10 response:** Confirmed and fixed in check-readme.py only. HTML extraction is now `<img[^>]*\ssrc\s*=\s*['"]?([^'"\s>]+)` (covers double-quoted, single-quoted, and unquoted `src`, any scheme; the `\s` before `src` keeps `data-src`/prose out) and markdown destinations are de-bracketed (`<url>` → `url`) before `urlparse`, so all four serializations reach the host allowlist. Mutation tests (fresh /tmp harness per mutant, post-fix script + committed README), each mutant inserted as in F10's evidence:
+- X1 single-quoted `http://` img in `## Contact` → bare exit 1, `--checkpoint 2` exit 1, `FAIL: stats-card: image host 'github-profile-summary-cards.vercel.app' …` (was 0/0).
+- X4 unquoted `src=http://…` in `## Contact` → bare exit 1, cp2 exit 1, same host FAIL (was 0/0).
+- X5 single-quoted `https://` img inside the `## Now` widget div → bare exit 1, cp2 exit 1, same host FAIL (was 0/0).
+- X2 angle-bracket markdown destination `![stats](<http://…>)` in `## Contact` → bare exit 1, cp2 exit 1, same host FAIL (was 0/0).
+Baseline harness → exit 0; no regression: bare `PASS: all 83 checks (checkpoints 1, 2)`, `--checkpoint 1` `PASS: all 51 checks`, `--checkpoint 2` `PASS: all 32 checks` (extraction still yields exactly the nine shipped images).
+STATUS: resolved

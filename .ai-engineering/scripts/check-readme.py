@@ -279,16 +279,21 @@ def checkpoint2(text):
           not re.search(r"github-readme-stats", text, re.I))
     check("§10: absent 'star-history.com' (retired widget)",
           not re.search(r"star-history\.com", text, re.I))
-    # --- F4/F9: acceptance 4 also bans "any fixed-theme single-provider stats
-    # card", not just the literals above — fail closed: every image URL that
-    # carries a remote host (any scheme, Markdown or HTML <img>) must come
-    # from the sanctioned widget hosts, so github-profile-summary-cards and
-    # friends can never re-enter — https:// and http:// forms alike. Scheme-less
-    # URLs are relative/local images with no remote host and stay unexamined.
+    # --- F4/F9/F10: acceptance 4 also bans "any fixed-theme single-provider
+    # stats card", not just the literals above — fail closed: every image URL
+    # that carries a remote host must come from the sanctioned widget hosts,
+    # in any scheme and any serialization GitHub renders: markdown plain or
+    # <angle-bracket> destinations, HTML src double-quoted, single-quoted, or
+    # unquoted. Scheme-less URLs are relative/local images with no remote host
+    # and stay unexamined.
     img_urls = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", text)
-    img_urls += re.findall(r'<img[^>]+src="([^"]+)"', text, re.I)
+    img_urls += re.findall(r"<img[^>]*\ssrc\s*=\s*['\"]?([^'\"\s>]+)",
+                           text, re.I)
     for u in img_urls:
-        p = urlparse(u.strip())
+        u = u.strip()
+        if u.startswith("<") and u.endswith(">"):
+            u = u[1:-1].strip()
+        p = urlparse(u)
         if not p.netloc:
             continue
         host = (p.hostname or "").lower()
