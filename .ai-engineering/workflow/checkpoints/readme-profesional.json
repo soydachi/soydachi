@@ -42,12 +42,16 @@
         "test -z \"$(git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py)\""
       ],
       "ui": null,
+      "changed_files": [
+        "README.md",
+        ".ai-engineering/scripts/check-readme.py"
+      ],
       "gates": {
-        "behavior": { "status": "pending", "attempts": 0, "findings": [] },
+        "behavior": { "status": "passed", "attempts": 1, "findings": [] },
         "ui": { "status": "n/a", "attempts": 0, "findings": [] },
-        "review": { "status": "pending", "attempts": 0, "findings": [] }
+        "review": { "status": "passed", "attempts": 1, "findings": ["round 1: 8 findings (checker vs contract), round 2: F5 upheld (entry-scoped links), round 3: PASS; all resolved"] }
       },
-      "status": "pending"
+      "status": "passed"
     },
     {
       "id": 2,
