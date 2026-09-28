@@ -1,0 +1,155 @@
+{
+  "feature": "Professional GitHub profile README",
+  "slug": "readme-profesional",
+  "summary": "Rewrite the soydachi profile README.md in English: brand light/dark banner via <picture>, proper H1 + H2 hierarchy, live widgets replacing the dead stats card, canonical identity and contact, and all six research §06 defects closed.",
+  "plain_summary": "Your GitHub profile page will look professional: a brand banner, clear sections, live activity badges, correct facts, and contact links that work.",
+  "gating": "Work checkpoints in order. Within a checkpoint, the gates run in order: behavior, then ui, then review. A checkpoint is \"passed\" only when every gate is \"passed\" or \"n/a\". Do not start checkpoint N+1 until checkpoint N has passed.",
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Structure, banner, and identity",
+      "simple": "Set up page layout",
+      "size": "xs",
+      "goal": "Ship a valid English README that renders on its own: one H1, H2 sections without level skips, the existing banner pair embedded with <picture> and a descriptive alt, canonical identity (general engineer leads, Platform Governance Lead at Nationale-Nederlanden España backs), and a descriptive contact list. Closes §06 defects 1, 2, 3, and 5, plus the dead stats widget line, by rewriting the file.",
+      "plain": {
+        "what": "A clean page with a banner, clear sections, a short intro, and working contact links.",
+        "why": "Visitors see who you are and can reach you right away.",
+        "check": "Run the check script and see it finish without errors."
+      },
+      "builds_on": [],
+      "tasks": [
+        "Rewrite README.md in English: H1 greeting (one H1, first heading), then the <picture> banner per research §09 snippet using .ai-engineering/images/profile-banner/image-01.jpg (light) and .ai-engineering/images/profile-banner-dark/image-01.jpg (dark), relative paths, descriptive English alt of at least 15 characters, width 1536, height 512.",
+        "Write ## What I do: first person singular, 'general engineer' identity leading, 'Platform Governance Lead at Nationale-Nederlanden España' as the backing fact, one concrete sourced statement (docs/brand/dachi-gogotchuri-profile.md §3, [DG] 2026-07-08).",
+        "Write ## Contact with descriptive text links only, no icon images: https://soydachi.com, https://www.linkedin.com/in/soydachi, mailto:info@arcasiles.com, https://instagram.com/vegasoulband, https://instagram.com/jaleo.band. Dropping the icon row removes §06 defects 1-3 (Instagram icon to twitter.com, alt typo 'LinkdeIn', simple-icons@v3 black in dark mode) and the old arcasiles.com contact link.",
+        "Remove the github-readme-stats image and the emoji bullet list. Voice per tono-y-estilo.md: first person singular, straight quotes, no em dashes as sentence joints, no emoji in the body, facts with a source.",
+        "Create .ai-engineering/scripts/check-readme.py: python3, no dependencies, prints every failed check and exits non-zero on any failure. It asserts: exactly one H1 and it is the first heading; at least two H2 headings; no heading level is skipped; no empty section (a heading immediately followed by another heading); the first <picture> block contains a dark source to images/profile-banner-dark/image-01.jpg, a light source to images/profile-banner/image-01.jpg, and an <img> with alt >= 15 chars and width 1536; both image files exist on disk. Required substrings: 'Platform Governance Lead', 'Nationale-Nederlanden', 'general engineer' (case-insensitive), 'soydachi.com', 'linkedin.com/in/soydachi', 'mailto:info@arcasiles.com', 'instagram.com/vegasoulband', 'instagram.com/jaleo.band'. Banned substrings (defects and dead content): 'LinkdeIn', 'simple-icons@v3', 'github-readme-stats', 'https://arcasiles.com', 'https://www.arcasiles.com'. Forbidden data per canonical profile §16: 'NN Digital Hub', 'Cloud Solution', 'Platform Engineering Lead', 'Mobile Lead Engineer', 'Momentos que permanecen', '3000 members', '~3,000', '150 events', 'ai-mem', 'postflow', 'paperclip', 'arcasiles-hq', 'solution-intents', 'lifeos', 'arcasiles-lens', 'instagram.com/lasobremesa', 'boxing', 'MVP' unless the same line contains 'former', and the word 'we' outside other words (first person singular rule). Voice mechanics: no em dash U+2014, no curly quotes U+2018/U+2019/U+201C/U+201D, no emoji codepoints (U+1F000-U+1FAFF, U+2600-U+27BF, U+2B00-U+2BFF, U+FE0F), no 'TODO', 'TBD', or '[COMPLETAR]'.",
+        "Commit README.md and .ai-engineering/scripts/check-readme.py on feat/readme-profesional."
+      ],
+      "files": [
+        "README.md",
+        ".ai-engineering/scripts/check-readme.py"
+      ],
+      "acceptance": [
+        "README.md is valid English Markdown: exactly one H1, at least two H2 sections, no skipped heading levels, no empty sections.",
+        "Banner renders light/dark from the existing pair via <picture> with a descriptive alt; both image files exist at the referenced paths.",
+        "Identity reads 'general engineer' first and 'Platform Governance Lead at Nationale-Nederlanden España' as the current role.",
+        "Contact contains soydachi.com, linkedin.com/in/soydachi, mailto:info@arcasiles.com, instagram.com/vegasoulband and instagram.com/jaleo.band as descriptive links; no icon images remain.",
+        "§06 defects closed: no simple-icons@v3, no 'LinkdeIn', no Instagram/twitter mismatch, no github-readme-stats, headings exist (pinned-repos defect is profile config, out of scope).",
+        "check-readme.py exits 0 on the final file; no forbidden §16 data, no em dashes, no curly quotes, no emoji."
+      ],
+      "verify": [
+        "python3 .ai-engineering/scripts/check-readme.py",
+        "test -z \"$(git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py)\""
+      ],
+      "ui": null,
+      "gates": {
+        "behavior": { "status": "pending", "attempts": 0, "findings": [] },
+        "ui": { "status": "n/a", "attempts": 0, "findings": [] },
+        "review": { "status": "pending", "attempts": 0, "findings": [] }
+      },
+      "status": "pending"
+    },
+    {
+      "id": 2,
+      "title": "Live widgets replace dead stats",
+      "simple": "Add live counters",
+      "size": "s",
+      "goal": "Add a 'Now' section between the intro and Contact with 3-6 responsive widgets (lifetime commit chart on shieldcn.dev plus the komarev profile-views counter, the rest high-signal shieldcn badges), each a Markdown image with a human-readable alt, every URL measured 200 before commit. Closes §06 defect 4 and satisfies PRD R6.",
+      "plain": {
+        "what": "A row of live counters and charts that updates by itself.",
+        "why": "It proves activity without you editing the page by hand.",
+        "check": "The script passes and every badge image opens with code 200."
+      },
+      "builds_on": [1],
+      "tasks": [
+        "Add an English '## Now' section between the intro and ## Contact: one concrete first-person line about what is happening now with a link, followed by the badges.",
+        "Badges: lifetime commit chart https://shieldcn.dev/chart/github/commits/soydachi.svg and profile views https://komarev.com/ghpvc/?username=soydachi (brainstorm decision 11), plus 1-4 more high-signal shieldcn.dev badges, 3-6 images total. Write them as Markdown images ![human readable alt](url) so they are checkable; alt must still make sense if the image fails to load. curl each URL and confirm 200 before committing.",
+        "Extend .ai-engineering/scripts/check-readme.py with widget assertions: exactly 3 to 6 Markdown images with https URLs, every one of their alts non-empty, at least one shieldcn.dev URL and at least one komarev.com URL present.",
+        "Commit README.md and the script on feat/readme-profesional."
+      ],
+      "files": [
+        "README.md",
+        ".ai-engineering/scripts/check-readme.py"
+      ],
+      "acceptance": [
+        "A 'Now' section exists with 3-6 badge images, including the shieldcn lifetime commit chart and the komarev view counter.",
+        "Every badge has a human-readable, self-sufficient alt.",
+        "Every badge URL returns HTTP 200 when measured from the repo root.",
+        "github-readme-stats and any fixed-theme single-provider stats card remain absent.",
+        "check-readme.py (extended with widget checks) exits 0."
+      ],
+      "verify": [
+        "python3 .ai-engineering/scripts/check-readme.py",
+        "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
+        "test -z \"$(git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py)\""
+      ],
+      "ui": null,
+      "gates": {
+        "behavior": { "status": "pending", "attempts": 0, "findings": [] },
+        "ui": { "status": "n/a", "attempts": 0, "findings": [] },
+        "review": { "status": "pending", "attempts": 0, "findings": [] }
+      },
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "title": "Voice, facts, and link sweep",
+      "simple": "Polish words and links",
+      "size": "m",
+      "goal": "Final pass over the whole file: copy rewritten to tono-y-estilo.md (first person singular, concrete, sourced, straight quotes, no em dashes, no emoji), full §16 forbidden-data sweep against the canonical profile, link liveness measured for every widget image plus soydachi.com, and the complete check script green on the committed file.",
+      "plain": {
+        "what": "The final text sounds like you, all facts are right, and every link works.",
+        "why": "One wrong fact or broken link would cost trust.",
+        "check": "All checks pass and every outside link returns code 200."
+      },
+      "builds_on": [2],
+      "tasks": [
+        "Read README.md against tono-y-estilo.md and fix anything that fails: first person singular, concrete facts with a source, straight quotes, no em dashes as sentence joints, no emoji, no stacks of three adjectives, no agency clichés, no cheering close.",
+        "Sweep the file against §16 of docs/brand/dachi-gogotchuri-profile.md: no active MVP, no '~3000 members' or '+150 events', no private repo names, no obsolete NN titles as current, no boxing as current, no link to instagram.com/lasobremesa, contact exactly from the brand list.",
+        "Measure link liveness: every https Markdown image in README.md must return 200 (loop with curl) and https://soydachi.com must return 200; LinkedIn and Instagram links are presence-checked by the script only because they block automated requests.",
+        "Run the full check script, then commit README.md on feat/readme-profesional."
+      ],
+      "files": [
+        "README.md"
+      ],
+      "acceptance": [
+        "README.md passes check-readme.py in full: structure, banner, identity, contact, forbidden data, voice mechanics.",
+        "All badge image URLs and https://soydachi.com return HTTP 200 at measure time.",
+        "Every fact in the file traces to docs/brand/ (title, contact, bands); no §16 forbidden data appears.",
+        "README is a complete, renderable English file at every moment; no placeholders, no TODO markers.",
+        "Working tree clean for README.md after the final commit."
+      ],
+      "verify": [
+        "python3 .ai-engineering/scripts/check-readme.py",
+        "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
+        "test \"$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 https://soydachi.com)\" = \"200\"",
+        "test -z \"$(git status --porcelain -- README.md)\""
+      ],
+      "ui": null,
+      "gates": {
+        "behavior": { "status": "pending", "attempts": 0, "findings": [] },
+        "ui": { "status": "n/a", "attempts": 0, "findings": [] },
+        "review": { "status": "pending", "attempts": 0, "findings": [] }
+      },
+      "status": "pending"
+    }
+  ],
+  "assumptions": [
+    "The social icon row is replaced by descriptive text links, which fixes wrong href, alt typo, and invisible dark-mode icons in one move [research §06 defects 1-3, PRD R8 accessibility].",
+    "X/Twitter and YouTube links are dropped because the assigned contact list does not include them [contract contact list; soydachi.com/docs/brand/enlaces-oficiales.md].",
+    "No emoji anywhere in the README; the banner carries the visual greeting [tono-y-estilo.md emoji rule for body copy].",
+    "The check script lives at .ai-engineering/scripts/check-readme.py because all working files belong under .ai-engineering [PRD R9].",
+    "Older NN titles (Cloud Solutions, Platform Engineering, Mobile Lead) are banned outright rather than only 'as current', since the README needs only the current one [canonical profile §16, simplified for machine checks].",
+    "Banner images stay at their current paths and are referenced relatively; no new image generation [PRD R5].",
+    "Widgets are 3-6 images, at minimum the lifetime commit chart and the visitor counter; the remaining picks are the implementer's choice among shieldcn.dev options [brainstorm decision 11, PRD R6].",
+    "LinkedIn and Instagram links are checked by presence in the script, not by curl, because both block automated requests [known bot responses 999/redirect]."
+  ],
+  "new_dependencies": [],
+  "notes": [
+    "No projects section anywhere: GitHub pins carry proof-of-work [PRD R3].",
+    "§06 defect 6 (zero pinned repos) is profile settings, not README content; it must be fixed by hand in GitHub settings, outside this feature.",
+    "Merging feat/readme-profesional into main (the publish step of PRD success criterion) happens after these checkpoints, outside this plan.",
+    "star-history widgets are excluded: the stargazers API has been restricted since June 2026 [research §10, source 17].",
+    "No new images and no account .github repo work: directions 2 and 3 of research 001 are out of scope [PRD R1, brainstorm decision 7]."
+  ]
+}

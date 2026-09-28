@@ -1,0 +1,84 @@
+{
+  "slug": "readme-profesional",
+  "checkpoints": [
+    {
+      "checkpoint": 1,
+      "cases": [
+        { "id": "1-1", "layer": "unit", "what": "plain sentence: exactly one H1 and it is the first heading (defect 5 regression: headings exist)", "command": "python3 -c 'import re,sys;h=[len(l)-len(l.lstrip(\"#\")) for l in open(\"README.md\") if re.match(r\"^#{1,6} \",l)];sys.exit(0 if h and h[0]==1 and h.count(1)==1 else 1)'", "expects": "exit 0; at least one heading, first is level 1, only one level-1 heading" },
+        { "id": "1-2", "layer": "unit", "what": "plain sentence: at least two H2 sections and no heading level is skipped (PRD R8)", "command": "python3 -c 'import re,sys;h=[len(l)-len(l.lstrip(\"#\")) for l in open(\"README.md\") if re.match(r\"^#{1,6} \",l)];sys.exit(0 if h.count(2)>=2 and all(b<=a+1 for a,b in zip(h,h[1:])) else 1)'", "expects": "exit 0; >=2 H2 and each heading at most one level deeper than the previous" },
+        { "id": "1-3", "layer": "unit", "what": "plain sentence: first <picture> block embeds the existing banner pair (dark+light sources), img alt >= 15 chars, width 1536, and both image files exist on disk (PRD R5)", "command": "python3 -c 'import re,sys,os;L=open(\"README.md\").read();m=re.search(r\"<picture>.*?</picture>\",L,re.S);s=m.group(0) if m else \"\";ok=bool(m) and \"images/profile-banner-dark/image-01.jpg\" in s and \"images/profile-banner/image-01.jpg\" in s and re.search(r\"alt=\\\"[^\\\"]{15,}\\\"\",s) and \"1536\" in s and os.path.isfile(\".ai-engineering/images/profile-banner/image-01.jpg\") and os.path.isfile(\".ai-engineering/images/profile-banner-dark/image-01.jpg\");sys.exit(0 if ok else 1)'", "expects": "exit 0; picture block with both banner sources, descriptive alt, width 1536, both files on disk" },
+        { "id": "1-4", "layer": "unit", "what": "plain sentence: canonical identity present: 'general engineer' (case-insensitive) leads, 'Platform Governance Lead' and 'Nationale-Nederlanden' back it (PRD R4)", "command": "python3 -c 'import re,sys;L=open(\"README.md\").read();sys.exit(0 if (\"Platform Governance Lead\" in L and \"Nationale-Nederlanden\" in L and re.search(r\"general engineer\",L,re.I)) else 1)'", "expects": "exit 0; all three canonical identity strings present" },
+        { "id": "1-5", "layer": "unit", "what": "plain sentence: descriptive contact list contains every canonical link from the brand list", "command": "for s in \"soydachi.com\" \"linkedin.com/in/soydachi\" \"mailto:info@arcasiles.com\" \"instagram.com/vegasoulband\" \"instagram.com/jaleo.band\"; do grep -qF \"$s\" README.md || exit 1; done", "expects": "exit 0; each of the five strings found in README.md" },
+        { "id": "1-6", "layer": "unit", "what": "plain sentence: forbidden canonical data absent: obsolete NN titles as current, lasobremesa link, NN Digital Hub (PRD R7 / profile §16)", "command": "! grep -qE \"Cloud Solutions Lead|Platform Engineering Lead|Mobile Lead Engineer|instagram.com/lasobremesa|NN Digital Hub\" README.md", "expects": "exit 0; none of the forbidden strings match" },
+        { "id": "1-7", "layer": "unit", "what": "plain sentence: research §06 defects 1-4 provably gone: LinkdeIn typo, simple-icons row, twitter.com href mismatch, github-readme-stats card with fixed vue-dark theme", "command": "! grep -qE \"LinkdeIn|simple-icons|twitter\\.com|github-readme-stats|vue-dark\" README.md", "expects": "exit 0; none of the defect strings match" },
+        { "id": "1-8", "layer": "unit", "what": "plain sentence: no projects or portfolio section heading anywhere (PRD R3)", "command": "test -z \"$(grep -E '^#{1,6} ' README.md | grep -iE 'projects|portfolio')\"", "expects": "exit 0; no heading mentions projects or portfolio" }
+      ],
+      "verify": [
+        "python3 .ai-engineering/scripts/check-readme.py",
+        "python3 -c 'import re,sys;h=[len(l)-len(l.lstrip(\"#\")) for l in open(\"README.md\") if re.match(r\"^#{1,6} \",l)];sys.exit(0 if h and h[0]==1 and h.count(1)==1 else 1)'",
+        "python3 -c 'import re,sys;h=[len(l)-len(l.lstrip(\"#\")) for l in open(\"README.md\") if re.match(r\"^#{1,6} \",l)];sys.exit(0 if h.count(2)>=2 and all(b<=a+1 for a,b in zip(h,h[1:])) else 1)'",
+        "python3 -c 'import re,sys,os;L=open(\"README.md\").read();m=re.search(r\"<picture>.*?</picture>\",L,re.S);s=m.group(0) if m else \"\";ok=bool(m) and \"images/profile-banner-dark/image-01.jpg\" in s and \"images/profile-banner/image-01.jpg\" in s and re.search(r\"alt=\\\"[^\\\"]{15,}\\\"\",s) and \"1536\" in s and os.path.isfile(\".ai-engineering/images/profile-banner/image-01.jpg\") and os.path.isfile(\".ai-engineering/images/profile-banner-dark/image-01.jpg\");sys.exit(0 if ok else 1)'",
+        "python3 -c 'import re,sys;L=open(\"README.md\").read();sys.exit(0 if (\"Platform Governance Lead\" in L and \"Nationale-Nederlanden\" in L and re.search(r\"general engineer\",L,re.I)) else 1)'",
+        "for s in \"soydachi.com\" \"linkedin.com/in/soydachi\" \"mailto:info@arcasiles.com\" \"instagram.com/vegasoulband\" \"instagram.com/jaleo.band\"; do grep -qF \"$s\" README.md || exit 1; done",
+        "! grep -qE \"Cloud Solutions Lead|Platform Engineering Lead|Mobile Lead Engineer|instagram.com/lasobremesa|NN Digital Hub\" README.md",
+        "! grep -qE \"LinkdeIn|simple-icons|twitter\\.com|github-readme-stats|vue-dark\" README.md",
+        "test -z \"$(grep -E '^#{1,6} ' README.md | grep -iE 'projects|portfolio')\"",
+        "test -z \"$(git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py)\""
+      ]
+    },
+    {
+      "checkpoint": 2,
+      "cases": [
+        { "id": "2-1", "layer": "unit", "what": "plain sentence: an English '## Now' section heading exists between intro and Contact", "command": "grep -qE '^## Now' README.md", "expects": "exit 0; '## Now' heading found at line start" },
+        { "id": "2-2", "layer": "unit", "what": "plain sentence: exactly 3 to 6 Markdown images with https URLs, every alt non-empty and self-sufficient (PRD R6)", "command": "python3 -c 'import re,sys;L=open(\"README.md\",encoding=\"utf-8\").read();m=re.findall(r\"!\\[[^\\]]*\\]\\(https://[^)]+\\)\",L);sys.exit(0 if 3<=len(m)<=6 and all(a.strip() for a in re.findall(r\"!\\[([^\\]]*)\\]\\(https://[^)]+\\)\",L)) else 1)'", "expects": "exit 0; 3-6 https markdown images, none with an empty alt" },
+        { "id": "2-3", "layer": "unit", "what": "plain sentence: widget set includes at least one shieldcn.dev badge and the komarev.com view counter (PRD R6)", "command": "grep -q 'shieldcn.dev' README.md && grep -q 'komarev.com' README.md", "expects": "exit 0; both providers present" },
+        { "id": "2-4", "layer": "cli", "what": "plain sentence: every widget image URL in README.md returns HTTP 200 when measured from the repo root", "command": "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done", "expects": "exit 0; each URL prints '200 <url>' and none prints another code" }
+      ],
+      "verify": [
+        "python3 .ai-engineering/scripts/check-readme.py",
+        "grep -qE '^## Now' README.md",
+        "python3 -c 'import re,sys;L=open(\"README.md\",encoding=\"utf-8\").read();m=re.findall(r\"!\\[[^\\]]*\\]\\(https://[^)]+\\)\",L);sys.exit(0 if 3<=len(m)<=6 and all(a.strip() for a in re.findall(r\"!\\[([^\\]]*)\\]\\(https://[^)]+\\)\",L)) else 1)'",
+        "grep -q 'shieldcn.dev' README.md && grep -q 'komarev.com' README.md",
+        "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
+        "test -z \"$(git status --porcelain -- README.md .ai-engineering/scripts/check-readme.py)\""
+      ]
+    },
+    {
+      "checkpoint": 3,
+      "cases": [
+        { "id": "3-1", "layer": "unit", "what": "plain sentence: no em dash (U+2014) anywhere in README.md (tono-y-estilo mechanics: zero long dashes as sentence joints)", "command": "python3 -c 'import sys;t=open(\"README.md\",encoding=\"utf-8\").read();sys.exit(1 if any(ord(c)==0x2014 for c in t) else 0)'", "expects": "exit 0; no em dash character found" },
+        { "id": "3-2", "layer": "unit", "what": "plain sentence: no curly quotes (U+2018-U+201F); only straight quotes are used (tono-y-estilo mechanics)", "command": "python3 -c 'import sys;t=open(\"README.md\",encoding=\"utf-8\").read();sys.exit(1 if any(0x2018<=ord(c)<=0x201F for c in t) else 0)'", "expects": "exit 0; no curly single or double quotes found" },
+        { "id": "3-3", "layer": "unit", "what": "plain sentence: no emoji in the body (tono-y-estilo: heuristic over common emoji codepoint ranges plus variation selector)", "command": "python3 -c 'import sys;t=open(\"README.md\",encoding=\"utf-8\").read();sys.exit(1 if any(0x1F300<=ord(c)<=0x1FAFF or ord(c) in (0x2764,0x2705,0x274C,0x2728,0xFE0F) for c in t) else 0)'", "expects": "exit 0; no emoji-range codepoints found" },
+        { "id": "3-4", "layer": "unit", "what": "plain sentence: English heuristic: file uses first-person singular English ('I') and no Spanish filler words (PRD R2)", "command": "grep -qE '(^|[^A-Za-z])I([^A-Za-z]|$)' README.md && ! grep -iqE '\\b(hola|gracias|nosotros|usted|pero|porque|bienvenido|trabajo)\\b' README.md", "expects": "exit 0; standalone 'I' present and none of the Spanish stopwords match" },
+        { "id": "3-5", "layer": "unit", "what": "plain sentence: full §16 forbidden sweep: retired tagline, false metrics (~3000 members / +150 events), fake divisions, private repo names, LiteLLM claim, lasobremesa, obsolete NN titles (PRD R7)", "command": "! grep -iqE 'momentos que permanecen|200[.,]?000 (downloads|descargas)|arcasiles lab|booking & artist management|litellm|lasobremesa|~3[.,]?000|3,?000 members|\\+150|nn digital hub|cloud solutions lead|platform engineering lead|mobile lead engineer|paperclip|postflow|ai-mem' README.md", "expects": "exit 0; none of the §16 forbidden strings match" },
+        { "id": "3-6", "layer": "unit", "what": "plain sentence: if Microsoft MVP is mentioned at all, it is qualified as former/past, never as an active award (profile §16)", "command": "! grep -i 'MVP' README.md | grep -ivE 'former|2015.?2020|ex-Microsoft'", "expects": "exit 0; either MVP is absent or every MVP line carries a former/past qualifier" },
+        { "id": "3-7", "layer": "unit", "what": "plain sentence: no placeholders or TODO markers; README is complete at every moment (checkpoint 3 acceptance)", "command": "! grep -iqE 'TODO|FIXME|COMPLETAR|placeholder|coming soon' README.md", "expects": "exit 0; no placeholder markers found" },
+        { "id": "3-8", "layer": "cli", "what": "plain sentence: every https Markdown image (all widget URLs) returns HTTP 200 at final measure time (PRD R10)", "command": "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done", "expects": "exit 0; each URL prints '200 <url>'" },
+        { "id": "3-9", "layer": "cli", "what": "plain sentence: https://soydachi.com returns HTTP 200 (link liveness sweep)", "command": "test \"$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 https://soydachi.com)\" = \"200\"", "expects": "exit 0; curl reports status 200" }
+      ],
+      "verify": [
+        "python3 .ai-engineering/scripts/check-readme.py",
+        "python3 -c 'import sys;t=open(\"README.md\",encoding=\"utf-8\").read();sys.exit(1 if any(ord(c)==0x2014 for c in t) else 0)'",
+        "python3 -c 'import sys;t=open(\"README.md\",encoding=\"utf-8\").read();sys.exit(1 if any(0x2018<=ord(c)<=0x201F for c in t) else 0)'",
+        "python3 -c 'import sys;t=open(\"README.md\",encoding=\"utf-8\").read();sys.exit(1 if any(0x1F300<=ord(c)<=0x1FAFF or ord(c) in (0x2764,0x2705,0x274C,0x2728,0xFE0F) for c in t) else 0)'",
+        "grep -qE '(^|[^A-Za-z])I([^A-Za-z]|$)' README.md && ! grep -iqE '\\b(hola|gracias|nosotros|usted|pero|porque|bienvenido|trabajo)\\b' README.md",
+        "! grep -iqE 'momentos que permanecen|200[.,]?000 (downloads|descargas)|arcasiles lab|booking & artist management|litellm|lasobremesa|~3[.,]?000|3,?000 members|\\+150|nn digital hub|cloud solutions lead|platform engineering lead|mobile lead engineer|paperclip|postflow|ai-mem' README.md",
+        "! grep -i 'MVP' README.md | grep -ivE 'former|2015.?2020|ex-Microsoft'",
+        "! grep -iqE 'TODO|FIXME|COMPLETAR|placeholder|coming soon' README.md",
+        "grep -oE '!\\[[^]]*\\]\\(https://[^)]+\\)' README.md | sed -E 's/^!\\[[^]]*\\]\\((.*)\\)$/\\1/' | sort -u | while read -r u; do c=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 \"$u\"); echo \"$c $u\"; [ \"$c\" = \"200\" ] || exit 1; done",
+        "test \"$(curl -sL -o /dev/null -w '%{http_code}' --max-time 20 https://soydachi.com)\" = \"200\"",
+        "test -z \"$(git status --porcelain -- README.md)\""
+      ]
+    }
+  ],
+  "layers": { "unit": 18, "api": 0, "cli": 3, "ui": 0 },
+  "notes": [
+    "Plan only (ai-test-planner steps 1-2); no tests written yet. Commands are runnable from the repo root now.",
+    "api: 0 and ui: 0: no server and no UI gate anywhere in this feature; PRD R10's 320/768/1440 render check has no automation available (no browser tooling in this repo) and stays a review gate.",
+    "check-readme.py does not exist yet: checkpoint 1 creates it, so its verify line fails with 'No such file' until then, by design.",
+    "Research §06 defect 6 (zero pinned repos) is GitHub profile settings, not README content: no automated case (per checkpoint notes).",
+    "LinkedIn and Instagram links are presence-checked only (cases 1-5), never curled: both block automated requests (999/redirect), per checkpoint assumptions.",
+    "Emoji and English checks are heuristics (codepoint ranges, small stopword list); a human review gate still owns tone judgment.",
+    "Case 3-6 allows 'former Microsoft MVP' phrasing; it fails only an unqualified MVP mention."
+  ]
+}
