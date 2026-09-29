@@ -16,32 +16,56 @@ size-adjust: 109%;
 text, tspan {white-space: pre;}
 </style>
 <rect width="985px" height="530px" fill="#161b22" rx="15"/>
-<text x="15" y="30" fill="#c9d1d9" class="ascii">
-<tspan x="15" y="30">                 `</tspan>
-<tspan x="15" y="50">             `;.-sss:::.'</tspan>
-<tspan x="15" y="70">          `';...,,,,,,.:::-;</tspan>
-<tspan x="15" y="90">        `;;'';;;,,..-::::sss-;</tspan>
-<tspan x="15" y="110">       ',''.sxaxhhhhnmmmmmnra:.'</tspan>
-<tspan x="15" y="130">      `,'.erhnnmmWWWWWWWWWMMMh-.;</tspan>
-<tspan x="15" y="150">     `,,-ahhhhnmmmmmWWWWWWWmmWn:s`</tspan>
-<tspan x="15" y="170">     ;,-xarhhnnmmWWWWWWWMMMMWmmxx.</tspan>
-<tspan x="15" y="190">    `,-xarxaeex::xrnmmnrexxxhnnras</tspan>
-<tspan x="15" y="210">    ':xxrxexsss-,,srmmx.;,-:sarnre`</tspan>
-<tspan x="15" y="230">    ':xxxxxes:::sxexmWr:::sssarhhe</tspan>
-<tspan x="15" y="250">   ,:sxxxrhnnhhhhhrhmWmnnnhhnmnnrs;</tspan>
-<tspan x="15" y="270">  .sxxeaxrhhnmnhrrxnmWWmhhWWWWmnhxa,</tspan>
-<tspan x="15" y="290">  -xxeeaxxxrhhxaa:,-xxxsxaahnnnhrra.</tspan>
-<tspan x="15" y="310">   arrexxaaxe::::,'`;;',sexsxrrrahx`</tspan>
-<tspan x="15" y="330">   ;hhxxaxaa-;,;.:xxxxx:.;;,exxamm;</tspan>
-<tspan x="15" y="350">    ';`saeexxsrxaaxhhhhreexsaexxa-</tspan>
-<tspan x="15" y="370">       ;xx:..-xnhrx::sermma:-ea'</tspan>
-<tspan x="15" y="390">       `:..;';-era-,..-rnx,',:- `</tspan>
-<tspan x="15" y="410">       `as,'``'',..:::--.'``,e-,-.</tspan>
-<tspan x="15" y="430">   ,,`''xre:,'`` `''''````,srm,,.::`</tspan>
-<tspan x="15" y="450">`;,,;``;xxxae:.,;'````;,-xxnhs,,,.-:.;`</tspan>
-<tspan x="15" y="470">,,;;;',xarrxxaexs::::searhrx.;;,,..-:::</tspan>
-<tspan x="15" y="490">;;;;;;,-sarrrxaaeeaaxxrres-.;;;;,,.....</tspan>
-<tspan x="15" y="510">'';;;;'''-xexxxaaaeaaxe.';',.;;;,,,,,;;</tspan>
+<text x="15" y="30" fill="#c9d1d9" class="ascii" font-size="8">
+<tspan x="15" y="30"></tspan>
+<tspan x="15" y="40">                                .`^'..</tspan>
+<tspan x="15" y="50">                             l{(fncnjj\(}-&lt;&lt;l`</tspan>
+<tspan x="15" y="60">                         ^~|vCLQ0LUUJJUUUYcvnj{i'</tspan>
+<tspan x="15" y="70">                      "]vZqmOOZwdkkpqpkhkdpwOCUcr}_I.</tspan>
+<tspan x="15" y="80">                    +vdhkddbhooaahhkhkkkhhkdbdpmLXunt?"</tspan>
+<tspan x="15" y="90">                  {Oao#*ohkkhaaaaakkbbbbpqwwwwwqqpOLUzu[:</tspan>
+<tspan x="15" y="100">                ^rk**#MM*ahhkkdwmO0QLJJUXvnxrjjrxncYQOOUc|&gt;</tspan>
+<tspan x="15" y="110">              .[Qh**##hw0LCYvrt\){{111){[?-____+++~_}\v00QCv-</tspan>
+<tspan x="15" y="120">             'vd*M#oamvj/|){[]?-_+~~+++~~~&lt;&lt;&lt;&lt;&lt;&gt;&gt;iiii!&gt;]xOpqpc'</tspan>
+<tspan x="15" y="130">             (ka#*hmXf){{}}[]?-__+~~~~~&lt;&lt;~~&lt;&lt;&lt;&lt;&lt;&lt;&gt;&gt;iii!!&lt;}Jkmmt</tspan>
+<tspan x="15" y="140">            lqhohdJf(1111{[[]?-__++~++~~~~&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&gt;&gt;&lt;&lt;~~-nkdC+</tspan>
+<tspan x="15" y="150">           :UbdwwYt|))111{[]]?--_++++~~~~&lt;&lt;&lt;&lt;&lt;&lt;~~~~~~~~+++__XbQu"</tspan>
+<tspan x="15" y="160">          "QhkqZJnj/(111{{}[]-_+~~~~&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&lt;~~++~++{JXz{</tspan>
+<tspan x="15" y="170">          [hadZQXujt|)1{{}]?--_+~~~~&lt;&lt;&lt;~&lt;&lt;&lt;&lt;&lt;&lt;&gt;&gt;&gt;iiii&gt;&lt;~++_-[jXYv"</tspan>
+<tspan x="15" y="180">         ^0abw0Xzn/((())(}]?]][[?-+~~~~~~~~+~~&lt;&gt;&gt;&gt;&gt;illli~_]}1/ucz}</tspan>
+<tspan x="15" y="190">         )hdOLUvj|(||frncXYJQZwwZQc/1??--_-??[1tnucvj(}_~-[]{)fuz/.</tspan>
+<tspan x="15" y="200">         xpOLcr/||\tunxnvzzXYLwddqOYx({]__?{tXZbaakdwQUvj({[]{\/zn:</tspan>
+<tspan x="15" y="210">         c0JXnf\//tnnxvXXcuxruUOpdqQut{-~~-)xLpkpOCYYJUzujf\]]}(fj:</tspan>
+<tspan x="15" y="220">        .ULUzx///tfttnXL0OZpkkbZZdqmUj(]~&lt;-\JdkqpZOLYvUOUnj|}]]1\|'</tspan>
+<tspan x="15" y="230">        ^JCUXntttfftjnuUO0CUXYUYJCvxnt(?~&lt;~{nLwLZmwmLZQCYr/({[[{\1</tspan>
+<tspan x="15" y="240">         zQJzxftt/||\(1|/jruvcvvr/\\//)?~&lt;&lt;?1(junxxxrrnr/|||){}1f)</tspan>
+<tspan x="15" y="250">      ,lI|CCXj/tt(11}]???[}1{{{{}{)||)}-~&lt;&gt;~][?]}{111{?__+_-][}(n~</tspan>
+<tspan x="15" y="260">     ]UYj\|uYj/ft\(1{}[]?-??]???]{(\([-++~~&gt;&lt;-]_&lt;~++~~&lt;&lt;&gt;&lt;&lt;&lt;_?[\ti!i:</tspan>
+<tspan x="15" y="270">    "XZCnnj/cxfff/|(1{}[??---_])/|(|({[-_+~~+__{(-~~&lt;&lt;&lt;&gt;&gt;&gt;&lt;+-]?\((vQn'</tspan>
+<tspan x="15" y="280">    &gt;vcx((jvvxjjf/\|()1{}[][1fczvrxczf){[[[][\(}vz/[_~~~~~_-][?)/|xQv`</tspan>
+<tspan x="15" y="290">    ,/t/(fUuncrjfft//\(()1)tnx/(tYwhopUvccvuJqJj\xXn|{[???]]}}[1}](u|</tspan>
+<tspan x="15" y="300">     i\|)nx1nYujtfjjjt/\|/nxf\fjcJpoM&amp;#hkkho#qJj|)fzzf|111{{)11xf{(f&lt;</tspan>
+<tspan x="15" y="310">      ]\{|)\vJcxttfrxj/\xCULQ0wOqkaa*MWW*b*#*kqLXvxxXJu\|\||\|\j/]([.</tspan>
+<tspan x="15" y="320">      "1|){)xJXcjjtfrr/xpbh*kkbqwqqZOmwOJUQZ0qqm0qZQQ0Oc\\t\(\f}]{{"</tspan>
+<tspan x="15" y="330">       ~{1{)nLznnjftjxjndahdhoadmJCYYJzJUXUYUL0Zmba#Mkwv(/f//nf&lt;][i</tspan>
+<tspan x="15" y="340">       .~1/f]vzrxfjrxcnjzCJfrJO0Cxf\(|{\|[11)\rLo#dqddc)/vxtxz(+-~.</tspan>
+<tspan x="15" y="350">          '  -JrjxnnnCYYzLUf{[{\fjrj/)){{{11(|\/f\1fYz/jXUf|ru|?&gt;'</tspan>
+<tspan x="15" y="360">             'YvjvzUXQ0Q0mUx|()1(|/jrxxrjf/\()1}?-?(uzJLQr/\v+</tspan>
+<tspan x="15" y="370">              +0XYYYJwdqqkQn|)))1)fvJ0qOZ0Jvj(]]?[)fJZwZzxfnf.</tspan>
+<tspan x="15" y="380">               rqJC0Qbao**dQn|{}{1fUqhdbddw0Cf--?(z0qhkqQccY:</tspan>
+<tspan x="15" y="390">               ~Ukppwbo#M*ohZUvf(tzLwqpOOZZOJ\][\zwdo**dmOO|^,'</tspan>
+<tspan x="15" y="400">               &lt;/Jo#o*#MW&amp;&amp;MabkwCLmOLXOJXJO0CUXXQph#MWadaqUXmoLr~</tspan>
+<tspan x="15" y="410">               lt/uLk*W888&amp;M#W#*kdddq0OOCLwZqbbbaWM88WMo0[vaqowOLr,</tspan>
+<tspan x="15" y="420">      ^]jzJz1,:{/\/jcQwaW8%8&amp;8WWMM*aoaddbkooh**M&amp;&amp;&amp;WMkOr}+n8hqmZOLc&lt;</tspan>
+<tspan x="15" y="430">     -0qqW@%#k#0|\/fjvULOkM888%8%%&amp;MWWWWWM&amp;&amp;W8888WaqQn|{}-xWdpqwwOLC\</tspan>
+<tspan x="15" y="440">   ,/pbbdBB&amp;MW%0\//\tjnuzQwdhMW8%888%BBBBB@B8&amp;*hbZUvf(1}])QhbdpqwwOmO1,</tspan>
+<tspan x="15" y="450">"-jwdbkhkkM#*M8C/\\\\tfjnXUCQZqdhao#MWWWWWohwOQUcnjf({[}jmkbkkbppwZOJYXr{&gt;`</tspan>
+<tspan x="15" y="460">Zpdkhkkhak#@$oQzf/\\\\/fjrvccUCCL0wqwwwqq0CUvuvrf\\({{tLhakkbbkddwmwZOOQLCXt</tspan>
+<tspan x="15" y="470">bkkkhaahaohoZtjzrt\\||\//fxnnucJJUUUYYXXXcurjt\||){(rLbakkhhkkbbdqwqqwmZ00QL</tspan>
+<tspan x="15" y="480">bkkhhaoooaoabOXzurt\||\\\/fjrxxucvuxxjfjjfft/\|||fzLwhohaahhkkkkbpqqwwmZZOO0</tspan>
+<tspan x="15" y="490">kkhhhhhooooo**apLut\|\\\\\/tfjrjrxnnnrjfft/\\|tnQbQZ0zCohahhhhkbddpqwwmmwmwd</tspan>
+<tspan x="15" y="500">M*aahahaaoo**o***hmYnt\\\\\//tjjrrxxnxjf/\\/fYpo&amp;kQ%#a0haaaahkkdddqqqqqdka*a</tspan>
+<tspan x="15" y="510">ho*akbbddddbkhhkbkQUcYz/|((((|\//tttt/\\|\/uOkahhabkddw0Omqqqqwmmmmmwqdbbdpw</tspan>
 </text>
 <text x="390" y="30" fill="#c9d1d9">
 <tspan x="390" y="30">dachi@gogotchuri</tspan> -———————————————————————————————————————————-—-

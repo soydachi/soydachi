@@ -37,25 +37,27 @@ shutter as noise.
 1. Segment the person from the background (macOS Vision,
    `VNGeneratePersonSegmentationRequest`, person mask over the photo). A photo
    that already ships with a transparent background skips this step.
-2. Composite onto white in grayscale: `subject_light = gray·mask ⊕ 255`.
-   The dark theme uses the negated subject on white:
-   `subject_dark = invert(gray)·mask ⊕ 255`, so the background is empty in
-   both themes and each theme inks the opposite half of the tones.
-3. Convert with the installed tool at the fixed canvas size:
+2. Crop to the card aspect (3:4, centred on the subject). The dark source is
+   the same crop with negated RGB and the original alpha, so the background
+   stays empty in both themes.
+3. Convert both sources with the tool's complex charset at the card's fixed
+   canvas size:
 
 ```bash
-ascii-image-converter subject_light.png -d 39,25 -g -m '@%#MWmnhrxaexs:-.,;'"'"'` '
-ascii-image-converter subject_dark.png  -d 39,25 -g -m '@%#MWmnhrxaexs:-.,;'"'"'` '
+ascii-image-converter crop.png     -d 76,49 -g -c
+ascii-image-converter crop_neg.png -d 76,49 -g -c
 ```
 
-4. Replace the 25 `<tspan>` rows inside `<text x="15" y="30" class="ascii">`
-   in `light_mode.svg` / `dark_mode.svg`. 39 cols × 25 rows keeps the art at
-   `x=15…390`, clear of the info panel.
+4. Replace the 49 `<tspan>` rows inside
+   `<text x="15" y="30" font-size="8" class="ascii">` in `light_mode.svg` /
+   `dark_mode.svg`, at `y = 30 + 10·i` (last row y=510). 76 cols × 8 px = 365 px
+   keeps the art at `x=15…380`, clear of the panel at x=390.
 
 ### Consequences
 
-- The map is ordered darkest → lightest, so the same map works for both
-  themes; only the source image flips.
+- `-c` (complex charset) beat the custom map, the default charset and `-b`
+  braille in the rendered-card comparison: braille halves the cell width and
+  its glyphs depend on the viewer's fonts (tested: washed out in Chromium).
 - Every panel line must stay ≤ 60 characters wide (Menlo 0.6 em at 16 px) or
   it clips the 985 px canvas.
 
