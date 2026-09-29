@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="ConsolasFallback,Consolas,monospace" width="985px" height="530px" font-size="16px">
+<svg xmlns="http://www.w3.org/2000/svg" font-family="ConsolasFallback,Consolas,monospace" width="1430px" height="870px" font-size="16px">
 <style>
 @font-face {
 src: local('Consolas'), local('Consolas Bold');
@@ -15,57 +15,76 @@ size-adjust: 109%;
 .cc {fill: #c2cfde;}
 text, tspan {white-space: pre;}
 </style>
-<rect width="985px" height="530px" fill="#f6f8fa" rx="15"/>
-<text x="15" y="30" fill="#24292f" class="ascii">
-<tspan x="15" y="30"/>
-<tspan x="15" y="50">             '.xaxaees:,`</tspan>
-<tspan x="15" y="70">          'srmWWMMWMMMWmrx-'</tspan>
-<tspan x="15" y="90">         aM@%MMMWWmmnhhhhhhhe;</tspan>
-<tspan x="15" y="110">       .m%#nrxex::::-...,,.sxnr.</tspan>
-<tspan x="15" y="130">      ;M%mas:--..,,,,,,,,,;;;:nW;</tspan>
-<tspan x="15" y="150">     `nWhe::::-.....,,,,,,,..,-na</tspan>
-<tspan x="15" y="170">     a#nxes::--..,,,,,,,;;;;,..xr.</tspan>
-<tspan x="15" y="190">    'Wnxesxeaaxhhxs-..-saxxx:--:ae</tspan>
-<tspan x="15" y="210">    .nxxsxaxrrrnWWrs..xmMWnhres-sx</tspan>
-<tspan x="15" y="230">    .nxxxxxarhhhrxax.,shhhrrres-s:</tspan>
-<tspan x="15" y="250">   ,-rxxxs:--:::::s:.,.---::-.--x-</tspan>
-<tspan x="15" y="270">  -nexaexs::-.-:ssx-.,,.::,,,,.-:sx,</tspan>
-<tspan x="15" y="290">  .esaaexxxs::xeehWnxxxrxee:---:ssa,</tspan>
-<tspan x="15" y="310">   -xsaxxeexahhhhW#%MM#Wraxrxsssxs-</tspan>
-<tspan x="15" y="330">   'ssxrexeenMWMmhxxxxxhmMMWaxxe:-`</tspan>
-<tspan x="15" y="350">    `;;xeaaxxrsxeex::::saaxreaxa.'</tspan>
-<tspan x="15" y="370">       :hxhmmnx-:sxhhras..ehnea;</tspan>
-<tspan x="15" y="390">       `hWmM#MnasenWmmns-xW#Wne;`</tspan>
-<tspan x="15" y="410">        shW#%%##Wmmhhhnnm#%%WanMhs</tspan>
-<tspan x="15" y="430">  `en#hxxsahW#%%@%####%%%%Wrs.WWmma'</tspan>
-<tspan x="15" y="450">;snMM@@%exxeahmWM#%%%%MWnxx-:rWWmmmx:;`</tspan>
-<tspan x="15" y="470">WMMMM#Waessxxeaxrhhhhraes:sxmMMWWmmmmnr</tspan>
-<tspan x="15" y="490">MMMMMMWnressxxeeaaaeexsxarnmMMMMWWmmmmm</tspan>
-<tspan x="15" y="510">MMMWMMM#Mnaesssxxeeexxan#MMmmWWWmmmmWWW</tspan>
+<rect width="1430px" height="870px" fill="#f6f8fa" rx="15"/>
+<text x="20" y="30" fill="#24292f" class="ascii">
+<tspan x="20" y="30"></tspan>
+<tspan x="20" y="50">                          `;,,;;'`</tspan>
+<tspan x="20" y="70">                       ;:xrrrrrxxaexs:.`</tspan>
+<tspan x="20" y="90">                   `-ahnnnmmmnnmmWmmnhras,'</tspan>
+<tspan x="20" y="110">                 .xW#MWWWMMMMMMMMMMMWWWmnrae:;</tspan>
+<tspan x="20" y="130">               :m#%##MMMMMMMMWWWWWmmnnnmmmnhhrs;</tspan>
+<tspan x="20" y="150">             'a#####MWWWmnhrrrxxxaexxxsssxxarnnre-`</tspan>
+<tspan x="20" y="170">            :m####Wrxaexs:--...--..,,,,,,,,,.-ehmmhs</tspan>
+<tspan x="20" y="190">           :###MWhes::---....,..,,,,,,,,,,,;;;;.emWWs</tspan>
+<tspan x="20" y="210">          'mMMMhes::::---........,,,,,,,,,,,,,,,,snWn,</tspan>
+<tspan x="20" y="230">         'rMmmhxss::::----.......,,,,,,,,,,,,....,smna`</tspan>
+<tspan x="20" y="250">         r#Wmhaexs:::::--....,,,,,,,,,,,,,,,,......err-</tspan>
+<tspan x="20" y="270">        ,MMmnrxexss::-.....,,,,,,,,,,,,,,;;;;;,..--sxra`</tspan>
+<tspan x="20" y="290">        hMnnraesssxeeeeaxxxaes-........-:sss-.,,.-:sear,</tspan>
+<tspan x="20" y="310">       'mmhxexssxaaaxrrrhmWWmhas:-..:xxnWMWmnrax:--:ser:</tspan>
+<tspan x="20" y="330">       ,mhxexsxxaaaxxxaaarnmmmxe:.,.:anWWnhrrrraex:--se:</tspan>
+<tspan x="20" y="350">       -nrxexxxexexhnnnmmmnnmnres.,.srWWmmmnrrhrax:--:x.</tspan>
+<tspan x="20" y="370">       -nrxexxxxxeeerrxxxxxxaxexs.,,-xxhrrhrrhrxexs:-:e,</tspan>
+<tspan x="20" y="390">      `;hhxexxss::---:sxxxxsssss:.,,.--:ssxsss:---:::sa'</tspan>
+<tspan x="20" y="410">    ;aasxarexxss::---.----.-:ss:...,,.--......,,,,.--xs''`</tspan>
+<tspan x="20" y="430">    amraexaeeexss:::---..-sxsss:-.......s-..,,,,,,.--ssxhx`</tspan>
+<tspan x="20" y="450">   `aaesxxaaeexxsss::--:eaaaarhas:::-sesxxe:......---:ssrr`</tspan>
+<tspan x="20" y="470">    -xsxxeexexeexxxsssxeessehM##mhhhhmmxssaxx::---:::x::es</tspan>
+<tspan x="20" y="490">     sssxsaraxxeeexsxaxxarrnmM#%%%M#%#mhaxxarasssssssax:x;</tspan>
+<tspan x="20" y="510">     ;xs::arxexxeexxhWWMWWmmWmmmWmhnmmWmnnhrhnxxxxssxs-s.</tspan>
+<tspan x="20" y="530">      -sssahxaeexeeemMMWMMWnrrxrxrxxxrhnmWM##Wrsxexee,--`</tspan>
+<tspan x="20" y="550">       .:s.axeeeeaxeahxxarrxexss:s:::ssanMnnWrsxxexxe--'</tspan>
+<tspan x="20" y="570">           -hxeaaxhrrhxx::sxxeessssssssss:-xxaarxxxa.,`</tspan>
+<tspan x="20" y="590">            xxarrhmmnmrxsss:searhrraex:----xrhnrexx.</tspan>
+<tspan x="20" y="610">            ;mhrhnMMMMmxs:::sanWWWWmhrs..:ahmWmhaxe</tspan>
+<tspan x="20" y="630">             eWWmmM###MWhaxsernmmnnnnrs-:amWM#Wmnn,'`</tspan>
+<tspan x="20" y="650">             :aW###%%%%#MMmhnmhrnrxhnhrrhWM#%#MMhrhMma.</tspan>
+<tspan x="20" y="670">       ';'   sxxrmM%%%%#%##MMWWmnnnmmWMMM%%%%#Wx.h#Wmmne`</tspan>
+<tspan x="20" y="690">     shm#%mexesxxarnW#%@%%%%%###MM####%%%%#Mmxs-.h%mmmnnx.</tspan>
+<tspan x="20" y="710">   ;rMWM@@%@@asxxeaxxnWM#%@@@%%@@@@@@%%#MWnxes:-:nMWmmmnnm.</tspan>
+<tspan x="20" y="730">'-aWMWMW###%MexxsxxeaxrhnmWMM#%%%%%#Mmnhraexs:-xnWWWWmmnnhras.`</tspan>
+<tspan x="20" y="750">mMMMWMMMM%%mraxxssxxeeaxxrhhnmnmnmnhraaexxs::xrWMMWWWWWmmmnnnnra</tspan>
+<tspan x="20" y="770">WWWMMMMMMMneaaexsssxxxeaaarrxxxxaaaaeexss:sehMMMMMMWWWWmmmmmnnnn</tspan>
+<tspan x="20" y="790">WWMMMMMMMMMMnraxssssxxxeeeeaaaeexexxxssserhhnnMMMMMMMWWmmmmnnnnn</tspan>
+<tspan x="20" y="810">#MMMMMM######MmhaexxxxxxxeeeeaaaeexxxxxnM#n#MhWMMMMMMWWWmmmmWWMM</tspan>
+<tspan x="20" y="830">M#MMWWWWWWMMMWMmrxxessssssxxxxxxxxsxehWMMMWMWWnnmWWmmmmmmmmWWWWm</tspan>
 </text>
-<text x="390" y="30" fill="#24292f">
-<tspan x="390" y="30">dachi@gogotchuri</tspan> -———————————————————————————————————————————-—-
-<tspan x="390" y="50" class="cc">. </tspan><tspan class="key">Role</tspan>:<tspan class="cc"> .............. </tspan><tspan class="value">Platform Governance Lead @ NN España</tspan>
-<tspan x="390" y="70" class="cc">. </tspan><tspan class="key">Uptime</tspan>:<tspan class="cc"> ............................... </tspan><tspan class="value">Member since 2012</tspan>
-<tspan x="390" y="90" class="cc">. </tspan><tspan class="key">Base</tspan>:<tspan class="cc"> ......................... </tspan><tspan class="value">Vega Baja ↔ Madrid, Spain</tspan>
-<tspan x="390" y="110" class="cc">. </tspan><tspan class="key">Focus</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">Engineering, Automation, Platform, UX/UI</tspan>
-<tspan x="390" y="130" class="cc">. </tspan><tspan class="key">Talks</tspan>:<tspan class="cc"> .............. </tspan><tspan class="value">AI, DevSecOps, Platform, Governance</tspan>
-<tspan x="390" y="150" class="cc">. </tspan>
-<tspan x="390" y="170" class="cc">. </tspan><tspan class="key">Language</tspan>.<tspan class="key">Programming</tspan>:<tspan class="cc"> ........ </tspan><tspan class="value">Python, TypeScript, C#, Go</tspan>
-<tspan x="390" y="190" class="cc">. </tspan><tspan class="key">Languages</tspan>.<tspan class="key">Computer</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">Markdown, YAML, JSON, Bash</tspan>
-<tspan x="390" y="210" class="cc">. </tspan><tspan class="key">Languages</tspan>.<tspan class="key">Real</tspan>:<tspan class="cc"> ...... </tspan><tspan class="value">Spanish, Georgian, German, English</tspan>
-<tspan x="390" y="230" class="cc">. </tspan>
-<tspan x="390" y="250" class="cc">. </tspan><tspan class="key">Hobbies</tspan>.<tspan class="key">Music</tspan>:<tspan class="cc"> ...... </tspan><tspan class="value">Vega Soul Band, JALEO, LA SOBREMESA</tspan>
-<tspan x="390" y="270" class="cc">. </tspan><tspan class="key">Hobbies</tspan>.<tspan class="key">Sport</tspan>:<tspan class="cc"> ... </tspan><tspan class="value">Boxeo, Hybrid, Climbing, Yoga, Running</tspan>
-<tspan x="390" y="310">- Contact</tspan> -——————————————————————————————————————————————-—-
-<tspan x="390" y="330" class="cc">. </tspan><tspan class="key">Web</tspan>:<tspan class="cc"> ....................................... </tspan><tspan class="value">soydachi.com</tspan>
-<tspan x="390" y="350" class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> ...................................... </tspan><tspan class="value">soydachi</tspan>
-<tspan x="390" y="370" class="cc">. </tspan><tspan class="key">X</tspan>:<tspan class="cc"> ............................................. </tspan><tspan class="value">soydachi</tspan>
-<tspan x="390" y="390" class="cc">. </tspan><tspan class="key">Instagram</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">soydachi</tspan>
-<tspan x="390" y="410" class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> ............................... </tspan><tspan class="value">info@arcasiles.com</tspan>
-<tspan x="390" y="450">- GitHub Stats</tspan> -—————————————————————————————————————————-—-
-<tspan x="390" y="470" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc" id="repo_data_dots"> .... </tspan><tspan class="value" id="repo_data">20</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value" id="contrib_data">54</tspan>} | <tspan class="key">Stars</tspan>:<tspan class="cc" id="star_data_dots"> ............ </tspan><tspan class="value" id="star_data">25</tspan>
-<tspan x="390" y="490" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc" id="commit_data_dots"> ................... </tspan><tspan class="value" id="commit_data">848</tspan> | <tspan class="key">Followers</tspan>:<tspan class="cc" id="follower_data_dots"> ........ </tspan><tspan class="value" id="follower_data">61</tspan>
-<tspan x="390" y="510" class="cc">. </tspan><tspan class="key">Lines of Code</tspan>:<tspan class="cc" id="loc_data_dots"> ....... </tspan><tspan class="value" id="loc_data">957,262</tspan> ( <tspan class="addColor" id="loc_add">1,441,333</tspan><tspan class="addColor">++</tspan>, <tspan id="loc_del_dots"></tspan><tspan class="delColor" id="loc_del">484,071</tspan><tspan class="delColor">--</tspan> )
+<text x="680" y="30" fill="#24292f" font-size="20">
+<tspan x="680" y="30">dachi@gogotchuri -———————————————————————————————————————-—-</tspan>
+<tspan x="680" y="80">- About -————————————————————————————————————————————————-—-</tspan>
+<tspan x="680" y="105"><tspan class="cc">. </tspan><tspan class="key">Role</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">Platform Governance Lead @ NN España</tspan></tspan>
+<tspan x="680" y="130"><tspan class="cc">. </tspan><tspan class="key">Uptime</tspan>:<tspan class="cc"> ................................ </tspan><tspan class="value">Member since 2012</tspan></tspan>
+<tspan x="680" y="155"><tspan class="cc">. </tspan><tspan class="key">Base</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">Vega Baja ↔ Madrid, Spain</tspan></tspan>
+<tspan x="680" y="180"><tspan class="cc">. </tspan><tspan class="key">Focus</tspan>:<tspan class="cc"> .......... </tspan><tspan class="value">Engineering, Automation, Platform, UX/UI</tspan></tspan>
+<tspan x="680" y="205"><tspan class="cc">. </tspan><tspan class="key">Talks</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">AI, DevSecOps, Platform, Governance</tspan></tspan>
+<tspan x="680" y="230"><tspan class="cc">. </tspan><tspan class="key">Newsletter</tspan>:<tspan class="cc"> ...................... </tspan><tspan class="value">Entre código y personas</tspan></tspan>
+<tspan x="680" y="255"><tspan class="cc">. </tspan><tspan class="key">Events</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">Commit Conf, Codemotion</tspan></tspan>
+<tspan x="680" y="305">- Languages -————————————————————————————————————————————-—-</tspan>
+<tspan x="680" y="330"><tspan class="cc">. </tspan><tspan class="key">Language.Programming</tspan>:<tspan class="cc"> ......... </tspan><tspan class="value">Python, TypeScript, C#, Go</tspan></tspan>
+<tspan x="680" y="355"><tspan class="cc">. </tspan><tspan class="key">Languages.Computer</tspan>:<tspan class="cc"> ........... </tspan><tspan class="value">Markdown, YAML, JSON, Bash</tspan></tspan>
+<tspan x="680" y="380"><tspan class="cc">. </tspan><tspan class="key">Languages.Real</tspan>:<tspan class="cc"> ....... </tspan><tspan class="value">Spanish, Georgian, German, English</tspan></tspan>
+<tspan x="680" y="430">- Hobbies -——————————————————————————————————————————————-—-</tspan>
+<tspan x="680" y="455"><tspan class="cc">. </tspan><tspan class="key">Hobbies.Music</tspan>:<tspan class="cc"> ....... </tspan><tspan class="value">Vega Soul Band, JALEO, LA SOBREMESA</tspan></tspan>
+<tspan x="680" y="480"><tspan class="cc">. </tspan><tspan class="key">Hobbies.Sport</tspan>:<tspan class="cc"> .... </tspan><tspan class="value">Boxeo, Hybrid, Climbing, Yoga, Running</tspan></tspan>
+<tspan x="680" y="555">- Contact -——————————————————————————————————————————————-—-</tspan>
+<tspan x="680" y="580"><tspan class="cc">. </tspan><tspan class="key">Web</tspan>:<tspan class="cc"> ........................................ </tspan><tspan class="value">soydachi.com</tspan></tspan>
+<tspan x="680" y="605"><tspan class="cc">. </tspan><tspan class="key">LinkedIn</tspan>:<tspan class="cc"> ....................................... </tspan><tspan class="value">soydachi</tspan></tspan>
+<tspan x="680" y="630"><tspan class="cc">. </tspan><tspan class="key">X</tspan>:<tspan class="cc"> .............................................. </tspan><tspan class="value">soydachi</tspan></tspan>
+<tspan x="680" y="655"><tspan class="cc">. </tspan><tspan class="key">Instagram</tspan>:<tspan class="cc"> ...................................... </tspan><tspan class="value">soydachi</tspan></tspan>
+<tspan x="680" y="680"><tspan class="cc">. </tspan><tspan class="key">Email</tspan>:<tspan class="cc"> ................................ </tspan><tspan class="value">info@arcasiles.com</tspan></tspan>
+<tspan x="680" y="755">- GitHub Stats -—————————————————————————————————————————-—-</tspan>
+<tspan x="680" y="780"><tspan x="680" y="780" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc" id="repo_data_dots"> .... </tspan><tspan class="value" id="repo_data">20</tspan> {<tspan class="key">Contributed</tspan>: <tspan class="value" id="contrib_data">54</tspan>} | <tspan class="key">Stars</tspan>:<tspan class="cc" id="star_data_dots"> ............ </tspan><tspan class="value" id="star_data">25</tspan></tspan>
+<tspan x="680" y="805"><tspan x="680" y="805" class="cc">. </tspan><tspan class="key">Commits</tspan>:<tspan class="cc" id="commit_data_dots"> ................... </tspan><tspan class="value" id="commit_data">848</tspan> | <tspan class="key">Followers</tspan>:<tspan class="cc" id="follower_data_dots"> ........ </tspan><tspan class="value" id="follower_data">61</tspan></tspan>
+<tspan x="680" y="830"><tspan x="680" y="830" class="cc">. </tspan><tspan class="key">Lines of Code</tspan>:<tspan class="cc" id="loc_data_dots"> ....... </tspan><tspan class="value" id="loc_data">957,262</tspan> ( <tspan class="addColor" id="loc_add">1,441,333</tspan><tspan class="addColor">++</tspan>, <tspan id="loc_del_dots"></tspan><tspan class="delColor" id="loc_del">484,071</tspan><tspan class="delColor">--</tspan> )</tspan>
 </text>
 </svg>
