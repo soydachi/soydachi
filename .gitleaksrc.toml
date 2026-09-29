@@ -1,0 +1,5 @@
+# Gitleaks baseline — the pre-push floor loads this file in full.
+# Fail closed: default rules stay active. Add allowlist paths only in a
+# reviewed commit, and only for fixtures that must contain a fake secret.
+[extend]
+useDefault = true
