@@ -16,8 +16,3 @@ Accumulated failures and lessons from building features, mostly written by `/ai-
   block yet, so the first 7 repo rows were fetched again. Detect the comment
   block (`line == comment`) instead of assuming its length. Harmless here
   because those 7 rows were all zeros; it would double-count otherwise.
-- **L2** (2026-09-29): the bash command-scope policy refuses to read files
-  outside the workspace (`cp`, `cat`, `sips` on `~/Downloads/me.png` were all
-  blocked), while the eval Python kernel and the `read` tool can. To bring an
-  external source into the repo, copy it with `shutil.copyfile` from eval —
-  no need to widen `guards.policy_mode`.
