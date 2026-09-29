@@ -34,8 +34,9 @@ shutter as noise.
 
 ### Decision
 
-1. Segment the person from the background first (macOS Vision,
-   `VNGeneratePersonSegmentationRequest`, person mask over the photo).
+1. Segment the person from the background (macOS Vision,
+   `VNGeneratePersonSegmentationRequest`, person mask over the photo). A photo
+   that already ships with a transparent background skips this step.
 2. Composite onto white in grayscale: `subject_light = gray·mask ⊕ 255`.
    The dark theme uses the negated subject on white:
    `subject_dark = invert(gray)·mask ⊕ 255`, so the background is empty in
